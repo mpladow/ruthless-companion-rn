@@ -1,11 +1,11 @@
-import { CharacterTemplate } from './character';
+import { CharacterTemplate } from './characterTemplate';
 import { Weapon } from './weapon';
 
 export interface PlayerCharacter extends CharacterTemplate {
 	playerCharacterId: string;
 	name: string;
 	specialRules: any[];
-	currentWeapon: Weapon;
+	currentWeapon?: Weapon;
 	legWoundsCurrent: number;
 	armsWouldsCurrent: number;
 	chestWoundsCurrent: number;

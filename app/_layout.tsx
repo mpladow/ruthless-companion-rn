@@ -1,29 +1,93 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { store } from '@/state/state'
+import { gptDarkTheme, gptLightTheme } from '@/theme/presetThemes/gptHeme'
+import ThemeProvider from '@/theme/ThemeProvider'
+import { fontConfig } from '@/theme/types/type'
+import { GothicA1_400Regular, GothicA1_600SemiBold, GothicA1_800ExtraBold } from '@expo-google-fonts/gothic-a1'
+import { Rye_400Regular } from '@expo-google-fonts/rye'
+import { useFonts } from 'expo-font'
+import { Stack } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
+import 'react-native-reanimated'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { Provider } from 'react-redux'
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+    const [loaded] = useFonts({
+        GothicA1_400Regular,
+        GothicA1_600SemiBold,
+        GothicA1_800ExtraBold,
+        Rye_400Regular,
+    })
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    if (!loaded) {
+        // Async font loading only occurs in development.
+        return null
+    }
+    const fontConfigPrimary: fontConfig = {
+        type: 'primary',
+        family: 'Courier',
+        regular: {
+            fontFamily: 'GothicA1_400Regular',
+        },
+        regularItalic: {
+            fontFamily: 'GothicA1_400Regular',
+        },
+        medium: {
+            fontFamily: 'GothicA1_600SemiBold',
+        },
+        mediumItalic: {
+            fontFamily: 'GothicA1_600SemiBold',
+        },
+        bold: {
+            fontFamily: 'GothicA1_800ExtraBold',
+        },
+        boldItalic: {
+            fontFamily: 'GothicA1_800ExtraBold',
+        },
+    }
+    const fontConfigHeading: fontConfig = {
+        type: 'heading',
+        family: 'Rye',
+        regular: {
+            fontFamily: 'Rye_400Regular',
+        },
+        regularItalic: {
+            fontFamily: 'Rye_400Regular',
+        },
+        medium: {
+            fontFamily: 'Rye_400Regular',
+        },
+        mediumItalic: {
+            fontFamily: 'Rye_400Regular',
+        },
+        bold: {
+            fontFamily: 'Rye_400Regular',
+        },
+        boldItalic: {
+            fontFamily: 'Rye_400Regular',
+        },
+    }
+    return (
+        <Provider store={store}>
+            <ThemeProvider
+                defaultTheme={{
+                    themeConfigs: [gptDarkTheme, gptLightTheme],
+                    fonts: [fontConfigPrimary, fontConfigHeading],
+                }}
+            >
+                <SafeAreaProvider>
+                    <Stack>
+                        <Stack.Screen
+                            name="(tabs)"
+                            options={{
+                                headerShown: false,
+                            }}
+                        />
+                        <Stack.Screen name="+not-found" />
+                    </Stack>
+                    <StatusBar style="auto" />
+                </SafeAreaProvider>
+            </ThemeProvider>
+        </Provider>
+    )
 }
