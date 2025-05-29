@@ -2,16 +2,16 @@ import { ThemedText } from '@/components'
 import { BodyPart } from '@/models/bodyParttemplate'
 import { borderRadius, borderWidth } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
-import React, { useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import HealthCheckbox from './HealthCheckbox'
 
 type HealthSectionProps = {
     bodyPart: BodyPart
+    onHealthChange: (bodyPart: BodyPart) => void
 }
-const HealthSection = ({ bodyPart }: HealthSectionProps) => {
-    console.log('🚀 ~ HealthSection ~ bodyPart:', bodyPart)
+const HealthSection = memo(({ bodyPart, onHealthChange }: HealthSectionProps) => {
     const [currentDamage, setCurrentDamage] = useState(bodyPart.currentDamage)
     const { currentTheme } = useTheme()
     const array = [...Array(bodyPart.maxHealth)]
@@ -35,6 +35,10 @@ const HealthSection = ({ bodyPart }: HealthSectionProps) => {
         }
     }
 
+    useEffect(() => {
+        onHealthChange({ ...bodyPart, currentDamage: currentDamage } as BodyPart)
+    }, [currentDamage])
+
     return (
         <View
             style={{
@@ -56,7 +60,6 @@ const HealthSection = ({ bodyPart }: HealthSectionProps) => {
             <View style={{ flexDirection: 'row' }}>
                 {array.map((item, index) => {
                     let _checked = false
-                    console.log('🚀 ~ {array.map ~ currentDamage:', currentDamage)
                     if (currentDamage > index) {
                         _checked = true
                     }
@@ -75,7 +78,7 @@ const HealthSection = ({ bodyPart }: HealthSectionProps) => {
             </View>
         </View>
     )
-}
+})
 
 export default HealthSection
 

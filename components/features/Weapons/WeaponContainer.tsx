@@ -1,15 +1,23 @@
 import { Weapon } from '@/models/weapon'
+import { padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import RangedWeapon from './components/RangedWeapon'
 import WeaponControls from './components/WeaponControls'
 type WeaponContainerType = {
     weapon: Weapon
+    onAmmoChange: () => void
 }
-const WeaponContainer = ({ weapon }: WeaponContainerType) => {
+const WeaponContainer = ({ weapon, onAmmoChange }: WeaponContainerType) => {
+    console.log('🚀 ~ WeaponContainer ~ weapon:', weapon)
     const [ammo, setAmmo] = useState(weapon.currentAmmunition)
     const { currentTheme } = useTheme()
+    //  const dispatch = useDispatch<AppDispatch>()
+    //  useEffect(() => {
+    // 	dispatch(setCurrentAmmoForWeapon({ weapon: weapon, characterId } as SetWeaponForCharacter))
+    //  }, [ammo])
+
     const handleReloadPress = () => {
         setAmmo((old) => {
             if (old + 3 > weapon.maxAmmunition) {
@@ -19,9 +27,9 @@ const WeaponContainer = ({ weapon }: WeaponContainerType) => {
             }
         })
     }
-	 const handleReloadAllPress = () => {
-		setAmmo(weapon.maxAmmunition)
-	 }
+    const handleReloadAllPress = () => {
+        setAmmo(weapon.maxAmmunition)
+    }
     // fires weapon
     const handleAmmoButtonPress = () => {
         if (ammo) {
@@ -31,8 +39,12 @@ const WeaponContainer = ({ weapon }: WeaponContainerType) => {
         }
     }
 
+    useEffect(() => {
+        onAmmoChange()
+    }, [ammo])
+
     return (
-        <View style={{ flex: 1, width: '100%' }}>
+        <View style={{ flex: 1, width: '100%', padding: padding }}>
             <WeaponControls
                 weapon={weapon}
                 currentAmmo={ammo}

@@ -1,7 +1,7 @@
 import { BodyPart, BodyPartTemplate } from '@/models/bodyParttemplate';
 import { PlayerCharacter } from '@/models/playerCharacter';
 import { Posse } from '@/models/posse';
-import { SpecialRule } from '@/models/specialRule';
+import { SpecialRule } from '@/models/specialRuleTemplate';
 import { Weapon } from '@/models/weapon';
 
 
@@ -27,7 +27,25 @@ const SPEC_RULE_FREE_RELOAD: SpecialRule = {
 	description: 'Reloading costs no actions',
 	positivePoints: 0,
 	negativePoints: 0,
-	weaponRule: true
+	weaponRule: true,
+}
+const SPEC_RULE_ROUGHASNAILS: SpecialRule = {
+	specialRuleId: '6',
+	name: 'Tough as Nails',
+	description: 'Ignore First Wound',
+	positivePoints: 2,
+	negativePoints: 0,
+	maxUsage: 1,
+	currentUsage: 0
+}
+const SPEC_RULE_TRIGGERFINGER: SpecialRule = {
+	specialRuleId: '7',
+	name: 'Trigger Finger',
+	description: '+1 Value to Snap Shot Cards',
+	positivePoints: 2,
+	negativePoints: 0,
+	maxUsage: 1,
+	currentUsage: 1
 }
 
 const WPN_REVOLVER: Weapon = {
@@ -118,7 +136,7 @@ const BP_LEGS_instance: BodyPart = {
 const DUMMY_CHARACTER_1: PlayerCharacter = {
 	playerCharacterId: 'dsfsdf',
 	name: 'John Wayne',
-	specialRules: [],
+	specialRules: [SPEC_RULE_ROUGHASNAILS, SPEC_RULE_TRIGGERFINGER],
 	bodyParts: [BP_SEVERE_instance, BP_CHEST_instance, BP_ARM_instance, BP_LEGS_instance],
 	characterTemplateId: 0,
 	toughness: 4,
@@ -128,7 +146,7 @@ const DUMMY_CHARACTER_1: PlayerCharacter = {
 const DUMMY_CHARACTER_2: PlayerCharacter = {
 	playerCharacterId: 'dummycharacter2',
 	name: 'Clint Eastwood',
-	specialRules: [],
+	specialRules: [SPEC_RULE_ROUGHASNAILS],
 	bodyParts: [BP_SEVERE_instance, BP_CHEST_instance, BP_ARM_instance, BP_LEGS_instance],
 	characterTemplateId: 0,
 	toughness: 8,

@@ -1,5 +1,6 @@
 import { PlayerCharacter } from '@/models/playerCharacter';
 import { Posse } from '@/models/posse';
+import { SetHealthForBodyPart, SetSpecialRuleUsage, SetWeaponForCharacter } from '@/models/stateChange/posseSlice';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: Posse = {
@@ -27,9 +28,39 @@ const posseSlice = createSlice({
 					state.members.splice(index, 1);
 				}
 			}
+		},
+		setCurrentAmmoForWeapon: (state, action: PayloadAction<SetWeaponForCharacter>) => {
+			if (state) {
+				const member = state.members.find(x => x.playerCharacterId == action.payload.characterId);
+				if (member) {
+					member.currentWeapon = action.payload.weapon;
+				}
+			}
+		},
+		setCurrentHealthToBodyPart: (state, action: PayloadAction<SetHealthForBodyPart>) => {
+			if (state) {
+				const member = state.members.find(x => x.playerCharacterId == action.payload.characterId);
+				if (member) {
+					const foundBodyPart = member.bodyParts.find(x => x.name == action.payload.bodyPart.name);
+					if (foundBodyPart) {
+						foundBodyPart.currentDamage = action.payload.bodyPart.currentDamage
+					}
+				}
+			}
+		},
+		setSpecialRuleUsage: (state, action: PayloadAction<SetSpecialRuleUsage>) => {
+			if (state) {
+				const member = state.members.find(x => x.playerCharacterId == action.payload.characterId);
+				if (member) {
+					const foundSpecialRule = member.specialRules.find(x => x.specialRuleId == action.payload.specialRule.specialRuleId);
+					if (foundSpecialRule && foundSpecialRule.maxUsage !== undefined) {
+						foundSpecialRule.currentUsage = action.payload.specialRule.currentUsage
+					}
+				}
+			}
 		}
 	}
 })
 
-export const { setCurrentPosse, addCharacterToPosseMembers, deleteCharacter } = posseSlice.actions;
+export const { setCurrentPosse, addCharacterToPosseMembers, deleteCharacter, setCurrentAmmoForWeapon, setCurrentHealthToBodyPart, setSpecialRuleUsage } = posseSlice.actions;
 export default posseSlice.reducer;

@@ -6,5 +6,6 @@ export interface BodyPartTemplate {
 }
 
 export interface BodyPart extends BodyPartTemplate {
+	id: string;
 	currentDamage: number
 }

@@ -1,16 +1,20 @@
 import { ThemedText } from '@/components/ThemedText/ThemedText'
 import { BodyPart } from '@/models/bodyParttemplate'
-import { margin } from '@/theme/constants'
+import { margin, padding } from '@/theme/constants'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import HealthSection from './components/HealthSection'
 
 type HealthBarContainerProps = {
     bodyParts?: BodyPart[]
+    onHealthChange: (bodyPart: BodyPart) => void
 }
-const HealthBarContainer = ({ bodyParts }: HealthBarContainerProps) => {
+const HealthBarContainer = ({ bodyParts, onHealthChange }: HealthBarContainerProps) => {
+    const handleHeathSectionChange = (bodyPart: BodyPart) => {
+        onHealthChange(bodyPart)
+    }
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, padding: padding }}>
             <View
                 style={{
                     justifyContent: 'flex-start',
@@ -20,7 +24,7 @@ const HealthBarContainer = ({ bodyParts }: HealthBarContainerProps) => {
             </View>
             <View style={{ flexDirection: 'row', flex: 1, gap: 1, flexWrap: 'wrap' }}>
                 {bodyParts?.map((item, index) => {
-                    return <HealthSection key={index} bodyPart={item}/>
+                    return <HealthSection key={index} bodyPart={item} onHealthChange={handleHeathSectionChange} />
                 })}
             </View>
         </View>
