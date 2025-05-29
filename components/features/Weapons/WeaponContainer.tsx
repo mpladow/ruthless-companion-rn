@@ -7,7 +7,7 @@ import RangedWeapon from './components/RangedWeapon'
 import WeaponControls from './components/WeaponControls'
 type WeaponContainerType = {
     weapon: Weapon
-    onAmmoChange: () => void
+    onAmmoChange: (weapon: Weapon) => void
 }
 const WeaponContainer = ({ weapon, onAmmoChange }: WeaponContainerType) => {
     console.log('🚀 ~ WeaponContainer ~ weapon:', weapon)
@@ -40,7 +40,8 @@ const WeaponContainer = ({ weapon, onAmmoChange }: WeaponContainerType) => {
     }
 
     useEffect(() => {
-        onAmmoChange()
+        console.log('🚀 ~ WeaponContainer ~ ammo:', ammo)
+        onAmmoChange({ ...weapon, currentAmmunition: ammo } as Weapon)
     }, [ammo])
 
     return (

@@ -1,4 +1,4 @@
-import { store } from '@/state/state'
+import { persistor, store } from '@/state/store'
 import { gptDarkTheme, gptLightTheme } from '@/theme/presetThemes/gptHeme'
 import ThemeProvider from '@/theme/ThemeProvider'
 import { fontConfig } from '@/theme/types/type'
@@ -12,6 +12,7 @@ import { MenuProvider } from 'react-native-popup-menu'
 import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/es/integration/react'
 
 export default function RootLayout() {
     const [loaded] = useFonts({
@@ -72,26 +73,28 @@ export default function RootLayout() {
     return (
         <GestureHandlerRootView>
             <Provider store={store}>
-                <ThemeProvider
-                    defaultTheme={{
-                        themeConfigs: [gptDarkTheme, gptLightTheme],
-                        fonts: [fontConfigPrimary, fontConfigHeading],
-                    }}>
-                    <MenuProvider>
-                        <SafeAreaProvider>
-                            <Stack screenOptions={{ headerShown: false }}>
-                                <Stack.Screen
-                                    name="(tabs)"
-                                    options={{
-                                        headerShown: false,
-                                    }}
-                                />
-                                <Stack.Screen name="+not-found" />
-                            </Stack>
-                            <StatusBar style="auto" />
-                        </SafeAreaProvider>
-                    </MenuProvider>
-                </ThemeProvider>
+                <PersistGate persistor={persistor} loading={null}>
+                    <ThemeProvider
+                        defaultTheme={{
+                            themeConfigs: [gptDarkTheme, gptLightTheme],
+                            fonts: [fontConfigPrimary, fontConfigHeading],
+                        }}>
+                        <MenuProvider>
+                            <SafeAreaProvider>
+                                <Stack screenOptions={{ headerShown: false }}>
+                                    <Stack.Screen
+                                        name="(tabs)"
+                                        options={{
+                                            headerShown: false,
+                                        }}
+                                    />
+                                    <Stack.Screen name="+not-found" />
+                                </Stack>
+                                <StatusBar style="auto" />
+                            </SafeAreaProvider>
+                        </MenuProvider>
+                    </ThemeProvider>
+                </PersistGate>
             </Provider>
         </GestureHandlerRootView>
     )

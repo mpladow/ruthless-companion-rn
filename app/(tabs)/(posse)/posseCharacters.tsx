@@ -3,19 +3,26 @@ import CharacterCard from '@/components/features/CharacterCard/CharacterCard'
 import PageContainer from '@/components/PageContainer/PageContainer'
 import StyledSafeAreaView from '@/components/StyledSafeAreaView'
 import ThemedContainer from '@/components/ThemedContainer'
-import { RootState } from '@/state/state'
+import { updatePosse } from '@/state/posse/userPossesSlice'
+import { AppDispatch, RootState } from '@/state/store'
 import { margin } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const PosseCharacters = () => {
     const posse = useSelector((state: RootState) => {
-        return state.selectedPosse
+        return state._persist.rehydrated ? state.selectedPosse : null
     })
-    console.log('🚀 ~ posse ~ posse:', posse)
+    const dispatch = useDispatch<AppDispatch>()
+    useEffect(() => {
+        console.log('PosseCharacters mounted or posse changed:', posse)
+        if (posse) {
+            dispatch(updatePosse(posse))
+        }
+    }, [posse])
     const { bottom } = useSafeAreaInsets()
     const { currentTheme } = useTheme()
 

@@ -2,23 +2,27 @@ import { AnimatedFlatList, ThemedBottomSheet, ThemedText } from '@/components'
 import PosseListItem from '@/components/features/Posse/PosseListItem'
 import PageContainer from '@/components/PageContainer/PageContainer'
 import StyledSafeAreaView from '@/components/StyledSafeAreaView'
+import ThemedButton from '@/components/ThemedButton/ThemedButton'
 import ThemedContainer from '@/components/ThemedContainer'
 import { DUMMY_DATA } from '@/data/dummy_posse'
 import { useResponsiveWidth } from '@/hooks'
+import { PosseForm } from '@/models/forms/posseForm'
 import { setCurrentPosse } from '@/state/posse/posseSlice'
-import { AppDispatch } from '@/state/state'
+import { createPosse } from '@/state/posse/userPossesSlice'
+import { AppDispatch, RootState } from '@/state/store'
 import { margin } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { Dimensions, StyleSheet, View } from 'react-native'
+import { TextInput } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 const Home = () => {
-    //  const posses = useSelector((state: RootState) => {
-    //      return [DUMMY_DATA]
-    //  })
-    const posses = [DUMMY_DATA]
+    const posses = useSelector((state: RootState) => {
+        return state._persist.rehydrated ? state.userPosses : [DUMMY_DATA]
+    })
+    //  const posses = [DUMMY_DATA]
     const { currentTheme } = useTheme()
     const [openCreatePosse, setopenCreatePosse] = useState(false)
     const { height } = Dimensions.get('window')
@@ -29,6 +33,9 @@ const Home = () => {
 
     const handleDeletePosseConfirm = () => {}
     const handleEditPosse = () => {}
+    const handleCreatePosseTEST = () => {
+        dispatch(createPosse({ name: 'TEST' } as PosseForm))
+    }
 
     const handleListItemPress = (posseId: string) => {
         console.log(`OPENING ${posseId}`)
@@ -42,6 +49,15 @@ const Home = () => {
     return (
         <StyledSafeAreaView>
             <PageContainer paddingSize="sm" fullScreenWidth={'50%'}>
+                <View style={{ position: 'absolute', bottom: 100, right: 20, zIndex: 1000 }}>
+                    <ThemedButton
+                        variant="primary"
+                        title={'Add Test Posse'}
+                        onPress={() => {
+                            handleCreatePosseTEST()
+                        }}
+                        size={'sm'}></ThemedButton>
+                </View>
                 <ThemedContainer paddingSize="none" style={{ marginVertical: margin, flex: 1 }}>
                     <AnimatedFlatList
                         data={posses}
@@ -62,7 +78,8 @@ const Home = () => {
                 allowCloseButton
                 headerTitle={'Create New Posse'}>
                 <View>
-                    <ThemedText.Text>Hello</ThemedText.Text>
+                    <ThemedText.Text>Name</ThemedText.Text>
+						  <TextInput/>
                 </View>
             </ThemedBottomSheet>
         </StyledSafeAreaView>

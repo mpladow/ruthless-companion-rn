@@ -4,8 +4,9 @@ import { BodyPart } from '@/models/bodyParttemplate'
 import { PlayerCharacter } from '@/models/playerCharacter'
 import { SpecialRule } from '@/models/specialRuleTemplate'
 import { SetHealthForBodyPart, SetSpecialRuleUsage, SetWeaponForCharacter } from '@/models/stateChange/posseSlice'
+import { Weapon } from '@/models/weapon'
 import { setCurrentAmmoForWeapon, setCurrentHealthToBodyPart, setSpecialRuleUsage } from '@/state/posse/posseSlice'
-import { AppDispatch } from '@/state/state'
+import { AppDispatch } from '@/state/store'
 import { useTheme } from '@/theme/ThemeProvider'
 import { borderRadius, borderWidth } from '@/theme/constants'
 import React, { useCallback } from 'react'
@@ -33,15 +34,18 @@ const CharacterCard = ({ playerCharacter }: CharacterCardProps) => {
             } as SetSpecialRuleUsage)
         )
     }
-    const handleWeaponAmmoChange = useCallback(() => {
-        console.log('🚀 ~ handleWeaponAmmoChange ~ playerCharacter:', playerCharacter)
-        dispatch(
-            setCurrentAmmoForWeapon({
-                weapon: playerCharacter.currentWeapon,
-                characterId: playerCharacter.playerCharacterId,
-            } as SetWeaponForCharacter)
-        )
-    }, [playerCharacter.currentWeapon])
+    const handleWeaponAmmoChange = useCallback(
+        (weapon: Weapon) => {
+            console.log('🚀 ~ handleWeaponAmmoChange ~ playerCharacter:', playerCharacter)
+            dispatch(
+                setCurrentAmmoForWeapon({
+                    weapon: weapon,
+                    characterId: playerCharacter.playerCharacterId,
+                } as SetWeaponForCharacter)
+            )
+        },
+        [playerCharacter.currentWeapon]
+    )
 
     const handleHealthChange = (bodyPart: BodyPart) => {
         dispatch(
