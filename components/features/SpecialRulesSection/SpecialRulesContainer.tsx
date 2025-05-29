@@ -3,7 +3,7 @@ import { SpecialRule } from '@/models/specialRuleTemplate'
 import { margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import React, { useCallback } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import SpecialRuleCheckbox from './components/SpecialRuleCheckbox'
 
 type SpecialRulesContainerProps = {
@@ -58,10 +58,12 @@ const SpecialRulesContainer = ({ specialRules, onSpecialRulesUsageChange }: Spec
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                     }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', flex: 2 }}>
-                        <ThemedText.Heading headingSize="h3">{item.name}</ThemedText.Heading>
-                        <ThemedText.Text>...{item.description}</ThemedText.Text>
-                    </View>
+                    <Pressable onPress={() => handleSpecialRulesPress(item, item.currentUsage > 0)}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 2 }}>
+                            <ThemedText.Heading headingSize="h3">{item.name}</ThemedText.Heading>
+                            <ThemedText.Text>...{item.description}</ThemedText.Text>
+                        </View>
+                    </Pressable>
                     {item.maxUsage &&
                         [...Array(item.maxUsage)].map((item2, index) => {
                             let _checked = false

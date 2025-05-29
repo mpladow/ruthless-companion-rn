@@ -4,8 +4,11 @@ export const gptLightTheme: ThemeConfig = {
 	name: "gptLightTheme",
 	"isDark": false,
 	"colors": {
-		primary: '#33658A',
-		secondary: '#331E36',
+		// primary: '#33658A',
+		primary: '#7b1818',
+
+		secondary: '#b79e51',
+		// secondary: '#7b1818',
 		background: '#ffffff',
 		black: '#000000',
 		white: '#ffffff',
@@ -26,7 +29,7 @@ export const gptDarkTheme: ThemeConfig = {
 	"isDark": true,
 	colors: {
 		primary: '#33658A',
-		secondary: '#331E36',
+		secondary: '#362F18',
 		background: '#363636',
 		black: '#000000',
 		white: '#161111',

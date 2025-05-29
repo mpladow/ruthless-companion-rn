@@ -79,8 +79,8 @@ export default function RootLayout() {
                             themeConfigs: [gptDarkTheme, gptLightTheme],
                             fonts: [fontConfigPrimary, fontConfigHeading],
                         }}>
-                        <MenuProvider>
-                            <SafeAreaProvider>
+                        <SafeAreaProvider>
+                            <MenuProvider>
                                 <Stack screenOptions={{ headerShown: false }}>
                                     <Stack.Screen
                                         name="(tabs)"
@@ -91,8 +91,8 @@ export default function RootLayout() {
                                     <Stack.Screen name="+not-found" />
                                 </Stack>
                                 <StatusBar style="auto" />
-                            </SafeAreaProvider>
-                        </MenuProvider>
+                            </MenuProvider>
+                        </SafeAreaProvider>
                     </ThemeProvider>
                 </PersistGate>
             </Provider>

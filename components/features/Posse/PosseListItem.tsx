@@ -3,31 +3,63 @@ import ThemedContainer from '@/components/ThemedContainer'
 import commonStyles from '@/constants/styles'
 import { useResponsiveWidth } from '@/hooks'
 import { Posse } from '@/models/posse'
-import { borderRadius, borderWidth, padding } from '@/theme/constants'
+import { borderRadius, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import Entypo from '@expo/vector-icons/Entypo'
 import React from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
+import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu'
 
 type PosseListItemType = {
     item: Posse
     onListItemPress: (posseId: string) => void
+    onDeletePossePress: (posseId: string) => void
 }
-const PosseListItem = ({ item, onListItemPress }: PosseListItemType) => {
+const PosseListItem = ({ item, onListItemPress, onDeletePossePress }: PosseListItemType) => {
     const { currentTheme } = useTheme()
     const { viewport, isDesktop } = useResponsiveWidth()
     return (
         <Pressable onPress={() => onListItemPress(item.posseId)}>
             <ThemedContainer
                 paddingSize="sm"
-                style={{
-                    borderRadius: borderRadius,
-                    borderWidth: borderWidth,
-                    borderColor: currentTheme.colors.greyOutline,
-                    flexDirection: 'row',
-                }}>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingLeft: padding }}>
-                    <ThemedText.Heading headingSize="h3" numberOfLines={2}>
+                style={[
+                    {
+                        borderRadius: borderRadius,
+                        // borderWidth: borderWidth,
+                        // borderColor: currentTheme.colors.greyOutline,
+                        flexDirection: 'row',
+                        backgroundColor: currentTheme.colors.secondary,
+                    },
+                    commonStyles.boxShadow,
+                ]}>
+                {/* <Image
+                    source={require('../../../assets/images/revolver.png')}
+                    resizeMode="contain"
+                    style={{
+                        position: 'absolute',
+                        height: 160,
+                        width: 50,
+                        //   backgroundColor: 'red',
+                        right: 80,
+                        top: -40,
+                        transform: [{ rotate: '70deg' }],
+                    }}
+                    height={160}
+                    width={50}
+                /> */}
+                <View
+                    style={[
+                        {
+                            flex: 1,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            paddingLeft: padding,
+                            //  backgroundColor: Color(currentTheme.colors.secondary).lighten(0.5).hex(),
+                            //  borderWidth: borderWidth / 2,
+                        },
+                        commonStyles.boxShadow,
+                    ]}>
+                    <ThemedText.Heading headingSize="h3" numberOfLines={2} style={{ textAlign: 'center' }} inverted>
                         {item.name}
                     </ThemedText.Heading>
                 </View>
@@ -43,7 +75,7 @@ const PosseListItem = ({ item, onListItemPress }: PosseListItemType) => {
                     }}>
                     {item.members.map((x, index) => {
                         const itemMembersCount = item.members.length
-                        if ((viewport) && index == 5) {
+                        if (viewport && index == 5) {
                             return (
                                 <View
                                     style={[
@@ -93,7 +125,7 @@ const PosseListItem = ({ item, onListItemPress }: PosseListItemType) => {
                                         style={[
                                             {
                                                 borderWidth: 2,
-                                                borderColor: currentTheme.colors.secondary,
+                                                borderColor: currentTheme.colors.black,
                                                 marginLeft: index !== 0 ? -24 : 0,
                                                 borderRadius: borderRadius / 4,
                                                 width: 50,
@@ -125,9 +157,34 @@ const PosseListItem = ({ item, onListItemPress }: PosseListItemType) => {
                         }
                     })}
                 </View>
-                <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
-                    <Entypo name="dots-three-vertical" size={24} color="black" />
-                </View>
+                <Pressable>
+                    <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
+                        <Menu>
+                            <MenuTrigger>
+                                <Entypo name="dots-three-vertical" size={24} color="black" />
+                            </MenuTrigger>
+                            <MenuOptions customStyles={{ optionsContainer: {} }}>
+                                <MenuOption onSelect={() => alert(`Duplicate`)}>
+                                    <View style={{ padding: padding }}>
+                                        <ThemedText.Text>Edit</ThemedText.Text>
+                                    </View>
+                                </MenuOption>
+                                <MenuOption onSelect={() => alert(`Duplicate`)}>
+                                    <View style={{ padding: padding }}>
+                                        <ThemedText.Text>Duplicate</ThemedText.Text>
+                                    </View>
+                                </MenuOption>
+                                <MenuOption onSelect={() => onDeletePossePress(item.posseId)}>
+                                    <View style={{ padding: padding }}>
+                                        <ThemedText.Text style={{ color: currentTheme.colors.error }}>
+                                            Delete
+                                        </ThemedText.Text>
+                                    </View>
+                                </MenuOption>
+                            </MenuOptions>
+                        </Menu>
+                    </View>
+                </Pressable>
             </ThemedContainer>
         </Pressable>
     )

@@ -11,7 +11,8 @@ type ThemedButtonProps = {
     disabled?: boolean
     style?: ViewStyle
     textStyle?: TextStyle
-    variant?: Variant
+    type?: Variant
+    variant?: 'ghost' | 'text' | 'filled'
     size: 'sm' | 'lg'
 } & PressableProps
 
@@ -22,13 +23,14 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
     style,
     textStyle,
     size,
-    variant = 'primary',
+    type = 'primary',
+    variant = 'filled',
     ...rest
 }) => {
     const { currentTheme } = useTheme()
 
-    const currentVariant = useMemo(() => {
-        switch (variant) {
+    const currentType = useMemo(() => {
+        switch (type) {
             case 'primary':
                 return {
                     backgroundColor: currentTheme.colors.primary,
@@ -66,7 +68,31 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
                     textColor: currentTheme.colors.textInverted,
                 }
         }
-    }, [variant])
+    }, [type])
+    const currentVariantStyles = useMemo(() => {
+        switch (variant) {
+            case 'ghost':
+                return {
+                    backgroundColor: 'transparent',
+                    textColor: currentType.backgroundColor,
+                    borderColor: currentType.backgroundColor,
+                    borderWidth: 2,
+                }
+            case 'text':
+                return {
+                    backgroundColor: 'transparent',
+                    textColor: currentType.backgroundColor,
+                    borderColor: currentType.backgroundColor,
+
+                    borderWidth: 0,
+                }
+            case 'filled':
+                return {}
+
+            default:
+                return {}
+        }
+    }, [variant, type])
 
     return (
         <Pressable
@@ -74,16 +100,23 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
             disabled={disabled}
             style={({ pressed }) => [
                 styles.button,
-                { backgroundColor: pressed ? currentVariant.pressedColor : currentVariant.backgroundColor },
+                { backgroundColor: pressed ? currentType.pressedColor : currentType.backgroundColor },
                 disabled && styles.disabled,
                 size == 'sm' ? styles.buttonSmall : styles.buttonLarge,
+                currentVariantStyles,
                 style,
             ]}
             {...rest}>
             {typeof title == 'string' ? (
                 <ThemedText.Text
                     size={size == 'sm' ? 'xs' : 'default'}
-                    style={[styles.text, { color: currentVariant.textColor }, textStyle]}>
+                    style={[
+                        styles.text,
+                        { color: currentType.textColor },
+                        (variant == 'ghost' || variant == 'text') && {
+                            color: currentVariantStyles.textColor,
+                        },
+                    ]}>
                     {title}
                 </ThemedText.Text>
             ) : (

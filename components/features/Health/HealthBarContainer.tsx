@@ -22,7 +22,7 @@ const HealthBarContainer = ({ bodyParts, onHealthChange }: HealthBarContainerPro
                 }}>
                 <ThemedText.Heading headingSize="h2">Wounds</ThemedText.Heading>
             </View>
-            <View style={{ flexDirection: 'row', flex: 1, gap: 1, flexWrap: 'wrap' }}>
+            <View style={{ flexDirection: 'row', flex: 1, gap: 1, justifyContent: 'space-evenly', flexWrap: 'wrap' }}>
                 {bodyParts?.map((item, index) => {
                     return <HealthSection key={index} bodyPart={item} onHealthChange={handleHeathSectionChange} />
                 })}
