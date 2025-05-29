@@ -106,31 +106,32 @@ const BP_SEVERE_instance: BodyPart = {
 	name: 'Severe',
 	order: 0,
 	maxHealth: 2,
-	currentDamage: 0
+	currentDamage: 0,
+	id: '1'
 }
 const BP_CHEST_instance: BodyPart = {
 	bodyPartTemplateId: '2',
 	name: 'Chest',
 	order: 0,
 	maxHealth: 2,
-	currentDamage: 0
-
+	currentDamage: 0,
+	id: '2'
 }
 const BP_ARM_instance: BodyPart = {
 	bodyPartTemplateId: '3',
 	name: 'Arm',
 	order: 0,
 	maxHealth: 3,
-	currentDamage: 1
-
+	currentDamage: 1,
+	id: '3'
 }
 const BP_LEGS_instance: BodyPart = {
 	bodyPartTemplateId: '4',
 	name: 'Leg',
 	order: 0,
 	maxHealth: 3,
-	currentDamage: 0
-
+	currentDamage: 0,
+	id: '4'
 }
 
 const DUMMY_CHARACTER_1: PlayerCharacter = {
