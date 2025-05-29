@@ -5,4 +5,5 @@ export interface SpecialRule {
 	positivePoints: number;
 	negativePoints: number;
 	maxUsage?: number; // if not null, then this is a permanent special rule
+	weaponRule?: boolean;
 }

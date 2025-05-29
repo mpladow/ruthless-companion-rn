@@ -7,6 +7,8 @@ import { Rye_400Regular } from '@expo-google-fonts/rye'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { MenuProvider } from 'react-native-popup-menu'
 import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
@@ -68,26 +70,29 @@ export default function RootLayout() {
         },
     }
     return (
-        <Provider store={store}>
-            <ThemeProvider
-                defaultTheme={{
-                    themeConfigs: [gptDarkTheme, gptLightTheme],
-                    fonts: [fontConfigPrimary, fontConfigHeading],
-                }}
-            >
-                <SafeAreaProvider>
-                    <Stack>
-                        <Stack.Screen
-                            name="(tabs)"
-                            options={{
-                                headerShown: false,
-                            }}
-                        />
-                        <Stack.Screen name="+not-found" />
-                    </Stack>
-                    <StatusBar style="auto" />
-                </SafeAreaProvider>
-            </ThemeProvider>
-        </Provider>
+        <GestureHandlerRootView>
+            <Provider store={store}>
+                <ThemeProvider
+                    defaultTheme={{
+                        themeConfigs: [gptDarkTheme, gptLightTheme],
+                        fonts: [fontConfigPrimary, fontConfigHeading],
+                    }}>
+                    <MenuProvider>
+                        <SafeAreaProvider>
+                            <Stack screenOptions={{ headerShown: false }}>
+                                <Stack.Screen
+                                    name="(tabs)"
+                                    options={{
+                                        headerShown: false,
+                                    }}
+                                />
+                                <Stack.Screen name="+not-found" />
+                            </Stack>
+                            <StatusBar style="auto" />
+                        </SafeAreaProvider>
+                    </MenuProvider>
+                </ThemeProvider>
+            </Provider>
+        </GestureHandlerRootView>
     )
 }

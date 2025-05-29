@@ -6,6 +6,7 @@ export const useResponsiveWidth = () => {
 	const { width } = useWindowDimensions();
 
 	const [viewport, setViewport] = useState<ViewPortTypes>()
+	const [isDesktop, setIsDesktop] = useState(false)
 
 
 	const W_MOBILE = 414;
@@ -27,8 +28,13 @@ export const useResponsiveWidth = () => {
 		if (width > W_LARGE_DESKTOP) {
 			setViewport("lrgDesktop")
 		}
+		if (width > W_SMALL_DESKTOP) {
+			setIsDesktop(true)
+		} else {
+			setIsDesktop(false)
+		}
 
 	}, [width])
 
-	return { viewport }
+	return { viewport, isDesktop }
 }

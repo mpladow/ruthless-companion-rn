@@ -9,7 +9,7 @@ export const TypopgraphySize = {
 	},
 	textSmall: {
 		fontSize: 14,
-		lineHeight: 18
+		lineHeight: 21
 	},
 	textMedium: {
 		fontSize: 20,

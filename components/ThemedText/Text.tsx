@@ -27,8 +27,8 @@ const Text = ({ type, style, italic, size, family, children, inverted, ...rest }
             italic={italic ?? false}
             family={family ?? 'primary'}
             size={size ?? 'default'}
-            {...rest}
-        >
+            style={style}
+            {...rest}>
             {children}
         </ThemedText>
     )

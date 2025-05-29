@@ -1,0 +1,122 @@
+import { borderRadius } from '@/theme/constants'
+import { useTheme } from '@/theme/ThemeProvider'
+import Color from 'color'
+import React, { ReactElement, useMemo } from 'react'
+import { Pressable, PressableProps, StyleSheet, TextStyle, ViewStyle } from 'react-native'
+import { ThemedText } from '../ThemedText/ThemedText'
+type Variant = 'primary' | 'secondary' | 'danger' | 'success' | 'warning'
+type ThemedButtonProps = {
+    title: string | ReactElement
+    onPress: () => void
+    disabled?: boolean
+    style?: ViewStyle
+    textStyle?: TextStyle
+    variant?: Variant
+    size: 'sm' | 'lg'
+} & PressableProps
+
+const ThemedButton: React.FC<ThemedButtonProps> = ({
+    title,
+    onPress,
+    disabled = false,
+    style,
+    textStyle,
+    size,
+    variant = 'primary',
+    ...rest
+}) => {
+    const { currentTheme } = useTheme()
+
+    const currentVariant = useMemo(() => {
+        switch (variant) {
+            case 'primary':
+                return {
+                    backgroundColor: currentTheme.colors.primary,
+                    pressedColor: Color(currentTheme.colors.primary).lighten(0.2).hex(),
+                    textColor: currentTheme.colors.textInverted,
+                }
+            case 'secondary':
+                return {
+                    backgroundColor: currentTheme.colors.secondary,
+                    pressedColor: Color(currentTheme.colors.secondary).lighten(0.2).hex(),
+                    textColor: currentTheme.colors.textDefault,
+                }
+            case 'danger':
+                return {
+                    backgroundColor: currentTheme.colors.error,
+                    pressedColor: Color(currentTheme.colors.error).lighten(0.2).hex(),
+                    textColor: currentTheme.colors.textDefault,
+                }
+            case 'success':
+                return {
+                    backgroundColor: currentTheme.colors.success,
+                    pressedColor: Color(currentTheme.colors.success).lighten(0.2).hex(),
+                    textColor: currentTheme.colors.textDefault,
+                }
+            case 'warning':
+                return {
+                    backgroundColor: currentTheme.colors.warning,
+                    pressedColor: Color(currentTheme.colors.warning).lighten(0.2).hex(),
+                    textColor: currentTheme.colors.textDefault,
+                }
+            default:
+                return {
+                    backgroundColor: currentTheme.colors.primary,
+                    pressedColor: Color(currentTheme.colors.primary).lighten(0.2).hex(),
+                    textColor: currentTheme.colors.textInverted,
+                }
+        }
+    }, [variant])
+
+    return (
+        <Pressable
+            onPress={onPress}
+            disabled={disabled}
+            style={({ pressed }) => [
+                styles.button,
+                { backgroundColor: pressed ? currentVariant.pressedColor : currentVariant.backgroundColor },
+                disabled && styles.disabled,
+                size == 'sm' ? styles.buttonSmall : styles.buttonLarge,
+                style,
+            ]}
+            {...rest}>
+            {typeof title == 'string' ? (
+                <ThemedText.Text
+                    size={size == 'sm' ? 'xs' : 'default'}
+                    style={[styles.text, { color: currentVariant.textColor }, textStyle]}>
+                    {title}
+                </ThemedText.Text>
+            ) : (
+                title
+            )}
+        </Pressable>
+    )
+}
+
+const styles = StyleSheet.create({
+    button: {
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: borderRadius,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttonSmall: {
+        paddingVertical: 6,
+        paddingHorizontal: 10,
+    },
+    buttonLarge: {
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+    },
+    text: {
+        color: '#fff',
+        fontWeight: '600',
+        fontSize: 16,
+    },
+    disabled: {
+        opacity: 0.6,
+    },
+})
+
+export default ThemedButton

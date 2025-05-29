@@ -32,7 +32,7 @@ const Heading = ({ headingSize, italic, children, ...rest }: HeadingProps) => {
             case 'h3':
                 return {
                     weight: 'semibold',
-                    sizing: 'md',
+                    sizing: 'default',
                 }
             default:
                 return {

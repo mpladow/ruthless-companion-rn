@@ -38,7 +38,6 @@ const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
         }
     }, [visible, isWeb])
 
-    console.log('🚀 ~ viewport:', viewport)
     if (isWeb) {
         return (
             <Modal transparent visible={visible} onRequestClose={onClose}>
