@@ -1,3 +1,4 @@
+import { BodyPart } from './bodyParttemplate';
 import { CharacterTemplate } from './characterTemplate';
 import { Weapon } from './weapon';
 
@@ -6,9 +7,6 @@ export interface PlayerCharacter extends CharacterTemplate {
 	name: string;
 	specialRules: any[];
 	currentWeapon?: Weapon;
-	legWoundsCurrent: number;
-	armsWouldsCurrent: number;
-	chestWoundsCurrent: number;
-	severeWoundsCurrent: number;
+	bodyParts: BodyPart[]
 	originalTemplate?: CharacterTemplate;
 }

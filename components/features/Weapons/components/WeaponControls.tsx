@@ -15,7 +15,6 @@ type WeaponControlsProps = {
     onReloadAllPress: () => void
 }
 const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }: WeaponControlsProps) => {
-    console.log('🚀 ~ WeaponControls ~ weapon:', weapon)
     const { currentTheme } = useTheme()
     return (
         <View
@@ -26,7 +25,7 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
                 paddingVertical: padding,
             }}>
             <View>
-                <ThemedText.Heading headingSize="h3">{weapon?.name}</ThemedText.Heading>
+                <ThemedText.Heading headingSize="h2">{weapon?.name}</ThemedText.Heading>
 
                 <View>
                     {weapon.specialRules.length > 0 ? (

@@ -1,4 +1,4 @@
-import { AnimatedFlatList, ThemedText } from '@/components'
+import { AnimatedFlatList, HealthBarContainer, ThemedText } from '@/components'
 import WeaponContainer from '@/components/features/Weapons/WeaponContainer'
 import PageContainer from '@/components/PageContainer/PageContainer'
 import StyledSafeAreaView from '@/components/StyledSafeAreaView'
@@ -28,6 +28,7 @@ const PosseCharacters = () => {
                         data={posse.members}
                         contentContainerStyle={{ paddingBottom: bottom - 150 }}
                         style={{ flex: 1 }}
+                        ListFooterComponent={() => <View style={{ height: 100 }}></View>}
                         ItemSeparatorComponent={() => <View style={{ height: margin }}></View>}
                         renderItem={({ item }) => (
                             <ThemedContainer
@@ -65,7 +66,8 @@ const PosseCharacters = () => {
                                         justifyContent: 'space-between',
                                         padding: padding,
                                     }}>
-                                    <WeaponContainer weapon={item.currentWeapon}  />
+                                    <WeaponContainer weapon={item.currentWeapon} />
+                                    <HealthBarContainer bodyParts={item.bodyParts} />
                                 </View>
                             </ThemedContainer>
                         )}

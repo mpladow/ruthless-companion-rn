@@ -1,3 +1,4 @@
+import { BodyPart, BodyPartTemplate } from '@/models/bodyParttemplate';
 import { PlayerCharacter } from '@/models/playerCharacter';
 import { Posse } from '@/models/posse';
 import { SpecialRule } from '@/models/specialRule';
@@ -56,55 +57,92 @@ const WPN_REPEATER: Weapon = {
 	specialRules: [],
 	currentAmmunition: 10
 }
+
+const BP_SEVERE: BodyPartTemplate = {
+	bodyPartTemplateId: '1',
+	name: 'Severe',
+	order: 0,
+	maxHealth: 2
+}
+const BP_CHEST: BodyPartTemplate = {
+	bodyPartTemplateId: '2',
+	name: 'Chest',
+	order: 0,
+	maxHealth: 2
+}
+const BP_ARM: BodyPartTemplate = {
+	bodyPartTemplateId: '3',
+	name: 'Arm',
+	order: 0,
+	maxHealth: 3
+}
+const BP_LEGS: BodyPartTemplate = {
+	bodyPartTemplateId: '4',
+	name: 'Leg',
+	order: 0,
+	maxHealth: 3
+}
+
+const BP_SEVERE_instance: BodyPart = {
+	bodyPartTemplateId: '1',
+	name: 'Severe',
+	order: 0,
+	maxHealth: 2,
+	currentDamage: 0
+}
+const BP_CHEST_instance: BodyPart = {
+	bodyPartTemplateId: '2',
+	name: 'Chest',
+	order: 0,
+	maxHealth: 2,
+	currentDamage: 0
+
+}
+const BP_ARM_instance: BodyPart = {
+	bodyPartTemplateId: '3',
+	name: 'Arm',
+	order: 0,
+	maxHealth: 3,
+	currentDamage: 1
+
+}
+const BP_LEGS_instance: BodyPart = {
+	bodyPartTemplateId: '4',
+	name: 'Leg',
+	order: 0,
+	maxHealth: 3,
+	currentDamage: 0
+
+}
+
 const DUMMY_CHARACTER_1: PlayerCharacter = {
 	playerCharacterId: 'dsfsdf',
 	name: 'John Wayne',
 	specialRules: [],
-	legWoundsCurrent: 0,
-	armsWouldsCurrent: 0,
-	chestWoundsCurrent: 0,
-	severeWoundsCurrent: 0,
+	bodyParts: [BP_SEVERE_instance, BP_CHEST_instance, BP_ARM_instance, BP_LEGS_instance],
 	characterTemplateId: 0,
 	toughness: 4,
 	startingWeapon: WPN_REVOLVER,
-	legWoundsMax: 0,
-	armsWouldsMax: 0,
-	chestWoundsMax: 0,
-	severeWoundsMax: 0,
 	currentWeapon: WPN_REVOLVER
 }
 const DUMMY_CHARACTER_2: PlayerCharacter = {
 	playerCharacterId: 'dummycharacter2',
 	name: 'Clint Eastwood',
 	specialRules: [],
-	legWoundsCurrent: 0,
-	armsWouldsCurrent: 0,
-	chestWoundsCurrent: 0,
-	severeWoundsCurrent: 0,
+	bodyParts: [BP_SEVERE_instance, BP_CHEST_instance, BP_ARM_instance, BP_LEGS_instance],
 	characterTemplateId: 0,
 	toughness: 8,
 	startingWeapon: WPN_SHOTGUN,
-	legWoundsMax: 3,
-	armsWouldsMax: 3,
-	chestWoundsMax: 2,
-	severeWoundsMax: 2,
 	currentWeapon: WPN_SHOTGUN
 }
 const DUMMY_CHARACTER_3: PlayerCharacter = {
 	playerCharacterId: 'dummycharacter3',
 	name: 'Richard Harris',
 	specialRules: [],
-	legWoundsCurrent: 0,
-	armsWouldsCurrent: 0,
-	chestWoundsCurrent: 0,
-	severeWoundsCurrent: 0,
+	bodyParts: [BP_SEVERE_instance, BP_CHEST_instance, BP_ARM_instance, BP_LEGS_instance],
 	characterTemplateId: 0,
 	toughness: 8,
 	startingWeapon: WPN_REPEATER,
-	legWoundsMax: 3,
-	armsWouldsMax: 3,
-	chestWoundsMax: 2,
-	severeWoundsMax: 2,
 	currentWeapon: WPN_REPEATER
 }
 export const DUMMY_DATA: Posse = {
