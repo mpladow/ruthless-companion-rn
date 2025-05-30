@@ -1,10 +1,9 @@
 import { padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
-import Entypo from '@expo/vector-icons/Entypo'
 import { BlurView } from 'expo-blur'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { Platform, Pressable, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ThemedText } from '..'
 
@@ -21,15 +20,23 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({ title, showBack = false, ri
 
     const headerContent = (
         <View style={styles.container}>
-            {showBack && (
-                <Pressable onPress={() => router.back()} style={styles.backButton}>
-                    {/* <Icon name="arrow-back" size={24} color="#333" /> */}
-                    <Entypo name="chevron-thin-left" size={24} color={currentTheme.colors.textDefault} />
-                </Pressable>
-            )}
-            <ThemedText.Heading headingSize="h1">{title}</ThemedText.Heading>
+            <View
+                style={{
+                    flexDirection: 'row',
+                    flex: 1,
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    paddingHorizontal: padding * 5,
+                }}>
+                {/* {showBack && (
+                    <Pressable onPress={() => router.back()} style={styles.backButton}>
+                        <Entypo name="chevron-thin-left" size={24} color={currentTheme.colors.textDefault} />
+                    </Pressable>
+                )} */}
+                <ThemedText.Heading headingSize="h1">{title}</ThemedText.Heading>
 
-            <View style={styles.rightContainer}>{rightComponent ?? <View style={styles.placeholder} />}</View>
+                <View style={styles.rightContainer}>{rightComponent ?? <View style={styles.placeholder} />}</View>
+            </View>
         </View>
     )
     return (
@@ -60,13 +67,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: 60,
-        paddingHorizontal: padding * 2,
+        //   paddingHorizontal: padding * 2,
         paddingTop: Platform.OS === 'ios' ? 20 : 0,
         backgroundColor: '#fff',
         flexDirection: 'row',
         alignItems: 'center',
-      //   borderBottomColor: '#eee',
-      //   borderBottomWidth: 1,
+        //   borderBottomColor: '#eee',
+        //   borderBottomWidth: 1,
         justifyContent: 'space-between',
     },
     backButton: {

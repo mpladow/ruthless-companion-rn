@@ -2,7 +2,6 @@ import { AnimatedFlatList, ThemedBottomSheet, ThemedText } from '@/components'
 import PosseListItem from '@/components/features/Posse/PosseListItem'
 import CustomModal from '@/components/Modal/CustomModal'
 import PageContainer from '@/components/PageContainer/PageContainer'
-import StyledSafeAreaView from '@/components/StyledSafeAreaView'
 import ThemedButton from '@/components/ThemedButton/ThemedButton'
 import ThemedContainer from '@/components/ThemedContainer'
 import { DUMMY_DATA } from '@/data/dummy_posse'
@@ -61,22 +60,20 @@ const Home = () => {
         router.navigate('/posseCharacters')
     }
     return (
-        <StyledSafeAreaView>
-            <PageContainer paddingSize="sm" fullScreenWidth={'50%'}>
-                <View style={{ position: 'absolute', bottom: 100, right: 20, zIndex: 1000 }}>
-                    <ThemedButton
-                        variant="primary"
-                        title={'Add Test Posse'}
-                        onPress={() => {
-                            handleCreatePosseTEST()
-                        }}
-                        size={'lg'}></ThemedButton>
+        <>
+            <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
+                <View
+                    style={{
+                        backgroundColor: currentTheme.colors.warning,
+                        padding: padding * 2,
+                        marginVertical: margin,
+                    }}>
+                    <ThemedText.Text>Choose your posse to begin!</ThemedText.Text>
                 </View>
-                <ThemedText.Text>Choose your posse to begin!</ThemedText.Text>
-                <ThemedContainer paddingSize="none" style={{ marginVertical: margin, flex: 1 }}>
+                <ThemedContainer paddingSize="none" style={{ flex: 1 }}>
                     <AnimatedFlatList
                         data={posses}
-                        contentContainerStyle={{ paddingBottom: bottom - 150 }}
+                        contentContainerStyle={{ paddingBottom: bottom + 150 }}
                         style={{ flex: 1 }}
                         ItemSeparatorComponent={() => <View style={{ height: margin }}></View>}
                         renderItem={({ item }) => (
@@ -89,6 +86,16 @@ const Home = () => {
                                     setConfirmModalOpen(true)
                                 }}
                             />
+                        )}
+                        ListFooterComponent={() => (
+                            <View style={{ padding: padding * 3 }}>
+                                <ThemedButton
+                                    title={'Add New Posse'}
+                                    onPress={() => handleCreatePosseTEST()}
+                                    size={'lg'}
+                                    variant="ghost"
+                                />
+                            </View>
                         )}
                         keyExtractor={(index) => String(index)}
                     />
@@ -132,7 +139,7 @@ const Home = () => {
                     </View>
                 </View>
             </CustomModal>
-        </StyledSafeAreaView>
+        </>
     )
 }
 

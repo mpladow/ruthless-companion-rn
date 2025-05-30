@@ -7,7 +7,8 @@ import { updatePosse } from '@/state/posse/userPossesSlice'
 import { AppDispatch, RootState } from '@/state/store'
 import { margin } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
-import React, { useEffect } from 'react'
+import { useNavigation, useRouter } from 'expo-router'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,6 +17,8 @@ const PosseCharacters = () => {
     const posse = useSelector((state: RootState) => {
         return state._persist.rehydrated ? state.selectedPosse : null
     })
+    const router = useRouter()
+    const navigation = useNavigation()
     const dispatch = useDispatch<AppDispatch>()
     useEffect(() => {
         console.log('PosseCharacters mounted or posse changed:', posse)
@@ -23,6 +26,17 @@ const PosseCharacters = () => {
             dispatch(updatePosse(posse))
         }
     }, [posse])
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: posse?.name,
+            headerStyle: {
+                backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+        })
+    }, [navigation])
+
     const { bottom } = useSafeAreaInsets()
     const { currentTheme } = useTheme()
 
