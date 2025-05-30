@@ -1,5 +1,6 @@
 import { AnimatedFlatList, ThemedBottomSheet, ThemedText } from '@/components'
 import PosseListItem from '@/components/features/Posse/PosseListItem'
+import Messagebox from '@/components/Messagebox/Messagebox'
 import CustomModal from '@/components/Modal/CustomModal'
 import PageContainer from '@/components/PageContainer/PageContainer'
 import ThemedButton from '@/components/ThemedButton/ThemedButton'
@@ -62,14 +63,9 @@ const Home = () => {
     return (
         <>
             <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
-                <View
-                    style={{
-                        backgroundColor: currentTheme.colors.warning,
-                        padding: padding * 2,
-                        marginVertical: margin,
-                    }}>
-                    <ThemedText.Text>Choose your posse to begin!</ThemedText.Text>
-                </View>
+                <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
+                    <ThemedText.Text type="semibold">Choose your posse to begin!</ThemedText.Text>
+                </Messagebox>
                 <ThemedContainer paddingSize="none" style={{ flex: 1 }}>
                     <AnimatedFlatList
                         data={posses}

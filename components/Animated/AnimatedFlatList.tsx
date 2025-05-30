@@ -1,15 +1,6 @@
 import React from 'react'
-import {
-	FlatList,
-	FlatListProps,
-	ListRenderItemInfo,
-	Platform,
-	ViewStyle
-} from 'react-native'
-import Animated, {
-	FadeIn,
-	FadeOut
-} from 'react-native-reanimated'
+import { FlatList, FlatListProps, ListRenderItemInfo, Platform, ViewStyle } from 'react-native'
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 type AnimatedFlatListProps<T> = {
     // Define any props you need for your AnimatedFlatList
@@ -37,19 +28,20 @@ const AnimatedFlatList = <T,>({
     ...rest
 }: AnimatedFlatListProps<T>) => {
     const renderAnimatedItem = (info: ListRenderItemInfo<T>) => {
-      //   const scale = useSharedValue(initialScale)
-      //   const opacity = useSharedValue(initialOpacity)
+        //   const scale = useSharedValue(initialScale)
+        //   const opacity = useSharedValue(initialOpacity)
 
-      //   const animatedStyle = useAnimatedStyle(() => ({
-      //       opacity: opacity.value,
-      //       transform: [{ scale: scale.value }],
-      //   }))
+        //   const animatedStyle = useAnimatedStyle(() => ({
+        //       opacity: opacity.value,
+        //       transform: [{ scale: scale.value }],
+        //   }))
 
         return (
             <Animated.View
+                key={info.index}
                 entering={Platform.OS !== 'web' ? FadeIn : undefined}
                 exiting={Platform.OS !== 'web' ? FadeOut : undefined}
-               //  style={animatedStyle}
+                //  style={animatedStyle}
             >
                 {renderItem(info)}
             </Animated.View>
