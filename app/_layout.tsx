@@ -4,9 +4,11 @@ import ThemeProvider from '@/theme/ThemeProvider'
 import { fontConfig } from '@/theme/types/type'
 import { GothicA1_400Regular, GothicA1_600SemiBold, GothicA1_800ExtraBold } from '@expo-google-fonts/gothic-a1'
 import { Rye_400Regular } from '@expo-google-fonts/rye'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
+import { StyleSheet } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { MenuProvider } from 'react-native-popup-menu'
 import 'react-native-reanimated'
@@ -71,7 +73,7 @@ export default function RootLayout() {
         },
     }
     return (
-        <GestureHandlerRootView>
+        <GestureHandlerRootView style={styles.container}>
             <Provider store={store}>
                 <PersistGate persistor={persistor} loading={null}>
                     <ThemeProvider
@@ -79,23 +81,41 @@ export default function RootLayout() {
                             themeConfigs: [gptDarkTheme, gptLightTheme],
                             fonts: [fontConfigPrimary, fontConfigHeading],
                         }}>
-                        <SafeAreaProvider>
-                            <MenuProvider>
-                                <Stack screenOptions={{ headerShown: false }}>
-                                    <Stack.Screen
-                                        name="(tabs)"
-                                        options={{
-                                            headerShown: false,
-                                        }}
-                                    />
-                                    <Stack.Screen name="+not-found" />
-                                </Stack>
-                                <StatusBar style="dark" translucent={true} backgroundColor="rgba(0,0,0,0.5)" />
-                            </MenuProvider>
-                        </SafeAreaProvider>
+                        <BottomSheetModalProvider>
+                            <SafeAreaProvider>
+                                <MenuProvider>
+                                    <Stack screenOptions={{ headerShown: false }}>
+                                        <Stack.Screen
+                                            name="(tabs)"
+                                            options={{
+                                                headerShown: false,
+                                            }}
+                                        />
+                                        <Stack.Screen name="+not-found" />
+                                    </Stack>
+                                    {/* <Stack.Screen
+                                        name="posseEditor"
+                                        options={{ title: 'Create Posse', presentation: 'modal' }}
+                                    /> */}
+
+                                    <StatusBar style="dark" translucent={true} backgroundColor="rgba(0,0,0,0.5)" />
+                                </MenuProvider>
+                            </SafeAreaProvider>
+                        </BottomSheetModalProvider>
                     </ThemeProvider>
                 </PersistGate>
             </Provider>
         </GestureHandlerRootView>
     )
 }
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'pink',
+    },
+    contentContainer: {
+        flex: 1,
+        padding: 36,
+        alignItems: 'center',
+    },
+})

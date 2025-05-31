@@ -1,4 +1,4 @@
-import { AnimatedFlatList, ThemedBottomSheet, ThemedText } from '@/components'
+import { AnimatedFlatList, ThemedText } from '@/components'
 import PosseListItem from '@/components/features/Posse/PosseListItem'
 import Messagebox from '@/components/Messagebox/Messagebox'
 import CustomModal from '@/components/Modal/CustomModal'
@@ -7,16 +7,14 @@ import ThemedButton from '@/components/ThemedButton/ThemedButton'
 import ThemedContainer from '@/components/ThemedContainer'
 import { DUMMY_DATA } from '@/data/dummy_posse'
 import { useResponsiveWidth } from '@/hooks'
-import { PosseForm } from '@/models/forms/posseForm'
 import { setCurrentPosse } from '@/state/posse/posseSlice'
-import { createPosse, deletePosse } from '@/state/posse/userPossesSlice'
+import { deletePosse } from '@/state/posse/userPossesSlice'
 import { AppDispatch, RootState } from '@/state/store'
 import { margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { Dimensions, StyleSheet, View } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 const Home = () => {
@@ -25,7 +23,6 @@ const Home = () => {
     })
     //  const posses = [DUMMY_DATA]
     const { currentTheme } = useTheme()
-    const [openCreatePosse, setopenCreatePosse] = useState(false)
     const [confirmModalOpen, setConfirmModalOpen] = useState(false)
     const [focusedId, setFocusedId] = useState<string | null>(null)
     const { height } = Dimensions.get('window')
@@ -36,8 +33,6 @@ const Home = () => {
 
     const handleDeletePosseConfirm = () => {
         if (focusedId) {
-            console.log(`DELETING POSSE ${focusedId}`)
-            // dispatch(deletePosse(focusedId))
             setConfirmModalOpen(false)
             setFocusedId(null)
             dispatch(deletePosse(focusedId))
@@ -47,8 +42,8 @@ const Home = () => {
     }
 
     const handleEditPosse = () => {}
-    const handleCreatePosseTEST = () => {
-        dispatch(createPosse({ name: 'TEST' } as PosseForm))
+    const handleCreatePossePress = () => {
+        router.navigate('../../posseEditor')
     }
 
     const handleListItemPress = (posseId: string) => {
@@ -60,6 +55,8 @@ const Home = () => {
         }
         router.navigate('/posseCharacters')
     }
+    const [name, setName] = useState('')
+
     return (
         <>
             <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
@@ -87,7 +84,10 @@ const Home = () => {
                             <View style={{ padding: padding * 3 }}>
                                 <ThemedButton
                                     title={'Add New Posse'}
-                                    onPress={() => handleCreatePosseTEST()}
+                                    onPress={() => {
+                                        console.log('dispatching create posse')
+                                        handleCreatePossePress()
+                                    }}
                                     size={'lg'}
                                     variant="ghost"
                                 />
@@ -98,18 +98,6 @@ const Home = () => {
                 </ThemedContainer>
             </PageContainer>
 
-            <ThemedBottomSheet
-                visible={openCreatePosse}
-                onClose={() => {
-                    setopenCreatePosse(false)
-                }}
-                allowCloseButton
-                headerTitle={'Create New Posse'}>
-                <View>
-                    <ThemedText.Text>Name</ThemedText.Text>
-                    <TextInput />
-                </View>
-            </ThemedBottomSheet>
             <CustomModal
                 visible={confirmModalOpen}
                 onClose={() => {

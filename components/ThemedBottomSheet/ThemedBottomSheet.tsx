@@ -1,8 +1,9 @@
 import { useResponsiveWidth } from '@/hooks'
-import { borderRadius, margin } from '@/theme/constants'
-import BottomSheet from '@gorhom/bottom-sheet'
-import React, { ReactNode, useEffect, useMemo, useRef } from 'react'
+import { borderRadius, margin, padding } from '@/theme/constants'
+import { BottomSheetBackdrop, BottomSheetFooter, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet'
+import React, { ReactNode, useCallback, useEffect, useMemo, useRef } from 'react'
 import { Dimensions, Modal, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ThemedText } from '..'
 
 type ThemedBottomSheetProps = {
@@ -11,6 +12,7 @@ type ThemedBottomSheetProps = {
     children: ReactNode
     headerTitle?: string
     allowCloseButton?: boolean
+    customFooter?: ReactNode
     snapPoints?: (string | number)[]
 }
 
@@ -20,23 +22,29 @@ const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
     children,
     headerTitle,
     allowCloseButton,
-    snapPoints = ['25%', '50%'],
+    customFooter,
+    snapPoints = [0.5, 0.75],
 }) => {
-    const bottomSheetRef = useRef<BottomSheet>(null)
+    const bottomSheetRef = useRef<BottomSheetModal>(null)
     const isWeb = Platform.OS === 'web'
 
     const sheetSnapPoints = useMemo(() => snapPoints, [snapPoints])
     const { viewport } = useResponsiveWidth()
+    const insets = useSafeAreaInsets()
 
     useEffect(() => {
         if (!isWeb && bottomSheetRef.current) {
             if (visible) {
-                bottomSheetRef.current.expand()
+                console.log('🚀 ~ useEffect ~ opening:', visible)
+                console.log('dsfaaaasdf', JSON.stringify(bottomSheetRef))
+                bottomSheetRef.current.present()
             } else {
-                bottomSheetRef.current.close()
+                console.log('🚀 ~ useEffect ~ closing:', visible)
+
+                bottomSheetRef?.current.close()
             }
         }
-    }, [visible, isWeb])
+    }, [visible, isWeb, bottomSheetRef])
 
     if (isWeb) {
         return (
@@ -53,8 +61,7 @@ const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
                                 justifyContent: 'space-between',
                                 padding: margin,
                             },
-                        ]}
-                    >
+                        ]}>
                         <View></View>
                         <View>
                             <ThemedText.Text>{headerTitle}</ThemedText.Text>
@@ -74,17 +81,40 @@ const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
             </Modal>
         )
     }
-
+    // renders
+    const renderBackdrop = useCallback(
+        (props) => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />,
+        []
+    )
+    const renderFooter = useCallback(
+        (props) => (
+            <BottomSheetFooter {...props} bottomInset={24} style={styles.footerContainer}>
+                {customFooter}
+            </BottomSheetFooter>
+        ),
+        []
+    )
     return (
-        <BottomSheet
+        <BottomSheetModal
             ref={bottomSheetRef}
-            index={visible ? 1 : -1}
+            onChange={(index, position, type) => {
+                console.log(index, 'Bottom sheet changed index')
+                console.log(position, 'Bottom sheet changed position')
+
+                console.log(type, 'Bottom sheet changed type')
+            }}
+            index={1}
+            detached
+            backdropComponent={renderBackdrop}
+            bottomInset={insets.bottom}
+            enableDynamicSizing
             snapPoints={sheetSnapPoints}
-            onClose={onClose}
-            enablePanDownToClose
-        >
-            <View style={styles.sheetContent}>{children}</View>
-        </BottomSheet>
+            style={styles.sheetContent}
+            onDismiss={onClose}
+            footerComponent={renderFooter}
+            enablePanDownToClose>
+            <BottomSheetView style={styles.bottomView}>{children}</BottomSheetView>
+        </BottomSheetModal>
     )
 }
 
@@ -104,12 +134,21 @@ const styles = StyleSheet.create({
         flex: 1,
         //   height: '100%',
         //   maxHeight: height * 0.5,
-        borderRadius: borderRadius,
+        borderRadius: borderRadius * 2,
         zIndex: 9,
         backgroundColor: 'white',
     },
     sheetContent: {
+        marginHorizontal: 24,
+    },
+    bottomView: {
         flex: 1,
-        padding: 16,
+        borderRadius: borderRadius * 2,
+        padding: padding * 3,
+    },
+    footerContainer: {
+        padding: 12,
+        margin: 12,
+        borderRadius: 12,
     },
 })

@@ -1,19 +1,18 @@
-import CustomHeader from '@/components/ThemedHeader/ThemedHeader'
+import ModalHeader from '@/components/ThemedHeader/ModalHeader'
 import { Stack } from 'expo-router'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 
-const PosseStackLayout = () => {
+const PosseEditorLayout = () => {
     return (
         <Stack
             screenOptions={{
-                headerShown: true,
+                headerShown: false,
                 header: (x) => {
                     const title = x.options.title || x.route.name
                     return (
-                        <CustomHeader
+                        <ModalHeader
                             title={title}
-                            showBack={title !== 'Home'}
                             //  rightComponent={
                             //      <Pressable onPress={() => console.log('Settings')}>
                             //          <ThemedText.Text>Settings</ThemedText.Text>
@@ -24,12 +23,11 @@ const PosseStackLayout = () => {
                 },
             }}
             initialRouteName="index">
-            <Stack.Screen name="index" options={{ title: 'Home' }} />
-            <Stack.Screen name="posseCharacters" options={{ title: 'Posse' }} />
+            <Stack.Screen name="index" options={{ title: 'CreatePosse' }} />
         </Stack>
     )
 }
 
-export default PosseStackLayout
+export default PosseEditorLayout
 
 const styles = StyleSheet.create({})

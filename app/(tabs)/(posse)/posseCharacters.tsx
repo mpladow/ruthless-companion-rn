@@ -1,7 +1,6 @@
 import { AnimatedFlatList } from '@/components'
 import CharacterCard from '@/components/features/CharacterCard/CharacterCard'
 import PageContainer from '@/components/PageContainer/PageContainer'
-import StyledSafeAreaView from '@/components/StyledSafeAreaView'
 import ThemedContainer from '@/components/ThemedContainer'
 import { updatePosse } from '@/state/posse/userPossesSlice'
 import { AppDispatch, RootState } from '@/state/store'
@@ -42,21 +41,19 @@ const PosseCharacters = () => {
 
     const handleListItemPress = () => {}
     return (
-        <StyledSafeAreaView>
-            <PageContainer fullScreenWidth={'50%'} paddingSize="sm">
-                <ThemedContainer paddingSize="none" style={{ marginVertical: margin, flex: 1 }}>
-                    <AnimatedFlatList
-                        data={posse.members}
-                        contentContainerStyle={{ paddingBottom: bottom - 150 }}
-                        style={{ flex: 1 }}
-                        ListFooterComponent={() => <View style={{ height: 100 }}></View>}
-                        ItemSeparatorComponent={() => <View style={{ height: margin }}></View>}
-                        renderItem={({ item }) => <CharacterCard playerCharacter={item} />}
-                        keyExtractor={(index) => String(index)}
-                    />
-                </ThemedContainer>
-            </PageContainer>
-        </StyledSafeAreaView>
+        <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
+            <ThemedContainer paddingSize="none" style={{ flex: 1 }}>
+                <AnimatedFlatList
+                    data={posse.members}
+                    contentContainerStyle={{ paddingBottom: bottom - 150 }}
+                    style={{ flex: 1 }}
+                    ListFooterComponent={() => <View style={{ height: 100 }}></View>}
+                    ItemSeparatorComponent={() => <View style={{ height: margin }}></View>}
+                    renderItem={({ item }) => <CharacterCard playerCharacter={item} />}
+                    keyExtractor={(index) => String(index)}
+                />
+            </ThemedContainer>
+        </PageContainer>
     )
 }
 

@@ -1,5 +1,4 @@
 import { useTheme } from '@/theme/ThemeProvider'
-import { Ionicons } from '@expo/vector-icons'
 import Entypo from '@expo/vector-icons/Entypo'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { useRouter } from 'expo-router'
@@ -86,22 +85,12 @@ export const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarPro
                                 accessibilityState={isFocused ? { selected: true } : {}}
                                 onPress={onPress}
                                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <Ionicons
-                                    name={
-                                        route.name === 'home'
-                                            ? isFocused
-                                                ? 'home'
-                                                : 'home-outline'
-                                            : isFocused
-                                            ? 'settings'
-                                            : 'settings-outline'
-                                    }
-                                    size={20}
-                                    color={isFocused ? 'white' : 'gray'}
-                                />
-                                {/* <ThemedText.Text style={{ color: isFocused ? 'white' : 'gray', fontSize: 12 }}>
-                                {label as string}
-                            </ThemedText.Text> */}
+                                {options.tabBarIcon &&
+                                    options.tabBarIcon({
+                                        focused: isFocused,
+                                        color: isFocused ? '#fff' : '#aaa',
+                                        size: 16,
+                                    })}
                             </Pressable>
                         )
                     })}

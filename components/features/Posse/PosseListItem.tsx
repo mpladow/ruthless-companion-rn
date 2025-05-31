@@ -28,7 +28,7 @@ const PosseListItem = ({ item, onListItemPress, onDeletePossePress }: PosseListI
                         // borderWidth: borderWidth,
                         // borderColor: currentTheme.colors.greyOutline,
                         flexDirection: 'row',
-                        backgroundColor: currentTheme.colors.secondary,
+                        backgroundColor: currentTheme.colors.primary,
                     },
                     commonStyles.boxShadow,
                 ]}>
@@ -59,7 +59,7 @@ const PosseListItem = ({ item, onListItemPress, onDeletePossePress }: PosseListI
                         },
                         commonStyles.boxShadow,
                     ]}>
-                    <ThemedText.Heading headingSize="h3" numberOfLines={2} style={{ textAlign: 'center' }} inverted>
+                    <ThemedText.Heading headingSize="h2" numberOfLines={2} style={{ textAlign: 'center' }} inverted>
                         {item.name}
                     </ThemedText.Heading>
                 </View>
@@ -161,7 +161,7 @@ const PosseListItem = ({ item, onListItemPress, onDeletePossePress }: PosseListI
                     <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
                         <Menu>
                             <MenuTrigger>
-                                <Entypo name="dots-three-vertical" size={24} color="black" />
+                                <Entypo name="dots-three-vertical" size={24} color={currentTheme.colors.textInverted} />
                             </MenuTrigger>
                             <MenuOptions customStyles={{ optionsContainer: {} }}>
                                 <MenuOption onSelect={() => alert(`Duplicate`)}>

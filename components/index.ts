@@ -3,4 +3,5 @@ export { default as HealthBarContainer } from './features/Health/HealthBarContai
 export { default as ThemedBottomSheet } from "./ThemedBottomSheet/ThemedBottomSheet";
 export * from "./ThemedContainer";
 export * from "./ThemedText/ThemedText";
+export * from './ThemedTextInput/ThemedTextInput';
 
