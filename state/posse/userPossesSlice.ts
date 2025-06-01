@@ -1,4 +1,3 @@
-import { DUMMY_DATA } from '@/data/dummy_posse';
 import { PosseForm } from '@/models/forms/posseForm';
 import { Posse } from '@/models/posse';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -14,9 +13,10 @@ const userPossesSlice = createSlice({
 				name: action.payload.name,
 				members: []
 			};
-			//state.push(newPosse);
+			console.log("🚀 ~ newPosse:", newPosse)
+			state.push(newPosse);
 
-			state.push(DUMMY_DATA);
+			// state.push(DUMMY_DATA);
 		},
 		deletePosse: (state, action: PayloadAction<string>) => {
 			const index = state.findIndex(posse => posse.posseId === action.payload);

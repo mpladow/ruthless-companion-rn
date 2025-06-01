@@ -26,6 +26,10 @@ const PosseStackLayout = () => {
             initialRouteName="index">
             <Stack.Screen name="index" options={{ title: 'Home' }} />
             <Stack.Screen name="posseCharacters" options={{ title: 'Posse' }} />
+            <Stack.Screen
+                name="posseEditor"
+                options={{ title: 'Create Posse', presentation: 'modal', headerShown: false }}
+            />
         </Stack>
     )
 }

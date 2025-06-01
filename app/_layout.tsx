@@ -84,7 +84,7 @@ export default function RootLayout() {
                         <BottomSheetModalProvider>
                             <SafeAreaProvider>
                                 <MenuProvider>
-                                    <Stack screenOptions={{ headerShown: false }}>
+                                    <Stack screenOptions={{ headerShown: false }} initialRouteName="(tabs)">
                                         <Stack.Screen
                                             name="(tabs)"
                                             options={{
@@ -93,10 +93,6 @@ export default function RootLayout() {
                                         />
                                         <Stack.Screen name="+not-found" />
                                     </Stack>
-                                    {/* <Stack.Screen
-                                        name="posseEditor"
-                                        options={{ title: 'Create Posse', presentation: 'modal' }}
-                                    /> */}
 
                                     <StatusBar style="dark" translucent={true} backgroundColor="rgba(0,0,0,0.5)" />
                                 </MenuProvider>

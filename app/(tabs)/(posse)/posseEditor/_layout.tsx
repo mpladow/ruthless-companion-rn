@@ -7,11 +7,13 @@ const PosseEditorLayout = () => {
     return (
         <Stack
             screenOptions={{
-                headerShown: false,
+                headerShown: true,
                 header: (x) => {
                     const title = x.options.title || x.route.name
                     return (
                         <ModalHeader
+                            showBack
+                            blurBackground
                             title={title}
                             //  rightComponent={
                             //      <Pressable onPress={() => console.log('Settings')}>
@@ -21,9 +23,8 @@ const PosseEditorLayout = () => {
                         />
                     )
                 },
-            }}
-            initialRouteName="index">
-            <Stack.Screen name="index" options={{ title: 'CreatePosse' }} />
+            }}>
+            <Stack.Screen name="index" options={{ title: 'Create Posse' }} />
         </Stack>
     )
 }

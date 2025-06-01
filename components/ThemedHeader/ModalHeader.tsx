@@ -1,9 +1,10 @@
 import { padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
+import Entypo from '@expo/vector-icons/Entypo'
 import { BlurView } from 'expo-blur'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, Pressable, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ThemedText } from '..'
 
@@ -19,22 +20,23 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({ title, showBack = false, righ
     const { currentTheme } = useTheme()
 
     const headerContent = (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: currentTheme.colors.primary }]}>
             <View
                 style={{
                     flexDirection: 'row',
                     flex: 1,
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    paddingHorizontal: padding * 5,
+                    height: 80,
                 }}>
-                {/* {showBack && (
-						  <Pressable onPress={() => router.back()} style={styles.backButton}>
-								<Entypo name="chevron-thin-left" size={24} color={currentTheme.colors.textDefault} />
-						  </Pressable>
-					 )} */}
-                <ThemedText.Heading headingSize="h1">{title}</ThemedText.Heading>
-
+                {showBack && (
+                    <Pressable onPress={() => router.back()} style={styles.backButton}>
+                        <Entypo name="chevron-thin-left" size={24} color={currentTheme.colors.textInverted} />
+                    </Pressable>
+                )}
+                <ThemedText.Heading inverted headingSize="h2">
+                    {title}
+                </ThemedText.Heading>
                 <View style={styles.rightContainer}>{rightComponent ?? <View style={styles.placeholder} />}</View>
             </View>
         </View>
@@ -43,7 +45,7 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({ title, showBack = false, righ
         <SafeAreaView edges={['top']} style={styles.safeArea}>
             {Platform.OS === 'ios' && blurBackground ? (
                 <BlurView
-                    style={styles.container}
+                    style={[styles.container, { backgroundColor: currentTheme.colors.primary }]}
                     blurType={currentTheme.isDark ? 'dark' : 'light'}
                     blurAmount={10}
                     reducedTransparencyFallbackColor={currentTheme.isDark ? '#222' : '#fff'}>
@@ -66,11 +68,11 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        height: 70,
+        height: 80,
         paddingVertical: padding * 2,
+        marginBottom: 12,
         //   paddingHorizontal: padding * 2,
-        paddingTop: Platform.OS === 'ios' ? 20 : 0,
-        backgroundColor: '#fff',
+        paddingTop: Platform.OS === 'ios' ? 24 : 0,
         flexDirection: 'row',
         alignItems: 'center',
         //   borderBottomColor: '#eee',

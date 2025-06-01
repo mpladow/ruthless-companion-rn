@@ -6,7 +6,7 @@ import { StyleSheet, View, ViewProps } from 'react-native'
 
 type MessageboxProps = {
     type: 'warning' | 'error' | 'info'
-    viewStyle: ViewProps['style']
+    viewStyle?: ViewProps['style']
 } & PropsWithChildren &
     ViewProps
 const Messagebox = ({ type, children, viewStyle }: MessageboxProps) => {

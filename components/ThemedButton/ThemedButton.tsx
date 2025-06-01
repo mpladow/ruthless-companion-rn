@@ -1,3 +1,4 @@
+import commonStyles from '@/constants/styles'
 import { borderRadius } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import Color from 'color'
@@ -14,6 +15,7 @@ type ThemedButtonProps = {
     type?: Variant
     variant?: 'ghost' | 'text' | 'filled'
     size: 'sm' | 'lg'
+    loading?: boolean
 } & PressableProps
 
 const ThemedButton: React.FC<ThemedButtonProps> = ({
@@ -87,7 +89,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
                     borderWidth: 0,
                 }
             case 'filled':
-                return {}
+                return commonStyles.boxShadow
 
             default:
                 return {}
@@ -109,9 +111,12 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
             {...rest}>
             {typeof title == 'string' ? (
                 <ThemedText.Text
+                    type="semibold"
                     size={size == 'sm' ? 'xs' : 'default'}
                     style={[
                         styles.text,
+                        size == 'sm' && { lineHeight: 16 },
+
                         { color: currentType.textColor },
                         (variant == 'ghost' || variant == 'text') && {
                             color: currentVariantStyles.textColor,

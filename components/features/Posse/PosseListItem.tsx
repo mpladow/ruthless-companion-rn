@@ -1,4 +1,5 @@
 import { ThemedText } from '@/components'
+import ThemedButton from '@/components/ThemedButton/ThemedButton'
 import ThemedContainer from '@/components/ThemedContainer'
 import commonStyles from '@/constants/styles'
 import { useResponsiveWidth } from '@/hooks'
@@ -16,6 +17,7 @@ type PosseListItemType = {
     onDeletePossePress: (posseId: string) => void
 }
 const PosseListItem = ({ item, onListItemPress, onDeletePossePress }: PosseListItemType) => {
+    console.log('🚀 ~ item:', item)
     const { currentTheme } = useTheme()
     const { viewport, isDesktop } = useResponsiveWidth()
     return (
@@ -73,8 +75,24 @@ const PosseListItem = ({ item, onListItemPress, onDeletePossePress }: PosseListI
                         alignItems: 'center',
                         justifyContent: 'center',
                     }}>
+                    {item.members.length == 0 && (
+                        <View
+                            style={[
+                                {
+                                    flexDirection: 'row',
+                                    //  overflow: 'hidden',
+                                    borderRadius: borderRadius / 4,
+                                    height: 80,
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                },
+                            ]}>
+                            <View style={[]}>
+                                <ThemedButton title={'+ Add Members'} onPress={() => {}} size={'sm'} type="success" />
+                            </View>
+                        </View>
+                    )}
                     {item.members.map((x, index) => {
-                        const itemMembersCount = item.members.length
                         if (viewport && index == 5) {
                             return (
                                 <View
