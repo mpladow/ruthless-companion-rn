@@ -1,8 +1,15 @@
-export interface Weapon {
+import { SpecialRuleTemplate } from './specialRuleTemplate';
+
+export interface WeaponTemplate {
 	weaponId: number;
 	name: string;
-	maxAmmunition?: number;
+	maxAmmunition: number;
 	shortRange?: number;
 	longRange?: number;
-	specialRules: any[];
+	specialRules: SpecialRuleTemplate[];
+	weaponTemplateId: number
+}
+
+export interface Weapon extends WeaponTemplate {
+	currentAmmunition: number
 }

@@ -1,14 +1,16 @@
-import { CharacterTemplate } from './character';
+import { BodyPart } from './bodyParttemplate';
+import { CharacterTemplate } from './characterTemplate';
+import { SpecialRule } from './specialRuleTemplate';
 import { Weapon } from './weapon';
 
 export interface PlayerCharacter extends CharacterTemplate {
 	playerCharacterId: string;
+	title?: string;
+	faction?: string;
 	name: string;
-	specialRules: any[];
-	currentWeapon: Weapon;
-	legWoundsCurrent: number;
-	armsWouldsCurrent: number;
-	chestWoundsCurrent: number;
-	severeWoundsCurrent: number;
+	specialRules: SpecialRule[];
+	currentWeapons?: Weapon[];
+	bodyParts: BodyPart[]
 	originalTemplate?: CharacterTemplate;
+	scenario?: string
 }

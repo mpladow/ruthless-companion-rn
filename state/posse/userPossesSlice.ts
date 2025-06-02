@@ -13,7 +13,10 @@ const userPossesSlice = createSlice({
 				name: action.payload.name,
 				members: []
 			};
+			console.log("🚀 ~ newPosse:", newPosse)
 			state.push(newPosse);
+
+			// state.push(DUMMY_DATA);
 		},
 		deletePosse: (state, action: PayloadAction<string>) => {
 			const index = state.findIndex(posse => posse.posseId === action.payload);
