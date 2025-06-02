@@ -11,7 +11,8 @@ export const DUMMY_CHARACTER_1: PlayerCharacter = {
 	characterTemplateId: 0,
 	toughness: 4,
 	startingWeapons: [WPN_REVOLVER, WPN_SHARPS],
-	currentWeapons: [WPN_REVOLVER, WPN_SHARPS]
+	currentWeapons: [WPN_REVOLVER, WPN_SHARPS],
+	gender: 'male'
 }
 export const DUMMY_CHARACTER_2: PlayerCharacter = {
 	playerCharacterId: 'dummycharacter2',
@@ -21,7 +22,8 @@ export const DUMMY_CHARACTER_2: PlayerCharacter = {
 	characterTemplateId: 0,
 	toughness: 8,
 	startingWeapons: [WPN_SHOTGUN],
-	currentWeapons: [WPN_SHOTGUN]
+	currentWeapons: [WPN_SHOTGUN],
+	gender: 'male'
 }
 export const DUMMY_CHARACTER_3: PlayerCharacter = {
 	playerCharacterId: 'dummycharacter3',
@@ -31,7 +33,8 @@ export const DUMMY_CHARACTER_3: PlayerCharacter = {
 	characterTemplateId: 0,
 	toughness: 8,
 	startingWeapons: [WPN_REPEATER],
-	currentWeapons: [WPN_REPEATER]
+	currentWeapons: [WPN_REPEATER],
+	gender: 'male'
 }
 export const BAT_MASTERSON: PlayerCharacter = {
 	playerCharacterId: 'b_masterson',
@@ -42,7 +45,8 @@ export const BAT_MASTERSON: PlayerCharacter = {
 	toughness: 3,
 	startingWeapons: [WPN_REVOLVER, WPN_DERRINGER],
 	currentWeapons: [WPN_REVOLVER, WPN_DERRINGER],
-	scenario: "Dodge City Draw"
+	scenario: "Dodge City Draw",
+	gender: 'male'
 }
 
 export const JIM_MASTERSON: PlayerCharacter = {
@@ -54,7 +58,8 @@ export const JIM_MASTERSON: PlayerCharacter = {
 	toughness: 5,
 	startingWeapons: [WPN_REVOLVER],
 	currentWeapons: [WPN_REVOLVER],
-	scenario: "Dodge City Draw"
+	scenario: "Dodge City Draw",
+	gender: 'male'
 }
 export const TOM_MIXON: PlayerCharacter = {
 	playerCharacterId: 't_mixon',
@@ -66,7 +71,8 @@ export const TOM_MIXON: PlayerCharacter = {
 	toughness: 5,
 	startingWeapons: [WPN_REVOLVER],
 	currentWeapons: [WPN_REVOLVER],
-	scenario: "Dodge City Draw"
+	scenario: "Dodge City Draw",
+	gender: 'male'
 }
 
 export const AJ_PEACOCK: PlayerCharacter = {
@@ -78,7 +84,8 @@ export const AJ_PEACOCK: PlayerCharacter = {
 	toughness: 5,
 	startingWeapons: [WPN_REVOLVER],
 	currentWeapons: [WPN_REVOLVER],
-	scenario: "Dodge City Draw"
+	scenario: "Dodge City Draw",
+	gender: 'male'
 }
 
 export const AL_UPDEGRAFF: PlayerCharacter = {
@@ -90,7 +97,8 @@ export const AL_UPDEGRAFF: PlayerCharacter = {
 	toughness: 5,
 	startingWeapons: [WPN_REVOLVER],
 	currentWeapons: [WPN_REVOLVER],
-	scenario: "Dodge City Draw"
+	scenario: "Dodge City Draw",
+	gender: 'male'
 }
 
 export const CHALKEY_BEESON: PlayerCharacter = {
@@ -102,7 +110,8 @@ export const CHALKEY_BEESON: PlayerCharacter = {
 	toughness: 5,
 	startingWeapons: [WPN_SHOTGUN],
 	currentWeapons: [WPN_SHOTGUN],
-	scenario: "Dodge City Draw"
+	scenario: "Dodge City Draw",
+	gender: 'male'
 }
 export const FRED_SINGER: PlayerCharacter = {
 	playerCharacterId: 'f_singer',
@@ -113,7 +122,21 @@ export const FRED_SINGER: PlayerCharacter = {
 	toughness: 5,
 	startingWeapons: [WPN_REVOLVER],
 	currentWeapons: [WPN_REVOLVER],
-	scenario: "Dodge City Draw"
+	scenario: "Dodge City Draw",
+	gender: 'male'
 }
 
-export default [FRED_SINGER, CHALKEY_BEESON, AL_UPDEGRAFF, AJ_PEACOCK, TOM_MIXON, JIM_MASTERSON, BAT_MASTERSON, DUMMY_CHARACTER_1, DUMMY_CHARACTER_2, DUMMY_CHARACTER_3] as PlayerCharacter[]
+export const BONNY: PlayerCharacter = {
+	playerCharacterId: 'bonny+test',
+	name: 'Bonny Test',
+	specialRules: [SPEC_RULE_UNPREPARED],
+	bodyParts: [BP_SEVERE_instance, BP_CHEST_instance, BP_ARM_instance, BP_LEGS_instance],
+	characterTemplateId: 0,
+	toughness: 5,
+	startingWeapons: [WPN_REVOLVER],
+	currentWeapons: [WPN_REVOLVER],
+	scenario: "Dodge City Draw",
+	gender: 'female'
+}
+
+export default [FRED_SINGER, CHALKEY_BEESON, AL_UPDEGRAFF, AJ_PEACOCK, TOM_MIXON, JIM_MASTERSON, BAT_MASTERSON, DUMMY_CHARACTER_1, DUMMY_CHARACTER_2, DUMMY_CHARACTER_3, BONNY] as PlayerCharacter[]

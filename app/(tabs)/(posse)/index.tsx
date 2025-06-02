@@ -1,5 +1,5 @@
 import { AnimatedFlatList, ThemedText } from '@/components'
-import PosseListItem from '@/components/features/Posse/PosseListItem'
+import PosseListItemV2 from '@/components/features/Posse/PosseListItemV2'
 import Messagebox from '@/components/Messagebox/Messagebox'
 import CustomModal from '@/components/Modal/CustomModal'
 import PageContainer from '@/components/PageContainer/PageContainer'
@@ -50,7 +50,9 @@ const Home = () => {
     const handleCreatePossePress = () => {
         router.navigate('../../posseEditor')
     }
-
+    const handleEditPoseePress = (posseId: string) => {
+        router.navigate('../../posseEditor/[posseId]')
+    }
     const handleListItemPress = (posseId: string) => {
         console.log(`OPENING ${posseId}`)
         // findPosse
@@ -84,7 +86,7 @@ const Home = () => {
                         style={{ flex: 1 }}
                         ItemSeparatorComponent={() => <View style={{ height: margin }}></View>}
                         renderItem={({ item }) => (
-                            <PosseListItem
+                            <PosseListItemV2
                                 item={item}
                                 onListItemPress={handleListItemPress}
                                 onDeletePossePress={(posseId: string) => {
@@ -92,12 +94,14 @@ const Home = () => {
                                     setFocusedId(posseId)
                                     setConfirmModalOpen(true)
                                 }}
+                                onEditPossePress={() => handleEditPoseePress(item.posseId)}
                                 onAddMemberPress={handleOnAddMemberPress}
                             />
                         )}
                         ListFooterComponent={() => (
                             <View style={{ padding: padding * 3 }}>
                                 <ThemedButton
+                                    alternateTitle
                                     title={'Add New Posse'}
                                     onPress={() => {
                                         console.log('dispatching create posse')

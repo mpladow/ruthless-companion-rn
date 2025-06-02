@@ -14,6 +14,7 @@ type ThemedButtonProps = {
     textStyle?: TextStyle
     type?: Variant
     variant?: 'ghost' | 'text' | 'filled'
+    alternateTitle?: boolean
     size: 'sm' | 'lg'
     loading?: boolean
 } & PressableProps
@@ -21,6 +22,7 @@ type ThemedButtonProps = {
 const ThemedButton: React.FC<ThemedButtonProps> = ({
     title,
     onPress,
+    alternateTitle,
     disabled = false,
     style,
     textStyle,
@@ -110,20 +112,38 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
             ]}
             {...rest}>
             {typeof title == 'string' ? (
-                <ThemedText.Text
-                    type="bold"
-                    size={size == 'sm' ? 'xs' : 'default'}
-                    style={[
-                        styles.text,
-                        size == 'sm' && { lineHeight: 16 },
+                alternateTitle ? (
+                    <ThemedText.Heading
+                        headingSize={size == 'sm' ? 'h3' : 'h2'}
+                        type="bold"
+                        size={size == 'sm' ? 'xs' : 'default'}
+                        style={[
+                            styles.text,
+                            size == 'sm' && { lineHeight: 16 },
 
-                        { color: currentType.textColor },
-                        (variant == 'ghost' || variant == 'text') && {
-                            color: currentVariantStyles.textColor,
-                        },
-                    ]}>
-                    {title}
-                </ThemedText.Text>
+                            { color: currentType.textColor },
+                            (variant == 'ghost' || variant == 'text') && {
+                                color: currentVariantStyles.textColor,
+                            },
+                        ]}>
+                        {title}
+                    </ThemedText.Heading>
+                ) : (
+                    <ThemedText.Text
+                        type="bold"
+                        size={size == 'sm' ? 'xs' : 'default'}
+                        style={[
+                            styles.text,
+                            size == 'sm' && { lineHeight: 16 },
+
+                            { color: currentType.textColor },
+                            (variant == 'ghost' || variant == 'text') && {
+                                color: currentVariantStyles.textColor,
+                            },
+                        ]}>
+                        {title}
+                    </ThemedText.Text>
+                )
             ) : (
                 title
             )}

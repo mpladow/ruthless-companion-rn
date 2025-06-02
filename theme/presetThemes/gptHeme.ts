@@ -8,6 +8,7 @@ export const gptLightTheme: ThemeConfig = {
 		primary: '#7b1818',
 
 		secondary: '#b79e51',
+		secondaryLight: "#ceb998",
 		// secondary: '#7b1818',
 		background: '#ffffff',
 		black: '#000000',
@@ -30,6 +31,7 @@ export const gptDarkTheme: ThemeConfig = {
 	colors: {
 		primary: '#33658A',
 		secondary: '#362F18',
+		secondaryLight: "#ebd5b3",
 		background: '#363636',
 		black: '#000000',
 		white: '#161111',

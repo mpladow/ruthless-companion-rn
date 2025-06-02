@@ -16,7 +16,7 @@ type HeadingProps = {
 /**
  * A Styled Text component that uses the heading font family.
  */
-const Heading = ({ headingSize, italic, children, ...rest }: HeadingProps) => {
+const Heading = ({ headingSize, italic, children, color, ...rest }: HeadingProps) => {
     const sizing = useMemo(() => {
         switch (headingSize) {
             case 'h1':
@@ -47,8 +47,8 @@ const Heading = ({ headingSize, italic, children, ...rest }: HeadingProps) => {
             type={sizing.weight as ThemedTextProps['type']}
             italic={italic}
             size={sizing.sizing as ThemedTextProps['size']}
-            family={'heading'}
-        >
+            family={'heading'} 
+				>
             {children}
         </Text>
     )

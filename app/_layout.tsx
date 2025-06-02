@@ -4,6 +4,7 @@ import ThemeProvider from '@/theme/ThemeProvider'
 import { fontConfig } from '@/theme/types/type'
 import { GothicA1_400Regular, GothicA1_600SemiBold, GothicA1_800ExtraBold } from '@expo-google-fonts/gothic-a1'
 import { Rye_400Regular } from '@expo-google-fonts/rye'
+import { Smokum_400Regular } from '@expo-google-fonts/smokum'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
@@ -22,6 +23,7 @@ export default function RootLayout() {
         GothicA1_600SemiBold,
         GothicA1_800ExtraBold,
         Rye_400Regular,
+        Smokum_400Regular,
     })
 
     if (!loaded) {
@@ -72,6 +74,28 @@ export default function RootLayout() {
             fontFamily: 'Rye_400Regular',
         },
     }
+    const fontConfig2Heading: fontConfig = {
+        type: 'heading',
+        family: 'Smokum',
+        regular: {
+            fontFamily: 'Smokum_400Regular',
+        },
+        regularItalic: {
+            fontFamily: 'Smokum_400Regular',
+        },
+        medium: {
+            fontFamily: 'Smokum_400Regular',
+        },
+        mediumItalic: {
+            fontFamily: 'Smokum_400Regular',
+        },
+        bold: {
+            fontFamily: 'Smokum_400Regular',
+        },
+        boldItalic: {
+            fontFamily: 'Smokum_400Regular',
+        },
+    }
     return (
         <GestureHandlerRootView style={styles.container}>
             <Provider store={store}>
@@ -79,7 +103,7 @@ export default function RootLayout() {
                     <ThemeProvider
                         defaultTheme={{
                             themeConfigs: [gptDarkTheme, gptLightTheme],
-                            fonts: [fontConfigPrimary, fontConfigHeading],
+                            fonts: [fontConfigPrimary, fontConfigHeading, fontConfig2Heading],
                         }}>
                         <BottomSheetModalProvider>
                             <SafeAreaProvider>

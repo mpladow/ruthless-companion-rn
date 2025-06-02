@@ -6,5 +6,6 @@ export interface CharacterTemplate {
 	toughness: number;
 	startingWeapons: Weapon[];
 	bodyParts: BodyPartTemplate[]
+	gender: 'male' | 'female' | 'other';
 
 }

@@ -14,7 +14,7 @@ import { useTheme } from '@/theme/ThemeProvider'
 import { borderRadius, borderWidth, padding } from '@/theme/constants'
 import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Image, Pressable, StyleSheet, View } from 'react-native'
 import { useSharedValue } from 'react-native-reanimated'
 import { useDispatch } from 'react-redux'
 import SpecialRulesContainer from '../SpecialRulesSection/SpecialRulesContainer'
@@ -77,6 +77,7 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCa
     }, [collapsed])
 
     const handleExpandToggle = () => {
+        console.log('PRESSING CARD')
         setCollapsed((old) => !old)
     }
 
@@ -115,39 +116,64 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCa
                 },
                 commonStyles.boxShadow,
             ]}>
-            {/* Heading */}
-            <CardHeading playerCharacter={playerCharacter} onPress={handleExpandToggle} />
-            <View
+            <Image
+                source={require('../../../assets/images/card-texture.png')}
+                resizeMode="contain"
                 style={{
-                    backgroundColor: currentTheme.colors.background,
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                }}>
-                <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded} invertExpanded>
-                    <CharacterCardDetailsSimplified healthStatus={healthStatus} playerCharacter={playerCharacter} />
-                </AnimatedAccordion>
-                <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded}>
-                    {playerCharacter.specialRules.length > 0 && (
-                        <SpecialRulesContainer
-                            specialRules={playerCharacter.specialRules}
-                            onSpecialRulesUsageChange={handleSpecialRulesChange}
-                        />
-                    )}
-                    {playerCharacter.currentWeapons?.map((item, index) => (
-                        <WeaponContainer weapon={item} onAmmoChange={handleWeaponAmmoChange} />
-                    ))}
+                    opacity: 0.2,
+                    position: 'absolute',
+                    tintColor: 'rgba(0, 0, 0, 0.8)',
+                    zIndex: 1, // Adjust opacity as needed
+                }}
+            />
+            {/* Heading */}
+            <View style={{ zIndex: 2 }}>
+                <CardHeading playerCharacter={playerCharacter} onPress={handleExpandToggle} />
+                <View
+                    style={{
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}>
+                    <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded} invertExpanded>
+                        <Pressable onPress={handleExpandToggle}>
+                            <CharacterCardDetailsSimplified
+                                healthStatus={healthStatus}
+                                playerCharacter={playerCharacter}
+                            />
+                        </Pressable>
+                    </AnimatedAccordion>
+                    <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded}>
+                        {playerCharacter.specialRules.length > 0 && (
+                            <SpecialRulesContainer
+                                specialRules={playerCharacter.specialRules}
+                                onSpecialRulesUsageChange={handleSpecialRulesChange}
+                            />
+                        )}
+                        {playerCharacter.currentWeapons?.map((item, index) => (
+                            <WeaponContainer weapon={item} onAmmoChange={handleWeaponAmmoChange} />
+                        ))}
 
-                    {!readOnly && (
-                        <HealthBarContainer bodyParts={playerCharacter.bodyParts} onHealthChange={handleHealthChange} />
-                    )}
-                </AnimatedAccordion>
-            </View>
-            <TouchableWithoutFeedback onPress={handleExpandToggle}>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: padding }}>
-                    <ExpandedIndicator isExpanded={!collapsed} onPress={handleExpandToggle} />
+                        {!readOnly && (
+                            <HealthBarContainer
+                                bodyParts={playerCharacter.bodyParts}
+                                onHealthChange={handleHealthChange}
+                            />
+                        )}
+                    </AnimatedAccordion>
                 </View>
-            </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={handleExpandToggle}>
+                    <View
+                        style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            paddingVertical: padding,
+                        }}>
+                        <ExpandedIndicator isExpanded={!collapsed} onPress={handleExpandToggle} />
+                    </View>
+                </TouchableWithoutFeedback>
+            </View>
         </ThemedContainer>
     )
 }

@@ -13,7 +13,7 @@ import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native
 import { useDispatch, useSelector } from 'react-redux'
 
 type FormErrorType = { field: string; error: string }
-const PosseName = () => {
+const PosseName = ({ id: posseId }) => {
     const [name, setName] = useState('')
     const [loading, setLoading] = useState(false)
     const [formError, setFormError] = useState<FormErrorType>()

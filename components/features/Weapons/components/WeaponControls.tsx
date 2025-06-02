@@ -131,7 +131,7 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
                             marginVertical: margin,
                             backgroundColor: currentTheme.colors.secondary,
                             padding: padding * 2,
-                            borderRadius: borderRadius / 2,
+                            borderRadius: borderRadius * 2,
                         }}>
                         {weapon.description && (
                             <ThemedText.Text inverted type="semibold">

@@ -12,5 +12,5 @@ export interface PlayerCharacter extends CharacterTemplate {
 	currentWeapons?: Weapon[];
 	bodyParts: BodyPart[]
 	originalTemplate?: CharacterTemplate;
-	scenario?: string
+	scenario?: string;
 }
