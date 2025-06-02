@@ -20,7 +20,6 @@ const PosseCharacters = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch<AppDispatch>()
     useEffect(() => {
-        console.log('PosseCharacters mounted or posse changed:', posse)
         if (posse) {
             dispatch(updatePosse(posse))
         }

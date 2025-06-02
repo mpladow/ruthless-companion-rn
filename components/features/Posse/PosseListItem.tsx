@@ -18,7 +18,6 @@ type PosseListItemType = {
     onAddMemberPress: (posseId: string) => void
 }
 const PosseListItem = ({ item, onListItemPress, onDeletePossePress, onAddMemberPress }: PosseListItemType) => {
-    console.log('🚀 ~ item:', item)
     const { currentTheme } = useTheme()
     const { viewport, isDesktop } = useResponsiveWidth()
     return (
