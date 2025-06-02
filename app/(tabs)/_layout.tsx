@@ -7,6 +7,7 @@ import TabBarBackground from '@/components/ui/TabBarBackground'
 import { Colors } from '@/constants/Colors'
 import { useColorScheme } from '@/hooks/useColorScheme'
 import Entypo from '@expo/vector-icons/Entypo'
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
 
 export default function TabLayout() {
@@ -52,7 +53,7 @@ export default function TabLayout() {
                 name="(scenarios)"
                 options={{
                     title: 'Scenarios',
-                    tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} />,
+                    tabBarIcon: ({ color }) => <FontAwesome5 name="dice" size={24} color={color} />,
                 }}
             />
             <Tabs.Screen

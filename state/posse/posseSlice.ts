@@ -13,7 +13,7 @@ const posseSlice = createSlice({
 	name: 'posse',
 	initialState: initialState,
 	reducers: {
-		setCurrentPosse: (state, { payload }: PayloadAction<Posse>) => {
+		setCurrentPosse: (state, { payload }: PayloadAction<Posse | undefined>) => {
 			return payload;
 		},
 		addCharacterToPosseMembers: (state, { payload }: PayloadAction<PlayerCharacter>) => {
@@ -33,7 +33,10 @@ const posseSlice = createSlice({
 			if (state) {
 				const member = state.members.find(x => x.playerCharacterId == action.payload.characterId);
 				if (member) {
-					member.currentWeapon = action.payload.weapon;
+					const selectedWeapon = member.currentWeapons?.find(x => x.weaponId == action.payload.weapon.weaponId);
+					if (selectedWeapon) {
+						selectedWeapon.currentAmmunition = action.payload.weapon.currentAmmunition;
+					}
 				}
 			}
 		},

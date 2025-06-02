@@ -15,8 +15,9 @@ type PosseListItemType = {
     item: Posse
     onListItemPress: (posseId: string) => void
     onDeletePossePress: (posseId: string) => void
+    onAddMemberPress: (posseId: string) => void
 }
-const PosseListItem = ({ item, onListItemPress, onDeletePossePress }: PosseListItemType) => {
+const PosseListItem = ({ item, onListItemPress, onDeletePossePress, onAddMemberPress }: PosseListItemType) => {
     console.log('🚀 ~ item:', item)
     const { currentTheme } = useTheme()
     const { viewport, isDesktop } = useResponsiveWidth()
@@ -88,7 +89,14 @@ const PosseListItem = ({ item, onListItemPress, onDeletePossePress }: PosseListI
                                 },
                             ]}>
                             <View style={[]}>
-                                <ThemedButton title={'+ Add Members'} onPress={() => {}} size={'sm'} type="success" />
+                                <ThemedButton
+                                    title={'+ Add Members'}
+                                    onPress={() => {
+                                        onAddMemberPress(item.posseId)
+                                    }}
+                                    size={'sm'}
+                                    type="success"
+                                />
                             </View>
                         </View>
                     )}

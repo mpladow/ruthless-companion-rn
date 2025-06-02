@@ -13,7 +13,7 @@ import { AppDispatch, RootState } from '@/state/store'
 import { margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import { useRouter } from 'expo-router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dimensions, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
@@ -30,6 +30,11 @@ const Home = () => {
     const width = useResponsiveWidth()
     const router = useRouter()
     const dispatch = useDispatch<AppDispatch>()
+
+    useEffect(() => {
+        console.log('🚀 ~ Setting current posse to null')
+        dispatch(setCurrentPosse(undefined))
+    }, [])
 
     const handleDeletePosseConfirm = () => {
         if (focusedId) {
@@ -56,6 +61,13 @@ const Home = () => {
         router.navigate('/posseCharacters')
     }
     const [name, setName] = useState('')
+    const handleOnAddMemberPress = (posseId: string) => {
+        const foundPosse = posses.find((x) => x.posseId == posseId)
+        if (foundPosse) {
+            dispatch(setCurrentPosse(foundPosse))
+            router.navigate(`/(tabs)/(posse)/(characterEditor)`)
+        }
+    }
 
     return (
         <>
@@ -78,6 +90,7 @@ const Home = () => {
                                     setFocusedId(posseId)
                                     setConfirmModalOpen(true)
                                 }}
+                                onAddMemberPress={handleOnAddMemberPress}
                             />
                         )}
                         ListFooterComponent={() => (

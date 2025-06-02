@@ -10,7 +10,6 @@ type WeaponContainerType = {
     onAmmoChange: (weapon: Weapon) => void
 }
 const WeaponContainer = ({ weapon, onAmmoChange }: WeaponContainerType) => {
-    console.log('🚀 ~ WeaponContainer ~ weapon:', weapon)
     const [ammo, setAmmo] = useState(weapon.currentAmmunition)
     const { currentTheme } = useTheme()
     //  const dispatch = useDispatch<AppDispatch>()

@@ -4,7 +4,7 @@ import { Weapon } from './weapon';
 export interface CharacterTemplate {
 	characterTemplateId: number;
 	toughness: number;
-	startingWeapon: Weapon;
+	startingWeapons: Weapon[];
 	bodyParts: BodyPartTemplate[]
 
 }

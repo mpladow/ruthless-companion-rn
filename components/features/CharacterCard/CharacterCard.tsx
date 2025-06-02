@@ -36,7 +36,7 @@ const CharacterCard = ({ playerCharacter }: CharacterCardProps) => {
     }
     const handleWeaponAmmoChange = useCallback(
         (weapon: Weapon) => {
-            console.log('🚀 ~ handleWeaponAmmoChange ~ playerCharacter:', playerCharacter)
+            console.log('🚀 ~ handleWeaponAmmoChange ~ playerCharacter:', playerCharacter.currentWeapons)
             dispatch(
                 setCurrentAmmoForWeapon({
                     weapon: weapon,
@@ -44,7 +44,7 @@ const CharacterCard = ({ playerCharacter }: CharacterCardProps) => {
                 } as SetWeaponForCharacter)
             )
         },
-        [playerCharacter.currentWeapon]
+        [playerCharacter.currentWeapons]
     )
 
     const handleHealthChange = (bodyPart: BodyPart) => {
@@ -76,7 +76,9 @@ const CharacterCard = ({ playerCharacter }: CharacterCardProps) => {
                     specialRules={playerCharacter.specialRules}
                     onSpecialRulesUsageChange={handleSpecialRulesChange}
                 />
-                <WeaponContainer weapon={playerCharacter.currentWeapon} onAmmoChange={handleWeaponAmmoChange} />
+                {playerCharacter.currentWeapons?.map((item, index) => (
+                    <WeaponContainer weapon={item} onAmmoChange={handleWeaponAmmoChange} />
+                ))}
                 <HealthBarContainer bodyParts={playerCharacter.bodyParts} onHealthChange={handleHealthChange} />
             </View>
         </ThemedContainer>

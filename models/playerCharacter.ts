@@ -5,9 +5,12 @@ import { Weapon } from './weapon';
 
 export interface PlayerCharacter extends CharacterTemplate {
 	playerCharacterId: string;
+	title?: string;
+	faction?: string;
 	name: string;
 	specialRules: SpecialRule[];
-	currentWeapon?: Weapon;
+	currentWeapons?: Weapon[];
 	bodyParts: BodyPart[]
 	originalTemplate?: CharacterTemplate;
+	scenario?: string
 }
