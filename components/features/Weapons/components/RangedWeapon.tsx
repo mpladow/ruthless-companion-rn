@@ -1,3 +1,4 @@
+import { padding } from '@/theme/constants'
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import Animated, { FadeInDown } from 'react-native-reanimated'
@@ -10,7 +11,7 @@ type RangedWeaponType = {
 }
 const RangedWeapon = ({ maxAmmo, currentAmmo, onAmmoPress }: RangedWeaponType) => {
     return (
-        <View style={{ flexDirection: 'row', flex: 1, gap: 1, flexWrap: 'wrap' }}>
+        <View style={{ flexDirection: 'row', flex: 1, gap: 1, flexWrap: 'wrap', paddingHorizontal: padding * 2 }}>
             {[...Array(maxAmmo)].map((item, index) => {
                 let _checked = false
                 if ((currentAmmo && currentAmmo <= index) || currentAmmo == 0) {

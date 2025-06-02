@@ -8,7 +8,7 @@ import { createPosse } from '@/state/posse/userPossesSlice'
 import { AppDispatch, RootState } from '@/state/store'
 import { margin } from '@/theme/constants'
 import { useRouter } from 'expo-router'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -21,6 +21,10 @@ const PosseName = () => {
         return state._persist.rehydrated ? state.userPosses : []
     })
     const dispatch = useDispatch<AppDispatch>()
+    useEffect(() => {
+        dispatch(setCurrentPosse(undefined))
+    }, [])
+
     const router = useRouter()
     const handleCreatePosse = () => {
         let isValid = validateForm()

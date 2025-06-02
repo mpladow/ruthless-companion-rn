@@ -46,7 +46,7 @@ export const BP_ARM_instance: BodyPart = {
 	name: 'Arm',
 	order: 0,
 	maxHealth: 3,
-	currentDamage: 1,
+	currentDamage: 0,
 	id: '3'
 }
 export const BP_LEGS_instance: BodyPart = {

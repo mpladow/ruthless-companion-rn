@@ -71,14 +71,16 @@ const Home = () => {
 
     return (
         <>
-            <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
-                <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
-                    <ThemedText.Text type="semibold">Choose your posse to begin!</ThemedText.Text>
-                </Messagebox>
+            <PageContainer paddingSize="none" paddingVertical="lg" fullScreenWidth={'50%'}>
+                <ThemedContainer paddingHorizontal="sm">
+                    <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
+                        <ThemedText.Text type="semibold">Choose your posse to begin!</ThemedText.Text>
+                    </Messagebox>
+                </ThemedContainer>
                 <ThemedContainer paddingSize="none" style={{ flex: 1 }}>
                     <AnimatedFlatList
                         data={posses}
-                        contentContainerStyle={{ paddingBottom: bottom + 150 }}
+                        contentContainerStyle={{ paddingBottom: bottom + 150, paddingHorizontal: padding * 3 }}
                         style={{ flex: 1 }}
                         ItemSeparatorComponent={() => <View style={{ height: margin }}></View>}
                         renderItem={({ item }) => (

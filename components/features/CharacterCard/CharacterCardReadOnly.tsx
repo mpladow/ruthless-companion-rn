@@ -1,38 +1,34 @@
-import { HealthBarContainer } from '@/components'
 import AnimatedAccordion from '@/components/Animated/AnimatedAccordion'
-import ExpandedIndicator from '@/components/Animated/ExpandedIndicator'
 import ThemedContainer from '@/components/ThemedContainer'
 import commonStyles from '@/constants/styles'
 import { BodyPart } from '@/models/bodyParttemplate'
 import { PlayerCharacter } from '@/models/playerCharacter'
 import { SpecialRule } from '@/models/specialRuleTemplate'
-import { SetHealthForBodyPart, SetSpecialRuleUsage, SetWeaponForCharacter } from '@/models/stateChange/posseSlice'
+import { SetSpecialRuleUsage, SetWeaponForCharacter } from '@/models/stateChange/posseSlice'
 import { Weapon } from '@/models/weapon'
-import { setCurrentAmmoForWeapon, setCurrentHealthToBodyPart, setSpecialRuleUsage } from '@/state/posse/posseSlice'
+import { setCurrentAmmoForWeapon, setSpecialRuleUsage } from '@/state/posse/posseSlice'
 import { AppDispatch } from '@/state/store'
 import { useTheme } from '@/theme/ThemeProvider'
-import { borderRadius, borderWidth, padding } from '@/theme/constants'
-import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { borderRadius, borderWidth } from '@/theme/constants'
+import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useSharedValue } from 'react-native-reanimated'
 import { useDispatch } from 'react-redux'
 import SpecialRulesContainer from '../SpecialRulesSection/SpecialRulesContainer'
 import WeaponContainer from '../Weapons/WeaponContainer'
-import CharacterCardDetailsSimplified from './CharacterCardDetailsSimplified'
+import CharacterCardDetailsSimplifiedRO from './CharacterCardDetailsSimplifiedRO'
 import CardHeading from './Heading'
 
 //TODO:  move out of this screen
 export type HealthStatus = { status: string; relevantBodyParts: BodyPart[] }
 
-type CharacterCardProps = {
+type CharacterCardReadOnlyProps = {
     playerCharacter: PlayerCharacter
     collapsedView: boolean
     readOnly?: boolean
 }
 
-const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCardProps) => {
-    console.log('🚀 ~ CharacterCard ~ collapsedView:', collapsedView)
+const CharacterCardReadOnly = ({ playerCharacter, collapsedView }: CharacterCardReadOnlyProps) => {
     const { currentTheme } = useTheme()
     const [collapsed, setCollapsed] = useState(collapsedView)
 
@@ -63,47 +59,10 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCa
         [playerCharacter.currentWeapons]
     )
 
-    const handleHealthChange = (bodyPart: BodyPart) => {
-        dispatch(
-            setCurrentHealthToBodyPart({
-                bodyPart: bodyPart,
-                characterId: playerCharacter.playerCharacterId,
-            } as SetHealthForBodyPart)
-        )
-    }
     const isExpanded = useSharedValue(false)
     useEffect(() => {
         isExpanded.value = !collapsed
     }, [collapsed])
-
-    const handleExpandToggle = () => {
-        setCollapsed((old) => !old)
-    }
-
-    const healthStatus = useMemo(() => {
-        const healthStatus: HealthStatus = {
-            status: 'Healthy',
-            relevantBodyParts: [],
-        }
-        const incapacitated = playerCharacter.bodyParts.filter((x) => x.currentDamage >= x.maxHealth)
-        if (incapacitated.length > 0) {
-            healthStatus.status = 'Incapacitated'
-            return healthStatus
-        }
-        const fullHealth = playerCharacter.bodyParts.every((x) => x.currentDamage == 0)
-        if (fullHealth) {
-            healthStatus.status = 'Healthy'
-            return healthStatus
-        }
-
-        const wounded = playerCharacter.bodyParts.filter((x) => x.currentDamage > 0)
-        if (wounded.length > 0) {
-            healthStatus.status = 'Wounded'
-            healthStatus.relevantBodyParts = wounded
-            return healthStatus
-        }
-        return healthStatus
-    }, [playerCharacter.bodyParts])
 
     return (
         <ThemedContainer
@@ -116,7 +75,7 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCa
                 commonStyles.boxShadow,
             ]}>
             {/* Heading */}
-            <CardHeading playerCharacter={playerCharacter} onPress={handleExpandToggle} />
+            <CardHeading playerCharacter={playerCharacter} onPress={() => {}} />
             <View
                 style={{
                     backgroundColor: currentTheme.colors.background,
@@ -125,7 +84,7 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCa
                     justifyContent: 'space-between',
                 }}>
                 <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded} invertExpanded>
-                    <CharacterCardDetailsSimplified healthStatus={healthStatus} playerCharacter={playerCharacter} />
+                    <CharacterCardDetailsSimplifiedRO playerCharacter={playerCharacter} />
                 </AnimatedAccordion>
                 <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded}>
                     {playerCharacter.specialRules.length > 0 && (
@@ -135,23 +94,14 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCa
                         />
                     )}
                     {playerCharacter.currentWeapons?.map((item, index) => (
-                        <WeaponContainer weapon={item} onAmmoChange={handleWeaponAmmoChange} />
+                        <WeaponContainer readOnly={true} weapon={item} onAmmoChange={handleWeaponAmmoChange} />
                     ))}
-
-                    {!readOnly && (
-                        <HealthBarContainer bodyParts={playerCharacter.bodyParts} onHealthChange={handleHealthChange} />
-                    )}
                 </AnimatedAccordion>
             </View>
-            <TouchableWithoutFeedback onPress={handleExpandToggle}>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: padding }}>
-                    <ExpandedIndicator isExpanded={!collapsed} onPress={handleExpandToggle} />
-                </View>
-            </TouchableWithoutFeedback>
         </ThemedContainer>
     )
 }
 
-export default CharacterCard
+export default CharacterCardReadOnly
 
 const styles = StyleSheet.create({})

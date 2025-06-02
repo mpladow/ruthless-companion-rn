@@ -45,9 +45,11 @@ const SpecialRulesContainer = ({ specialRules, onSpecialRulesUsageChange }: Spec
             {specialRules.map((item, index) => (
                 <View key={index} style={[styles.specialRulesInnerContainer]}>
                     <Pressable onPress={() => handleSpecialRulesPress(item, item?.currentUsage > 0)}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 2 }}>
+                        <View style={{ flexDirection: 'row', flex: 1 }}>
                             <ThemedText.Heading headingSize="h3">{item.name}</ThemedText.Heading>
-                            <ThemedText.Text>...{item.description}</ThemedText.Text>
+                        </View>
+                        <View>
+                            <ThemedText.Text>{item.description}</ThemedText.Text>
                         </View>
                     </Pressable>
                     <Animated.View entering={Platform.OS !== 'web' ? FadeInRight : undefined}>
@@ -88,6 +90,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         padding: padding,
+        paddingHorizontal: padding * 2,
         paddingBottom: padding * 3,
     },
     specialRulesInnerContainer: {

@@ -13,9 +13,12 @@ type CharacterCardDetailsSimplifiedProps = {
 const CharacterCardDetailsSimplified = ({ playerCharacter, healthStatus }: CharacterCardDetailsSimplifiedProps) => {
     const { currentTheme } = useTheme()
     const _healthStatus = useMemo(() => {
+        const incapacitated = playerCharacter.bodyParts.filter((x) => x.currentDamage >= x.maxHealth)
         if (healthStatus.status == 'Healthy') {
             return (
-                <ThemedText.Text style={{ color: currentTheme.colors.success }} type="semibold">
+                <ThemedText.Text
+                    style={{ color: currentTheme.colors.success, textTransform: 'uppercase' }}
+                    type="semibold">
                     Healthy
                 </ThemedText.Text>
             )

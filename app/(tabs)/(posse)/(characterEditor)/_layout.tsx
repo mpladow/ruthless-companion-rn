@@ -1,4 +1,4 @@
-import CustomHeader from '@/components/ThemedHeader/ThemedHeader'
+import ModalHeader from '@/components/ThemedHeader/ModalHeader'
 import { Stack } from 'expo-router'
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -7,11 +7,11 @@ const CharacterEditorStack = () => {
     return (
         <Stack
             screenOptions={{
-                headerShown: false,
+                headerShown: true,
                 header: (x) => {
                     const title = x.options.title || x.route.name
                     return (
-                        <CustomHeader
+                        <ModalHeader
                             title={title}
                             showBack={title !== 'Home'}
                             //  rightComponent={
@@ -26,7 +26,7 @@ const CharacterEditorStack = () => {
             initialRouteName="index">
             <Stack.Screen name="index" options={{ title: 'Add Posse Member' }} />
             <Stack.Screen name="characterEdit" options={{ title: 'Character Editor' }} />
-            <Stack.Screen name="preselectedCharacters" options={{ title: 'Select a characteter' }} />
+            <Stack.Screen name="preselectedCharacters" options={{ title: 'Select a character' }} />
         </Stack>
     )
 }

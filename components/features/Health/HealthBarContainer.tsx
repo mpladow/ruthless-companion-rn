@@ -14,7 +14,7 @@ const HealthBarContainer = ({ bodyParts, onHealthChange }: HealthBarContainerPro
         onHealthChange(bodyPart)
     }
     return (
-        <View style={{ flex: 1, padding: padding }}>
+        <View style={{ flex: 1, padding: padding, paddingHorizontal: padding * 2 }}>
             <View
                 style={{
                     justifyContent: 'flex-start',

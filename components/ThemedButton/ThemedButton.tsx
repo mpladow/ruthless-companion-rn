@@ -111,7 +111,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
             {...rest}>
             {typeof title == 'string' ? (
                 <ThemedText.Text
-                    type="semibold"
+                    type="bold"
                     size={size == 'sm' ? 'xs' : 'default'}
                     style={[
                         styles.text,

@@ -109,7 +109,7 @@ const PosseListItem = ({ item, onListItemPress, onDeletePossePress, onAddMemberP
                                             //  overflow: 'hidden',
                                             borderRadius: borderRadius / 4,
                                             zIndex: index * -1,
-                                            backgroundColor: 'white',
+                                          //   backgroundColor: 'white',
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                         },
@@ -125,8 +125,8 @@ const PosseListItem = ({ item, onListItemPress, onDeletePossePress, onAddMemberP
                                                 justifyContent: 'center',
                                             },
                                         ]}>
-                                        <ThemedText.Text>
-                                            +{itemMembersCount > 5 && itemMembersCount - 5}
+                                        <ThemedText.Text inverted>
+                                            +{item.members.length > 5 && item.members.length - 5}
                                         </ThemedText.Text>
                                     </View>
                                 </View>
