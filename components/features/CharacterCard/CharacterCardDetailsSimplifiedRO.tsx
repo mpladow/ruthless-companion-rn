@@ -2,6 +2,7 @@ import { ThemedText } from '@/components'
 import { PlayerCharacter } from '@/models/playerCharacter'
 import { useTheme } from '@/theme/ThemeProvider'
 import { margin, padding } from '@/theme/constants'
+import Color from 'color'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
@@ -13,7 +14,11 @@ const CharacterCardDetailsSimplified = ({ playerCharacter }: CharacterCardDetail
 
     return (
         <View style={{ flex: 1, width: '100%', padding: padding }}>
-            <View style={{ flexDirection: 'column', backgroundColor: currentTheme.colors.grey0 }}>
+            <View
+                style={{
+                    flexDirection: 'column',
+                    backgroundColor: Color(currentTheme.colors.grey1).lighten(0.2).hex(),
+                }}>
                 {playerCharacter.specialRules.map((x, index) => {
                     return (
                         <View style={{ flexDirection: 'row', paddingBottom: padding, gap: 8 }}>

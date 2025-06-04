@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { Pressable, StyleSheet } from 'react-native'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 
-type ExpandedIndicatorType = {
+export type ExpandedIndicatorType = {
     isExpanded: boolean
     onPress: () => void
 }

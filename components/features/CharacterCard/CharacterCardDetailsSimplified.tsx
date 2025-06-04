@@ -2,6 +2,7 @@ import { ThemedText } from '@/components'
 import { PlayerCharacter } from '@/models/playerCharacter'
 import { useTheme } from '@/theme/ThemeProvider'
 import { padding } from '@/theme/constants'
+import Color from 'color'
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { HealthStatus } from './CharacterCard'
@@ -41,7 +42,13 @@ const CharacterCardDetailsSimplified = ({ playerCharacter, healthStatus }: Chara
     }, [playerCharacter.bodyParts])
 
     return (
-        <View style={{ flex: 1, width: '100%', padding: padding }}>
+        <View
+            style={{
+                flexGrow: 1,
+                width: '100%',
+                padding: padding,
+                backgroundColor: Color(currentTheme.colors.grey1).lighten(0.2).hex(),
+            }}>
             <View style={{ flexDirection: 'row' }}>
                 {playerCharacter.specialRules.map((x, index) => {
                     return (

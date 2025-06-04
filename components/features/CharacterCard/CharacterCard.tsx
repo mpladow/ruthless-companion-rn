@@ -136,7 +136,7 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCa
                         justifyContent: 'space-between',
                     }}>
                     <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded} invertExpanded>
-                        <Pressable onPress={handleExpandToggle}>
+                        <Pressable onPress={handleExpandToggle} style={{ width: '100%' }}>
                             <CharacterCardDetailsSimplified
                                 healthStatus={healthStatus}
                                 playerCharacter={playerCharacter}

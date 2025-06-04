@@ -1,6 +1,6 @@
 import { AnimatedFlatList, ThemedText } from '@/components'
-import ExpandedIndicator from '@/components/Animated/ExpandedIndicator'
 import CharacterCard from '@/components/features/CharacterCard/CharacterCard'
+import ExpandIcon from '@/components/features/CharacterCard/components/ExpandIcon'
 import PageContainer from '@/components/PageContainer/PageContainer'
 import ThemedButton from '@/components/ThemedButton/ThemedButton'
 import ThemedContainer from '@/components/ThemedContainer'
@@ -21,11 +21,26 @@ const PosseCharacters = () => {
     const router = useRouter()
     const navigation = useNavigation()
     const dispatch = useDispatch<AppDispatch>()
-    useEffect(() => {
-        if (posse) {
-            dispatch(updatePosse(posse))
-        }
-    }, [posse])
+     useEffect(() => {
+         if (posse) {
+             dispatch(updatePosse(posse))
+         }
+     }, [posse])
+
+   //  useEffect(() => {
+   //      const unsubscribe = navigation.addListener('blur', () => {
+   //          if (posse) {
+   //              const result = confirm('Are you sure you want to leave? Your changes will not be saved.')
+   //              if (result) {
+   //                  dispatch(updatePosse(posse))
+   //              }
+   //          }
+   //      })
+   //      unsubscribe();
+   //      return () => {
+   //          unsubscribe()
+   //      }
+   //  }, [])
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -52,16 +67,30 @@ const PosseCharacters = () => {
         <PageContainer paddingHorizontal="none" paddingVertical="lg" fullScreenWidth={'50%'}>
             <ThemedContainer paddingSize="none" style={{ flex: 1 }}>
                 {posse?.members?.length > 0 && (
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingVertical: padding }}>
-                        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-                            <ExpandedIndicator isExpanded={!collapsedView} onPress={handleCollapseAll} />
-                            <ThemedButton
-                                title={collapsedView ? 'Expand All' : 'Collapse All'}
-                                onPress={handleCollapseAll}
-                                size={'sm'}
-                                variant="text"
-                            />
-                        </View>
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'flex-end',
+                            paddingVertical: padding,
+                            position: 'absolute',
+                            bottom: bottom * 2,
+                            right: margin,
+                            zIndex: 999,
+                        }}>
+                        <ThemedButton
+                            title={
+                                <ExpandIcon
+                                    collapsedView={collapsedView}
+                                    handleCollapseAll={handleCollapseAll}
+                                    showText={true}
+                                />
+                            }
+                            onPress={handleCollapseAll}
+                            type="primary"
+                            variant="ghost"
+                            style={{ backgroundColor: currentTheme.colors.background, borderRadius: 50 }}
+                            size={'sm'}
+                        />
                     </View>
                 )}
                 <AnimatedFlatList

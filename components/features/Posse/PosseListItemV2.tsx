@@ -1,5 +1,4 @@
 import { ThemedText } from '@/components'
-import FingerPointing from '@/components/Icons/FingerPointing'
 import ThemedButton from '@/components/ThemedButton/ThemedButton'
 import ThemedContainer from '@/components/ThemedContainer'
 import commonStyles from '@/constants/styles'
@@ -7,6 +6,7 @@ import { useResponsiveWidth } from '@/hooks'
 import { Posse } from '@/models/posse'
 import { borderRadius, borderWidth, margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import Color from 'color'
 import React from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
@@ -29,16 +29,17 @@ const PosseListItemV2 = ({
     const { currentTheme, currentFontFamilies } = useTheme()
     const { viewport, isDesktop } = useResponsiveWidth()
     return (
-        <Pressable onPress={() => onListItemPress(item.posseId)}>
+        <Pressable onPress={() => onListItemPress(item.posseId)} style={[commonStyles.boxShadow]}>
             <ThemedContainer
                 paddingSize="sm"
                 style={[
                     {
                         borderRadius: 0,
+                        gap: 6,
                         borderWidth: borderWidth / 2,
                         overflow: 'hidden',
                         // borderColor: currentTheme.colors.greyOutline,
-                        flexDirection: 'column',
+                        flexDirection: 'row',
                         backgroundColor: currentTheme.colors.secondaryLight,
                     },
                     commonStyles.boxShadow,
@@ -53,78 +54,56 @@ const PosseListItemV2 = ({
                         zIndex: 999, // Adjust opacity as needed
                     }}
                 />
-                {/* <Image
-                    source={require('../../../assets/images/revolver.png')}
-                    resizeMode="contain"
-                    style={{
-                        position: 'absolute',
-                        height: 160,
-                        width: 50,
-                        //   backgroundColor: 'red',
-                        right: 80,
-                        top: -40,
-                        transform: [{ rotate: '70deg' }],
-                    }}
-                    height={160}
-                    width={50}
-                /> */}
                 <View
                     style={[
                         {
-                            flex: 1,
+                            flex: 2,
                             alignItems: 'center',
-                            justifyContent: 'center',
+                            justifyContent: 'flex-start',
                             paddingLeft: padding,
                             flexDirection: 'row',
-
+                            overflow: 'hidden',
                             //  backgroundColor: Color(currentTheme.colors.secondary).lighten(0.5).hex(),
                             //  borderWidth: borderWidth / 2,
                         },
                     ]}>
-                    <View style={{ height: 40, width: 40 }}>
-                        <FingerPointing fill={currentTheme.colors.textDefault} />
-                    </View>
                     <View
                         style={{
-                            flex: 1,
-                            paddingHorizontal: margin,
-                            borderTopWidth: 2,
-                            paddingTop: 4,
-                            borderBottomWidth: 2,
+                            //  paddingHorizontal: margin,
+                            //  borderTopWidth: 2,
+                            //  paddingTop: 4,
+                            //  borderBottomWidth: 2,
                             borderBottomColor: currentTheme.colors.textDefault,
                         }}>
                         <ThemedText.Heading
                             headingSize="h1"
+                            size={28}
                             numberOfLines={2}
                             style={{
                                 textTransform: 'uppercase',
-                                textAlign: 'center',
+
                                 fontFamily: currentFontFamilies.find((x) => x.family == 'Smokum')?.regular.fontFamily,
                                 color: currentTheme.colors.primary,
                             }}>
                             {item.name}
                         </ThemedText.Heading>
                     </View>
-                    <View style={{ height: 40, width: 40, transform: [{ scaleX: -1 }] }}>
-                        <FingerPointing fill={currentTheme.colors.textDefault} />
-                    </View>
                 </View>
-                {/* <View>
-                    <ThemedText.Heading headingSize="h2" style={{ textTransform: 'uppercase' }}>
-                        {item?.members[0]?.name}
-                    </ThemedText.Heading>
-                    <ThemedText.Heading headingSize="h3">and notorious posse</ThemedText.Heading>
-                </View> */}
                 <View
                     style={{
+                        flex: 2,
                         flexDirection: 'row',
                         overflow: 'hidden',
-                        padding: padding,
+                        padding: 1,
+                        paddingHorizontal: 1,
                         alignItems: 'center',
                         justifyContent: 'center',
+                        borderColor: currentTheme.colors.grey2,
+                        borderWidth: 2,
                     }}>
                     <View
                         style={{
+                            flex: 1,
                             flexDirection: 'row',
                             borderRadius: 0,
                             borderColor: currentTheme.colors.grey2,
@@ -156,7 +135,7 @@ const PosseListItemV2 = ({
                                 ]}>
                                 <View style={[{ paddingHorizontal: margin }]}>
                                     <ThemedButton
-                                        title={'+ Add Members'}
+                                        title={'Recruit'}
                                         onPress={() => {
                                             onAddMemberPress(item.posseId)
                                         }}
@@ -179,6 +158,7 @@ const PosseListItemV2 = ({
                                                 //   backgroundColor: 'white',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
+                                                marginLeft: -10,
                                             },
                                         ]}>
                                         <View
@@ -220,7 +200,7 @@ const PosseListItemV2 = ({
                                                     // borderColor: currentTheme.colors.black,
                                                     marginLeft: index !== 0 ? -24 : 0,
                                                     borderRadius: 0,
-                                                    width: 50,
+                                                    width: 45,
                                                     height: 80,
                                                     overflow: 'hidden',
                                                     //   marginTop: index * 12,
@@ -235,7 +215,7 @@ const PosseListItemV2 = ({
                                                     resizeMode="contain"
                                                     style={{
                                                         height: 100,
-                                                        width: 60,
+                                                        width: 0,
                                                         //   backgroundColor: 'red',
                                                         position: 'absolute',
                                                         right: 0,
@@ -268,26 +248,32 @@ const PosseListItemV2 = ({
                         })}
                     </View>
                 </View>
-                <View style={{ justifyContent: 'center', width: '100%', zIndex: 9999 }}>
+                <View style={{ justifyContent: 'center', zIndex: 9999 }}>
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 4 }}>
                         <Menu>
                             <MenuTrigger>
-                                <View
-                                    style={{
-                                        paddingBottom: 0,
-                                        borderTopWidth: 2,
-                                        borderBottomWidth: 2,
-                                        zIndex: 999,
-                                    }}>
-                                    <ThemedText.Heading headingSize="h3" style={{ textTransform: 'uppercase' }}>
-                                        Menu
-                                    </ThemedText.Heading>
+                                <View style={{ flexDirection: 'row' }}>
+                                    {/* <View style={{ height: 30, width: 30 }}>
+                                        <FingerPointing fill={currentTheme.colors.textDefault} />
+                                    </View> */}
+                                    <View
+                                        style={{
+                                            //   borderTopWidth: 2,
+                                            //   paddingTop: 3,
+                                            //   borderBottomWidth: 2,
+                                            justifyContent: 'flex-end',
+                                            alignItems: 'center',
+                                            zIndex: 999,
+                                        }}>
+                                        {/* <ThemedText.Heading headingSize="h3" style={{ textTransform: 'uppercase' }}>
+                                            Menu
+                                        </ThemedText.Heading> */}
+                                        <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
+                                    </View>
+                                    {/* <View style={{ height: 30, width: 30, transform: [{ scaleX: -1 }] }}>
+                                        <FingerPointing fill={currentTheme.colors.textDefault} />
+                                    </View> */}
                                 </View>
-                                {/* <Entypo
-                                        name="dots-three-vertical"
-                                        size={24}
-                                        color={currentTheme.colors.textDefault}
-                                    /> */}
                             </MenuTrigger>
                             <MenuOptions customStyles={{ optionsContainer: {} }}>
                                 <MenuOption onSelect={() => onEditPossePress()}>

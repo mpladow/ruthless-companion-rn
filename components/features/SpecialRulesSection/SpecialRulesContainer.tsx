@@ -2,6 +2,7 @@ import { ThemedText } from '@/components/ThemedText/ThemedText'
 import { SpecialRule } from '@/models/specialRuleTemplate'
 import { margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
+import Color from 'color'
 import React, { useCallback } from 'react'
 import { Platform, Pressable, StyleSheet, View } from 'react-native'
 import Animated, { FadeInRight } from 'react-native-reanimated'
@@ -41,7 +42,11 @@ const SpecialRulesContainer = ({ specialRules, onSpecialRulesUsageChange }: Spec
     )
 
     return (
-        <View style={[styles.specialRulesContainer, { backgroundColor: currentTheme.colors.grey0 }]}>
+        <View
+            style={[
+                styles.specialRulesContainer,
+                { backgroundColor: Color(currentTheme.colors.grey1).lighten(0.2).hex() },
+            ]}>
             {specialRules.map((item, index) => (
                 <View key={index} style={[styles.specialRulesInnerContainer]}>
                     <Pressable onPress={() => handleSpecialRulesPress(item, item?.currentUsage > 0)}>

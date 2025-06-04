@@ -9,7 +9,7 @@ import Text from './Text'
 
 export type ThemedTextProps = {
     style?: StyleProp<TextStyle>
-    size: 'xs' | 'default' | 'md' | 'lg'
+    size: 'xs' | 'default' | 'md' | 'lg' | number
     type: 'regular' | 'semibold' | 'bold' | 'link'
     italic?: boolean
     inverted?: boolean
@@ -32,6 +32,9 @@ export function ThemedText({
     }, [currentFontFamilies])
 
     const textSizing = useMemo(() => {
+        if (typeof size == 'number') {
+            return { fontSize: size, lineHeight: size * 1.5 }
+        }
         switch (size) {
             case 'xs':
                 return TypopgraphySize.textXSmall
@@ -41,6 +44,7 @@ export function ThemedText({
                 return TypopgraphySize.textMedium
             case 'lg':
                 return TypopgraphySize.textLarge
+
             default:
             case 'default':
                 return TypopgraphySize.textSmall

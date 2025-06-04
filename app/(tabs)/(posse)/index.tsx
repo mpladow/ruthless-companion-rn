@@ -50,8 +50,8 @@ const Home = () => {
     const handleCreatePossePress = () => {
         router.navigate('../../posseEditor')
     }
-    const handleEditPoseePress = (posseId: string) => {
-        router.navigate('../../posseEditor/[posseId]')
+    const handleEditPossePress = (posseId: string) => {
+        router.navigate(`../../posseEditor/${posseId}`)
     }
     const handleListItemPress = (posseId: string) => {
         console.log(`OPENING ${posseId}`)
@@ -94,7 +94,7 @@ const Home = () => {
                                     setFocusedId(posseId)
                                     setConfirmModalOpen(true)
                                 }}
-                                onEditPossePress={() => handleEditPoseePress(item.posseId)}
+                                onEditPossePress={() => handleEditPossePress(item.posseId)}
                                 onAddMemberPress={handleOnAddMemberPress}
                             />
                         )}

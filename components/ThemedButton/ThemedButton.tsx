@@ -94,7 +94,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
                 return commonStyles.boxShadow
 
             default:
-                return {}
+                return commonStyles.boxShadow
         }
     }, [variant, type])
 
