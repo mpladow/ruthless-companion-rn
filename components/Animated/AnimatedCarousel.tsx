@@ -1,3 +1,4 @@
+import { padding } from '@/theme/constants'
 import React, { useEffect, useRef, useState } from 'react'
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
@@ -166,7 +167,7 @@ export function AnimatedCarousel<T>({
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        backgroundColor: 'pink',
+        paddingVertical: padding,
     },
     card: {
         borderRadius: 16,
@@ -177,8 +178,8 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 8,
         flex: 1,
-      //   justifyContent: 'center',
-      //   alignItems: 'center',
+        //   justifyContent: 'center',
+        //   alignItems: 'center',
     },
 })
 

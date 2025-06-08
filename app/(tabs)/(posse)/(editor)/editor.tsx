@@ -1,21 +1,24 @@
-import { ThemedText } from '@/components'
+import { ThemedBottomSheet, ThemedText } from '@/components'
 import AnimatedCarousel from '@/components/Animated/AnimatedCarousel'
 import CardHeading from '@/components/features/CharacterCard/Heading'
 import Bullet from '@/components/Icons/Bullet'
 import Messagebox from '@/components/Messagebox/Messagebox'
 import PageContainer from '@/components/PageContainer/PageContainer'
+import ThemedButton from '@/components/ThemedButton/ThemedButton'
 import ThemedContainer from '@/components/ThemedContainer'
 import HeadingTextInput from '@/components/ThemedTextInput/variants/HeadingTextinput'
 import commonStyles from '@/constants/styles'
+import { SPEC_RULES } from '@/data/special_rules'
 import { WEAPONS } from '@/data/weapons'
 import { BodyPartTemplate } from '@/models/bodyParttemplate'
+import { SpecialRuleTemplate } from '@/models/specialRuleTemplate'
 import { WeaponTemplate } from '@/models/weapon'
 import { RootState } from '@/state/store'
 import { borderRadius, borderWidth, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import React, { useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { Image, ScrollView, StyleSheet, View } from 'react-native'
+import { Controller, useFieldArray, useForm } from 'react-hook-form'
+import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 
 const characterEdit = () => {
@@ -30,7 +33,13 @@ const characterEdit = () => {
             startingWeapon: {} as WeaponTemplate,
             selectedWeaponIndex: 0,
             bodyParts: [] as BodyPartTemplate[],
+            specialRules: [] as SpecialRuleTemplate[],
         },
+    })
+
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: 'specialRules',
     })
 
     const onHandleFormClose = () => {
@@ -99,7 +108,40 @@ const characterEdit = () => {
                                 control={control}
                             />
                         </CardHeading>
-                        <ThemedText.Text type="bold">2. Select starting weapon(s)</ThemedText.Text>
+                        <View>
+                            <ThemedText.Text type="bold">2. Select character trait(s)</ThemedText.Text>
+                            <View style={{ padding: padding * 2 }}>
+                                <ThemedButton
+                                    title={'Select Traits'}
+                                    onPress={() => setShowBottomSheet(true)}
+                                    size={'sm'}
+                                    variant="ghost"
+                                    type="secondary"
+                                />
+                            </View>
+                            {fields.map((rule, index) => (
+                                <Controller
+                                    render={({ field }) => (
+                                        <View key={index}>
+                                            <Pressable
+                                                onPress={() => {
+                                                    const index = fields.findIndex((r) => r.name === rule.name)
+                                                    console.log('🚀 ~ characterEdit ~ index:', index)
+                                                    if (index !== -1) {
+                                                        remove(index)
+                                                    }
+                                                }}>
+                                                <ThemedText.Text type="semibold">{rule.name}</ThemedText.Text>
+                                                <ThemedText.Text>{rule.description}</ThemedText.Text>
+                                            </Pressable>
+                                        </View>
+                                    )}
+                                    name={'specialRules'}
+                                    control={control}
+                                />
+                            ))}
+                        </View>
+                        <ThemedText.Text type="bold">3. Select starting weapon(s)</ThemedText.Text>
                         <Controller
                             render={({ field }) => (
                                 <AnimatedCarousel
@@ -147,13 +189,6 @@ const characterEdit = () => {
                                                     ))}
                                                 </View>
                                             )}
-
-                                            {item.specialRules.map((rule, index) => (
-                                                <View key={index}>
-                                                    <ThemedText.Text type="semibold">{rule.name}</ThemedText.Text>
-                                                    <ThemedText.Text>{rule.description}</ThemedText.Text>
-                                                </View>
-                                            ))}
                                         </View>
                                     )}
                                     onSelect={(_, idx) => {
@@ -194,6 +229,40 @@ const characterEdit = () => {
                     </ThemedContainer>
                 </ScrollView>
             </PageContainer>
+            <ThemedBottomSheet
+                scrollable
+                visible={showBottomSheet}
+                onClose={() => setShowBottomSheet(false)}
+                allowCloseButton
+                snapPoints={['40%', '40%']}
+                headerTitle={'Create New Posse'}>
+                <ThemedContainer style={{ backgroundColor: currentTheme.colors.background }}>
+                    {SPEC_RULES.filter((x) => !x.weaponRule).map((rule, index) => (
+                        <Controller
+                            render={({ field }) => (
+                                <View
+                                    key={index}
+                                    style={{
+                                        backgroundColor: fields.some((r) => r.name === rule.name)
+                                            ? currentTheme.colors.primary
+                                            : 'transparent',
+                                    }}>
+                                    <Pressable
+                                        onPress={() => {
+                                            append(rule)
+                                            setShowBottomSheet(false)
+                                        }}>
+                                        <ThemedText.Text type="semibold">{rule.name}</ThemedText.Text>
+                                        <ThemedText.Text>{rule.description}</ThemedText.Text>
+                                    </Pressable>
+                                </View>
+                            )}
+                            name={'specialRules'}
+                            control={control}
+                        />
+                    ))}
+                </ThemedContainer>
+            </ThemedBottomSheet>
         </>
     )
 }

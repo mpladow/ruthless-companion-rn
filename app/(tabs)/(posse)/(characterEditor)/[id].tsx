@@ -20,7 +20,7 @@ const CharacterEditor = () => {
         router.navigate('/preselectedCharacters')
     }
     const handleAddCustomPress = () => {
-        router.navigate('/editor')
+        router.navigate('../(editor)')
     }
     return (
         <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>

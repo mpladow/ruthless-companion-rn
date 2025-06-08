@@ -1,9 +1,16 @@
 import { useResponsiveWidth } from '@/hooks'
 import { borderRadius, margin, padding } from '@/theme/constants'
-import { BottomSheetBackdrop, BottomSheetFooter, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet'
+import {
+	BottomSheetBackdrop,
+	BottomSheetFooter,
+	BottomSheetModal,
+	BottomSheetScrollView,
+	BottomSheetView,
+} from '@gorhom/bottom-sheet'
 import React, { ReactNode, useCallback, useEffect, useMemo, useRef } from 'react'
 import { Dimensions, Modal, Platform, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { FullWindowOverlay } from 'react-native-screens'
 import { ThemedText } from '..'
 
 type ThemedBottomSheetProps = {
@@ -14,6 +21,8 @@ type ThemedBottomSheetProps = {
     allowCloseButton?: boolean
     customFooter?: ReactNode
     snapPoints?: (string | number)[]
+    enableDynamicSizing?: boolean
+    scrollable?: boolean
 }
 
 const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
@@ -23,14 +32,23 @@ const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
     headerTitle,
     allowCloseButton,
     customFooter,
+    scrollable,
     snapPoints = [0.5, 0.75],
+    enableDynamicSizing,
 }) => {
     const bottomSheetRef = useRef<BottomSheetModal>(null)
     const isWeb = Platform.OS === 'web'
+    const NINETY_PERCENT_SCREEN_HEIGHT = 0.9
 
     const sheetSnapPoints = useMemo(() => snapPoints, [snapPoints])
     const { viewport } = useResponsiveWidth()
     const insets = useSafeAreaInsets()
+
+    const maxHeight = useMemo(
+        () => Dimensions.get('window').height * NINETY_PERCENT_SCREEN_HEIGHT,
+
+        []
+    )
 
     useEffect(() => {
         if (!isWeb && bottomSheetRef.current) {
@@ -94,6 +112,7 @@ const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
         ),
         []
     )
+
     return (
         <BottomSheetModal
             ref={bottomSheetRef}
@@ -107,13 +126,21 @@ const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
             detached
             backdropComponent={renderBackdrop}
             bottomInset={insets.bottom}
-            enableDynamicSizing
+            enableDynamicSizing={enableDynamicSizing}
             snapPoints={sheetSnapPoints}
             style={styles.sheetContent}
             onDismiss={onClose}
             footerComponent={renderFooter}
-            enablePanDownToClose>
-            <BottomSheetView style={styles.bottomView}>{children}</BottomSheetView>
+            enablePanDownToClose
+            maxDynamicContentSize={maxHeight}
+            containerComponent={(props) =>
+                Platform.OS != 'web' ? <FullWindowOverlay>{props.children}</FullWindowOverlay> : <>{props.children}</>
+            }>
+            {scrollable ? (
+                <BottomSheetScrollView>{children}</BottomSheetScrollView>
+            ) : (
+                <BottomSheetView style={styles.bottomView}>{children}</BottomSheetView>
+            )}
         </BottomSheetModal>
     )
 }
