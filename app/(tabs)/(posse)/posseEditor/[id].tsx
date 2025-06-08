@@ -17,35 +17,46 @@ type FormErrorType = { field: string; error: string }
 const PosseName = () => {
     const { id } = useLocalSearchParams()
     const [posseId, setPosseId] = useState(0)
-    useEffect(() => {
-        console.log('🚀 ~ useEffect ~ local:', id)
-        if (id !== null && Number(id) > 0) {
-            alert('Editing existing posse.')
+    const [posseUpdated, setPosseUpdated] = useState(false)
+    const [name, setName] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [formError, setFormError] = useState<FormErrorType>()
 
+    const dispatch = useDispatch<AppDispatch>()
+    const router = useRouter()
+    const posses = useSelector((state: RootState) => {
+        return state._persist.rehydrated ? state.userPosses : []
+    })
+
+    useEffect(() => {
+        if (id !== null && Number(id) > 0) {
             setPosseId(id)
             const posseFound = posses.find((x) => x.posseId == id)
             if (posseFound) {
                 setName(posseFound?.name)
             }
         } else {
-            alert('No posse ID found, creating a new posse.')
-            console.log('No posse ID found, creating a new posse.')
             dispatch(setCurrentPosse(undefined))
         }
     }, [id])
 
-    const [name, setName] = useState('')
-    const [loading, setLoading] = useState(false)
-    const [formError, setFormError] = useState<FormErrorType>()
-    const posses = useSelector((state: RootState) => {
-        return state._persist.rehydrated ? state.userPosses : []
-    })
-    const dispatch = useDispatch<AppDispatch>()
-    //  useEffect(() => {
-    //      dispatch(setCurrentPosse(undefined))
-    //  }, [])
-
-    const router = useRouter()
+    useEffect(() => {
+        console.log('🚀 ~ useEffect ~ posseUpdated:', posseUpdated)
+        if (posseUpdated) {
+            setPosseUpdated(false)
+            if (posseId) {
+                const posseFound = posses.find((x) => x.posseId == id)
+                if (posseFound) {
+                    dispatch(setCurrentPosse(posseFound))
+                    router.replace(`../${posseFound.posseId}`)
+                }
+            } else {
+                const posseFound = posses[posses.length - 1]
+                dispatch(setCurrentPosse(posseFound))
+                router.replace(`../${posseFound.posseId}`)
+            }
+        }
+    }, [posses])
 
     const handleCreatePosse = () => {
         let isValid = validateForm()
@@ -56,21 +67,23 @@ const PosseName = () => {
                 const posseFound = posses.find((x) => x.posseId == id)
                 if (posseFound) {
                     const updated = { ...posseFound, name: name } as Posse
+                    setPosseUpdated(true)
                     dispatch(updatePosse(updated))
-                    setTimeout(() => {
-                        setLoading(false)
-                        dispatch(setCurrentPosse(posseFound))
-                        router.replace('/(tabs)/(posse)/posseCharacters')
-                    }, 1000)
+                    //   setTimeout(() => {
+                    //       setLoading(false)
+                    //       dispatch(setCurrentPosse(posseFound))
+                    //       router.replace(`../${posseFound.posseId}`)
+                    //   }, 1000)
                 }
             } else {
                 // create
+                setPosseUpdated(true)
                 dispatch(createPosse({ name } as Posse))
-                setTimeout(() => {
-                    setLoading(false)
-                    dispatch(setCurrentPosse(posses[posses.length - 1]))
-                    router.replace('/(tabs)/(posse)/posseCharacters')
-                }, 1000)
+                //  setTimeout(() => {
+                //      setLoading(false)
+                //      dispatch(setCurrentPosse(posses[posses.length - 1]))
+                //      router.replace(`../${posses[posses.length - 1].posseId}`)
+                //  }, 1000)
             }
             // navigate to the new posse screen is all is bueno
         }
@@ -130,7 +143,11 @@ const PosseName = () => {
                             <CustomTextInput value={name} onChangeText={onChangeText} />
                         </KeyboardAvoidingView>
                         <View style={{ marginBottom: margin * 5 }}>
-                            <ThemedButton title={'Create'} onPress={handleCreatePosse} size={'lg'} />
+                            <ThemedButton
+                                title={posseId ? 'Save Changes' : 'Create New Posse'}
+                                onPress={handleCreatePosse}
+                                size={'lg'}
+                            />
                         </View>
                     </View>
                 </ScrollView>

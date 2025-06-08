@@ -60,7 +60,7 @@ const Home = () => {
         if (selectedPosse) {
             dispatch(setCurrentPosse(selectedPosse))
         }
-        router.navigate('/posseCharacters')
+        router.navigate(`./${selectedPosse?.posseId}`)
     }
     const [name, setName] = useState('')
     const handleOnAddMemberPress = (posseId: string) => {
@@ -104,7 +104,6 @@ const Home = () => {
                                     alternateTitle
                                     title={'Add New Posse'}
                                     onPress={() => {
-                                        console.log('dispatching create posse')
                                         handleCreatePossePress()
                                     }}
                                     size={'lg'}
