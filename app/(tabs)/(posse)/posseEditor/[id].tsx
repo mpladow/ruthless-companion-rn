@@ -41,7 +41,6 @@ const PosseName = () => {
     }, [id])
 
     useEffect(() => {
-        console.log('🚀 ~ useEffect ~ posseUpdated:', posseUpdated)
         if (posseUpdated) {
             setPosseUpdated(false)
             if (posseId) {
