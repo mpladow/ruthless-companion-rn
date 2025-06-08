@@ -75,7 +75,7 @@ const CharacterCardReadOnly = ({ playerCharacter, collapsedView }: CharacterCard
                 commonStyles.boxShadow,
             ]}>
             {/* Heading */}
-            <CardHeading playerCharacter={playerCharacter} onPress={() => {}} />
+            <CardHeading name={playerCharacter.name} toughness={playerCharacter.toughness} onPress={() => {}} />
             <View
                 style={{
                     backgroundColor: currentTheme.colors.background,

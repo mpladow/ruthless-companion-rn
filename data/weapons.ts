@@ -52,6 +52,8 @@ export const WPN_BOW: Weapon = {
 	name: 'Bow',
 	maxAmmunition: 0,
 	specialRules: [SPEC_RULE_FREE_RELOAD],
+	shortRange: 8,
+	longRange: 10,
 	weaponTemplateId: 0,
 	description: "The Bow is a traditional ranged weapon that uses a flexible arc to launch arrows. It is silent and deadly, making it ideal for hunting and stealthy attacks. Bows can vary in size and draw weight, affecting their range and power."
 }
@@ -77,6 +79,9 @@ export const WPN_SHARPS: Weapon = {
 	weaponTemplateId: 4,
 	description: "The Sharps Carbine was a popular rifle during the American Civil War and the Indian Wars. Known for its accuracy and powerful .52 caliber cartridge, it was favored by both military and civilian marksmen."
 }
+export const WEAPONS = [
+	WPN_DERRINGER, WPN_BOW, WPN_BUNTLINE_SPECIAL, WPN_DERRINGER, WPN_SHOTGUN, WPN_REVOLVER, WPN_REPEATER, WPN_SHARPS
+]
 
 
 //TEMPLATES

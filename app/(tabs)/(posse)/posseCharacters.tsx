@@ -21,26 +21,26 @@ const PosseCharacters = () => {
     const router = useRouter()
     const navigation = useNavigation()
     const dispatch = useDispatch<AppDispatch>()
-     useEffect(() => {
-         if (posse) {
-             dispatch(updatePosse(posse))
-         }
-     }, [posse])
+    useEffect(() => {
+        if (posse) {
+            dispatch(updatePosse(posse))
+        }
+    }, [posse])
 
-   //  useEffect(() => {
-   //      const unsubscribe = navigation.addListener('blur', () => {
-   //          if (posse) {
-   //              const result = confirm('Are you sure you want to leave? Your changes will not be saved.')
-   //              if (result) {
-   //                  dispatch(updatePosse(posse))
-   //              }
-   //          }
-   //      })
-   //      unsubscribe();
-   //      return () => {
-   //          unsubscribe()
-   //      }
-   //  }, [])
+    //  useEffect(() => {
+    //      const unsubscribe = navigation.addListener('blur', () => {
+    //          if (posse) {
+    //              const result = confirm('Are you sure you want to leave? Your changes will not be saved.')
+    //              if (result) {
+    //                  dispatch(updatePosse(posse))
+    //              }
+    //          }
+    //      })
+    //      unsubscribe();
+    //      return () => {
+    //          unsubscribe()
+    //      }
+    //  }, [])
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -61,7 +61,7 @@ const PosseCharacters = () => {
     }
 
     const handleAddMembersPress = () => {
-        router.navigate(`/(tabs)/(posse)/(characterEditor)`)
+        router.navigate(`../(characterEditor)/${posse?.posseId}`)
     }
     return (
         <PageContainer paddingHorizontal="none" paddingVertical="lg" fullScreenWidth={'50%'}>

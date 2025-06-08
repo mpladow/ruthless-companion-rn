@@ -65,9 +65,10 @@ const Home = () => {
     const [name, setName] = useState('')
     const handleOnAddMemberPress = (posseId: string) => {
         const foundPosse = posses.find((x) => x.posseId == posseId)
+        console.log('🚀 ~ navigationCheck handleOnAddMemberPress ~ foundPosse:', foundPosse)
         if (foundPosse) {
             dispatch(setCurrentPosse(foundPosse))
-            router.navigate(`/(tabs)/(posse)/(characterEditor)`)
+            router.navigate(`../(characterEditor)/${foundPosse.posseId}`)
         }
     }
 

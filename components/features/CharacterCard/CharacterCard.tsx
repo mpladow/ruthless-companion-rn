@@ -128,7 +128,11 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCa
             />
             {/* Heading */}
             <View style={{ zIndex: 2 }}>
-                <CardHeading playerCharacter={playerCharacter} onPress={handleExpandToggle} />
+                <CardHeading
+                    onPress={handleExpandToggle}
+                    name={playerCharacter.name}
+                    toughness={playerCharacter.toughness}
+                />
                 <View
                     style={{
                         flexDirection: 'column',

@@ -78,7 +78,8 @@ const PosseCharacters = () => {
     }
 
     const handleAddMembersPress = () => {
-        router.navigate(`/(tabs)/(posse)/(characterEditor)`)
+        console.log('🚀 ~ navigationCheck handleAddMembersPress ~ posseId:', posse?.posseId)
+        router.navigate(`../(characterEditor)/${posse?.posseId}`)
     }
     return (
         <PageContainer paddingHorizontal="none" paddingVertical="lg" fullScreenWidth={'50%'}>

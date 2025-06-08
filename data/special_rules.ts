@@ -3,7 +3,7 @@ import { SpecialRule } from '@/models/specialRuleTemplate'
 export const SPEC_RULE_FANFIRE: SpecialRule = {
 	specialRuleId: "1",
 	name: "Fanfire",
-	description: 'Fanfire allows up to 6 rounds to be fired in a single action at Sort Range, but "10s" are needed to hit.',
+	description: 'Fanfire allows up to 6 rounds to be fired in a single action at short Range, but "10s" are needed to hit.',
 	points: 0,
 	weaponRule: true
 }

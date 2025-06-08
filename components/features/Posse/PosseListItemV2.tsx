@@ -133,7 +133,7 @@ const PosseListItemV2 = ({
                                         justifyContent: 'center',
                                     },
                                 ]}>
-                                <View style={[{ paddingHorizontal: margin }]}>
+                                <View style={[{ paddingHorizontal: margin, zIndex: 999 }]}>
                                     <ThemedButton
                                         title={'Recruit'}
                                         onPress={() => {
