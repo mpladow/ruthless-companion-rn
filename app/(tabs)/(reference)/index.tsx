@@ -1,4 +1,5 @@
 import { ThemedBottomSheet, ThemedText } from '@/components'
+import CustomBrandHeader from '@/components/features/ReferenceCard/CustomBrandHeader'
 import ModalReferenceItem from '@/components/features/ReferenceCard/ModalReferenceItem'
 import PressableReferenceItem from '@/components/features/ReferenceCard/PressableReferenceItem'
 import PageContainer from '@/components/PageContainer/PageContainer'
@@ -9,7 +10,7 @@ import { margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import Constants from 'expo-constants'
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const index = () => {
@@ -43,102 +44,13 @@ const index = () => {
             setOpenBottomSheet(true)
         }
     }
-    const HEADINGFONTSIZE = 44
-	 const version = Constants ? Constants.buildNumber?.version : '1.0.0'
+    const version = Constants ? Constants.buildNumber?.version : '1.0.0'
 
     return (
         <>
             <PageContainer paddingHorizontal="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 2, flexWrap: 'wrap' }} style={{ flex: 1 }}>
-                    <View
-                        style={{
-                            width: '100%',
-                            backgroundColor: currentTheme.colors.primary,
-                            borderWidth: 4,
-                            borderColor: currentTheme.colors.textDefault,
-                            flexDirection: 'row',
-                        }}>
-                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-                            <View
-                                style={{
-                                    marginTop: margin,
-                                    padding: padding * 2,
-                                    flexDirection: 'row',
-                                    alignItems: 'flex-start',
-                                    justifyContent: 'flex-start',
-                                }}>
-                                <ThemedText.Heading
-                                    headingSize="h1"
-                                    inverted
-                                    style={{
-                                        fontSize: HEADINGFONTSIZE + 32,
-                                        lineHeight: HEADINGFONTSIZE + 32,
-                                        textTransform: 'uppercase',
-                                    }}>
-                                    R
-                                </ThemedText.Heading>
-                                <View>
-                                    <ThemedText.Heading
-                                        headingSize="h1"
-                                        inverted
-                                        style={{
-                                            fontSize: HEADINGFONTSIZE,
-                                            lineHeight: HEADINGFONTSIZE,
-                                            textTransform: 'uppercase',
-                                        }}>
-                                        uthless
-                                    </ThemedText.Heading>
-                                    <ThemedText.Heading
-                                        inverted
-                                        headingSize="h3"
-                                        style={{
-                                            paddingLeft: padding,
-                                            textTransform: 'uppercase',
-                                            fontSize: 11,
-                                            lineHeight: 11,
-                                        }}>
-                                        The Fastest Rules in the West
-                                    </ThemedText.Heading>
-                                </View>
-                            </View>
-                        </View>
-
-                        <View>
-                            <View
-                                style={{
-                                    overflow: 'hidden',
-                                    width: 50,
-                                    height: 100,
-                                    flexDirection: 'row',
-                                    backgroundColor: currentTheme.colors.searchBg,
-                                }}>
-                                <View
-                                    style={{
-                                        overflow: 'hidden',
-                                        width: 50,
-                                        height: 100,
-                                        marginBottom: -10,
-                                    }}>
-                                    <Image
-                                        source={require('../../../assets/images/cowboy-sharper3.png')}
-                                        style={{ height: 100, width: 50, marginBottom: -10 }}
-                                    />
-                                </View>
-                                <View
-                                    style={{
-                                        overflow: 'hidden',
-                                        width: 50,
-                                        height: 100,
-                                        marginBottom: -10,
-                                    }}>
-                                    <Image
-                                        source={require('../../../assets/images/cowboy-f-rev.png')}
-                                        style={{ height: 100, width: 500, marginBottom: -10 }}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                    </View>
+                    <CustomBrandHeader isHeading={false} />
                     <View
                         style={{
                             padding: padding,
@@ -181,15 +93,13 @@ const index = () => {
                         {data?.sections
                             ?.filter((x) => x.page === 2)
                             .map((item, index) => (
-                                <View style={{ flex: 1, borderWidth: 2, borderColor: 'black' }}>
-                                    <PressableReferenceItem
-                                        sectionId={item.id}
-                                        key={index}
-                                        index={index.toString()}
-                                        sectionContent={item.content}
-                                        onSectionPress={handleSectionPress}
-                                    />
-                                </View>
+                                <PressableReferenceItem
+                                    sectionId={item.id}
+                                    key={index}
+                                    index={index.toString()}
+                                    sectionContent={item.content}
+                                    onSectionPress={handleSectionPress}
+                                />
                             ))}
                     </View>
                 </ScrollView>

@@ -1,3 +1,4 @@
+import commonStyles from '@/constants/styles'
 import { padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import React from 'react'
@@ -104,14 +105,20 @@ const PressableReferenceItem = ({ onSectionPress, sectionId, sectionContent, ind
         } as Readonly<Record<string, MixedStyleDeclaration>>,
     }
     return (
-        <Pressable onPress={() => handleSectionPress(sectionId)} key={index}>
+        <Pressable
+            onPress={() => handleSectionPress(sectionId)}
+            key={index}
+            style={[commonStyles.boxShadow, { marginVertical: 4, backgroundColor: currentTheme.colors.white }]}>
             <View
-                style={{
-                    flex: 1,
-                    flexBasis: '50%',
-                    borderWidth: 2,
-                    borderColor: 'black',
-                }}>
+                style={[
+                    {
+                        flex: 1,
+                        flexBasis: '50%',
+                        borderWidth: 2,
+                        borderColor: 'black',
+                    },
+                    ,
+                ]}>
                 <CustomHtmlRender
                     sectionId={sectionId}
                     index={index}

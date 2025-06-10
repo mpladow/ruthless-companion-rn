@@ -1,5 +1,5 @@
 import { ThemedText } from '@/components'
-import ThemedButton from '@/components/ThemedButton/ThemedButton'
+import FingerPointing from '@/components/Icons/FingerPointing'
 import ThemedContainer from '@/components/ThemedContainer'
 import commonStyles from '@/constants/styles'
 import { useResponsiveWidth } from '@/hooks'
@@ -131,17 +131,33 @@ const PosseListItemV2 = ({
                                         height: 80,
                                         alignItems: 'center',
                                         justifyContent: 'center',
+                                        zIndex: 999,
                                     },
                                 ]}>
-                                <View style={[{ paddingHorizontal: margin, zIndex: 999 }]}>
-                                    <ThemedButton
+                                <View
+                                    style={[
+                                        {
+                                            paddingHorizontal: margin,
+                                            zIndex: 999,
+                                            flexDirection: 'row',
+                                            alignItems: 'center',
+                                        },
+                                    ]}>
+                                    {/* <ThemedButton
                                         title={'Recruit'}
                                         onPress={() => {
                                             onAddMemberPress(item.posseId)
                                         }}
                                         size={'sm'}
                                         type="success"
-                                    />
+                                    /> */}
+                                    <View style={{ height: 24, width: 24 }}>
+                                        <FingerPointing fill={currentTheme.colors.textDefault} />
+                                    </View>
+                                    <ThemedText.Text>Now Hiring</ThemedText.Text>
+                                    <View style={{ height: 24, width: 24, transform: [{ scaleX: -1 }] }}>
+                                        <FingerPointing fill={currentTheme.colors.textDefault} />
+                                    </View>
                                 </View>
                             </View>
                         )}
@@ -265,9 +281,6 @@ const PosseListItemV2 = ({
                                             alignItems: 'center',
                                             zIndex: 999,
                                         }}>
-                                        {/* <ThemedText.Heading headingSize="h3" style={{ textTransform: 'uppercase' }}>
-                                            Menu
-                                        </ThemedText.Heading> */}
                                         <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
                                     </View>
                                     {/* <View style={{ height: 30, width: 30, transform: [{ scaleX: -1 }] }}>
