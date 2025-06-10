@@ -2,7 +2,12 @@ import { persistor, store } from '@/state/store'
 import { gptDarkTheme, gptLightTheme } from '@/theme/presetThemes/gptHeme'
 import ThemeProvider from '@/theme/ThemeProvider'
 import { fontConfig } from '@/theme/types/type'
-import { GothicA1_400Regular, GothicA1_600SemiBold, GothicA1_800ExtraBold } from '@expo-google-fonts/gothic-a1'
+import {
+	CourierPrime_400Regular,
+	CourierPrime_400Regular_Italic,
+	CourierPrime_700Bold,
+	CourierPrime_700Bold_Italic,
+} from '@expo-google-fonts/courier-prime'
 import { Rye_400Regular } from '@expo-google-fonts/rye'
 import { Smokum_400Regular } from '@expo-google-fonts/smokum'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
@@ -19,9 +24,10 @@ import { PersistGate } from 'redux-persist/es/integration/react'
 
 export default function RootLayout() {
     const [loaded] = useFonts({
-        GothicA1_400Regular,
-        GothicA1_600SemiBold,
-        GothicA1_800ExtraBold,
+        CourierPrime_400Regular,
+        CourierPrime_400Regular_Italic,
+        CourierPrime_700Bold,
+		  CourierPrime_700Bold_Italic,
         Rye_400Regular,
         Smokum_400Regular,
     })
@@ -34,22 +40,22 @@ export default function RootLayout() {
         type: 'primary',
         family: 'Courier',
         regular: {
-            fontFamily: 'GothicA1_400Regular',
+            fontFamily: 'CourierPrime_400Regular',
         },
         regularItalic: {
-            fontFamily: 'GothicA1_400Regular',
+            fontFamily: 'CourierPrime_400Regular_Italic',
         },
         medium: {
-            fontFamily: 'GothicA1_600SemiBold',
+            fontFamily: 'CourierPrime_700Bold',
         },
         mediumItalic: {
-            fontFamily: 'GothicA1_600SemiBold',
+            fontFamily: 'CourierPrime_700Bold_Italic',
         },
         bold: {
-            fontFamily: 'GothicA1_800ExtraBold',
+            fontFamily: 'CourierPrime_700Bold',
         },
         boldItalic: {
-            fontFamily: 'GothicA1_800ExtraBold',
+            fontFamily: 'CourierPrime_700Bold_Italic',
         },
     }
     const fontConfigHeading: fontConfig = {

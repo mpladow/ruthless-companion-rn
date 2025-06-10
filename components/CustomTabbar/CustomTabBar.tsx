@@ -11,7 +11,9 @@ export const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarPro
     const insets = useSafeAreaInsets()
     const dimensions = useWindowDimensions()
     const router = useRouter()
-    const isHome = state.routes.find((x) => x.name == '(posse)')?.state?.index == 0
+    const isHome = state.routes.find((x) => x.name == '(posse)')?.state?.index == (0 || undefined) || !router.canGoBack()
+    console.log('🚀 ~ CustomTabBar ~  state.routes:', state.routes.find((x) => x.name == '(posse)')?.state?.index)
+    console.log('🚀 ~ CustomTabBar ~ isHome:', isHome)
     const NAVBAR_HEIGHT = 46
     return (
         <>

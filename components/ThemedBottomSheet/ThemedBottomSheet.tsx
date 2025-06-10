@@ -23,6 +23,7 @@ type ThemedBottomSheetProps = {
     snapPoints?: (string | number)[]
     enableDynamicSizing?: boolean
     scrollable?: boolean
+    detached?: boolean
 }
 
 const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
@@ -34,6 +35,7 @@ const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
     customFooter,
     scrollable,
     snapPoints = [0.5, 0.75],
+    detached = true,
     enableDynamicSizing,
 }) => {
     const bottomSheetRef = useRef<BottomSheetModal>(null)
@@ -53,12 +55,8 @@ const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
     useEffect(() => {
         if (!isWeb && bottomSheetRef.current) {
             if (visible) {
-                console.log('🚀 ~ useEffect ~ opening:', visible)
-                console.log('dsfaaaasdf', JSON.stringify(bottomSheetRef))
                 bottomSheetRef.current.present()
             } else {
-                console.log('🚀 ~ useEffect ~ closing:', visible)
-
                 bottomSheetRef?.current.close()
             }
         }
@@ -123,12 +121,12 @@ const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
                 console.log(type, 'Bottom sheet changed type')
             }}
             index={1}
-            detached
+            detached={detached}
             backdropComponent={renderBackdrop}
             bottomInset={insets.bottom}
             enableDynamicSizing={enableDynamicSizing}
             snapPoints={sheetSnapPoints}
-            style={styles.sheetContent}
+            style={detached ? styles.sheetContentDetached : styles.sheetContent}
             onDismiss={onClose}
             footerComponent={renderFooter}
             enablePanDownToClose
@@ -137,7 +135,9 @@ const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
                 Platform.OS != 'web' ? <FullWindowOverlay>{props.children}</FullWindowOverlay> : <>{props.children}</>
             }>
             {scrollable ? (
-                <BottomSheetScrollView>{children}</BottomSheetScrollView>
+                <BottomSheetScrollView style={styles.bottomView} contentContainerStyle={styles.bottomView}>
+                    {children}
+                </BottomSheetScrollView>
             ) : (
                 <BottomSheetView style={styles.bottomView}>{children}</BottomSheetView>
             )}
@@ -155,23 +155,21 @@ const styles = StyleSheet.create({
         backgroundColor: '#00000077',
     },
     modalContainer: {
-        //   position: 'absolute',
-        //   bottom: 0,
-        //   width: '100%',
         flex: 1,
-        //   height: '100%',
-        //   maxHeight: height * 0.5,
         borderRadius: borderRadius * 2,
         zIndex: 9,
         backgroundColor: 'white',
     },
     sheetContent: {
+        marginHorizontal: 12,
+    },
+    sheetContentDetached: {
         marginHorizontal: 24,
     },
     bottomView: {
         flex: 1,
         borderRadius: borderRadius * 2,
-        padding: padding * 3,
+        padding: padding * 2,
     },
     footerContainer: {
         padding: 12,

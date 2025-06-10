@@ -63,6 +63,7 @@ const Home = () => {
         router.navigate(`./${selectedPosse?.posseId}`)
     }
     const [name, setName] = useState('')
+	 
     const handleOnAddMemberPress = (posseId: string) => {
         const foundPosse = posses.find((x) => x.posseId == posseId)
         console.log('🚀 ~ navigationCheck handleOnAddMemberPress ~ foundPosse:', foundPosse)

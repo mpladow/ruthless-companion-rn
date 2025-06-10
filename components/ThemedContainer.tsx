@@ -38,7 +38,7 @@ const ThemedContainer = ({
             case 'sm':
                 return padding * 4
             case 'lg':
-                return padding * 8
+                return padding * 12
 
             default:
                 return 0

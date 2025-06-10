@@ -57,7 +57,7 @@ const characterEdit = () => {
                             <ThemedText.Text>Press each section to edit character details</ThemedText.Text>
                         </Messagebox>
                     </ThemedContainer>
-                    <ThemedText.Text type="bold">1. Edit Name and Toughness</ThemedText.Text>
+                    <ThemedText.Text type="bold">1. Edit Name, Toughness and Gender</ThemedText.Text>
 
                     <ThemedContainer
                         style={[
@@ -109,7 +109,7 @@ const characterEdit = () => {
                             />
                         </CardHeading>
                         <View>
-                            <ThemedText.Text type="bold">2. Select character trait(s)</ThemedText.Text>
+                            <ThemedText.Text>2. Select character trait(s)</ThemedText.Text>
                             <View style={{ padding: padding * 2 }}>
                                 <ThemedButton
                                     title={'Select Traits'}
