@@ -1,7 +1,8 @@
 import { ThemedText } from '@/components'
+import Bullet from '@/components/Icons/Bullet'
 import { PlayerCharacter } from '@/models/playerCharacter'
 import { useTheme } from '@/theme/ThemeProvider'
-import { margin, padding } from '@/theme/constants'
+import { borderRadius, margin, padding } from '@/theme/constants'
 import Color from 'color'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -36,7 +37,7 @@ const CharacterCardDetailsSimplified = ({ playerCharacter }: CharacterCardDetail
                 })}
             </View>
             <View style={{ flexDirection: 'column', marginTop: margin }}>
-                {playerCharacter.currentWeapons?.map((x, index) => {
+                {playerCharacter.startingWeapons?.map((x, index) => {
                     return (
                         <View style={{ marginTop: margin }}>
                             <ThemedText.Heading headingSize="h2">{x.name}</ThemedText.Heading>
@@ -51,7 +52,27 @@ const CharacterCardDetailsSimplified = ({ playerCharacter }: CharacterCardDetail
                                     ))}
                                 </View>
                             )}
-                            <ThemedText.Text>Ammunition: {x.maxAmmunition}</ThemedText.Text>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    flexWrap: 'wrap',
+                                    gap: 2,
+												paddingVertical: padding
+                                }}>
+                                {[...Array(x.maxAmmunition)].map((_, index) => (
+                                    <View
+                                        key={index}
+                                        style={{
+                                            borderWidth: 1,
+                                            borderRadius: borderRadius / 2,
+                                            width: 20,
+                                            height: 20,
+                                        }}>
+                                        <Bullet fill={currentTheme.colors.warning} />
+                                    </View>
+                                ))}
+                            </View>
                             <ThemedText.Text>
                                 {x.shortRange}" / {x.longRange}"
                             </ThemedText.Text>

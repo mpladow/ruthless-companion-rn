@@ -11,20 +11,24 @@ import commonStyles from '@/constants/styles'
 import { BODY_PARTS } from '@/data/body_parts'
 import { SPEC_RULES } from '@/data/special_rules'
 import { WEAPONS } from '@/data/weapons'
-import { BodyPartTemplate } from '@/models/bodyParttemplate'
+import { BodyPart, BodyPartTemplate } from '@/models/bodyParttemplate'
+import { CharacterTemplate } from '@/models/characterTemplate'
 import { PlayerCharacter } from '@/models/playerCharacter'
-import { SpecialRuleTemplate } from '@/models/specialRuleTemplate'
+import { SpecialRule, SpecialRuleTemplate } from '@/models/specialRuleTemplate'
 import { Weapon, WeaponTemplate } from '@/models/weapon'
-import { RootState } from '@/state/store'
+import { addCustomCharacter } from '@/state/editor/customCharactersSlice'
+import { addCharacterToPosseMembers } from '@/state/posse/posseSlice'
+import { AppDispatch, RootState } from '@/state/store'
 import { borderRadius, borderWidth, margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import Entypo from '@expo/vector-icons/Entypo'
-import React, { useCallback, useState } from 'react'
+import { useRouter } from 'expo-router'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { Image, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
-import { v4 as uuid } from 'uuid'
+import uuid from 'react-native-uuid'
+import { useDispatch, useSelector } from 'react-redux'
 
 type CharacterEditorForm = {
     name: string
@@ -32,18 +36,38 @@ type CharacterEditorForm = {
     gender: GenderType
     selectedWeaponIndex1: number
     selectedWeaponIndex2: number
-    startingWeapons: WeaponTemplate[]
-    bodyParts: BodyPartTemplate[]
-    specialRules: SpecialRuleTemplate[]
+    startingWeapons: Weapon[]
+    bodyParts: BodyPart[]
+    specialRules: SpecialRule[]
 }
 const characterEdit = () => {
-    const posse = useSelector((state: RootState) => state.selectedPosse)
+    const customCharacters = useSelector((state: RootState) => state.customCharacters)
+    const selectedPosse = useSelector((state: RootState) => {
+        return state._persist.rehydrated ? state.selectedPosse : null
+    })
+    const dispatch = useDispatch<AppDispatch>()
     const [showBottomSheet, setShowBottomSheet] = useState(false)
     const { currentTheme } = useTheme()
     const { bottom } = useSafeAreaInsets()
     const [showAdditionalWeaponOption, setShowAdditionalWeaponOption] = useState(false)
 
-    const { control, handleSubmit, getValues, setValue } = useForm<CharacterEditorForm>({
+    const router = useRouter()
+    const {
+        control,
+        handleSubmit,
+        getValues,
+        setValue,
+        formState: {
+            errors,
+            isValid,
+            isDirty,
+            isSubmitting,
+            isSubmitSuccessful,
+            dirtyFields,
+            touchedFields,
+            submitCount,
+        },
+    } = useForm<CharacterEditorForm>({
         defaultValues: {
             name: 'New Character',
             toughness: 5,
@@ -56,7 +80,6 @@ const characterEdit = () => {
         },
     })
 
-    const weapons = WEAPONS
     const {
         fields: specialRuleFields,
         append: appendSpecialRule,
@@ -74,52 +97,101 @@ const characterEdit = () => {
         name: 'startingWeapons',
     })
 
-    const onHandleFormClose = () => {
-        // on press, then open form to change name as modal;
-    }
     const handleTraitsModal = useCallback(() => {
         setShowBottomSheet(!showBottomSheet)
     }, [])
-    const handleWeaponSelect = () => {
-        // Handle weapon selection logic here
-    }
 
     const handleConfirmCharacter = (data: CharacterEditorForm) => {
-        console.log('🚀 ~ handleConfirmCharacter ~ data:', data)
-        const newCharacter: PlayerCharacter = {
+        console.log('🚀 ~ handleConfirmCharacter ~ data:', data.startingWeapons)
+        // TODO: remove this and create the character template first.
+        const newCharacterTemplate: CharacterTemplate = {
+            characterTemplateId: uuid.v4(),
             name: data.name,
             toughness: data.toughness,
             gender: data.gender,
             startingWeapons: [],
             bodyParts: [],
             specialRules: data.specialRules,
-            playerCharacterId: uuid(),
-            characterTemplateId: 0,
+            isCustom: true,
         }
+        console.log('🚀 ~ handleConfirmCharacter ~ newCharacterTemplate:', newCharacterTemplate)
+        newCharacterTemplate.bodyParts = BODY_PARTS.map(
+            (part) =>
+                ({
+                    ...part,
+                    currentDamage: 0,
+                    id: uuid.v4(),
+                } as BodyPart)
+        )
+
+        newCharacterTemplate.startingWeapons = data.startingWeapons.map((x) => {
+            const weapon: Weapon = {
+                weaponId: x.weaponId,
+                name: x.name,
+                image: x.image,
+                description: x.description,
+                shortRange: x.shortRange,
+                longRange: x.longRange,
+                maxAmmunition: x.maxAmmunition,
+                specialRules: x.specialRules,
+                weaponTemplateId: x.weaponTemplateId,
+                currentAmmunition: x.maxAmmunition,
+            }
+            return weapon
+        })
+
+        try {
+            dispatch(addCustomCharacter(newCharacterTemplate))
+        } catch (error) {
+            console.log('Error during dispatch', error)
+        }
+
+        const newCharacter: PlayerCharacter = {
+            name: newCharacterTemplate.name,
+            toughness: newCharacterTemplate.toughness,
+            gender: newCharacterTemplate.gender,
+            startingWeapons: [],
+            bodyParts: [],
+            specialRules: newCharacterTemplate.specialRules,
+            playerCharacterId: uuid.v4(),
+            characterTemplateId: newCharacterTemplate.characterTemplateId,
+            isCustom: true,
+        }
+        console.log('🚀 ~ dsfsdfdsf setTimeout ~ newCharacter:', newCharacter)
         // set initial values
-        newCharacter.startingWeapons = data.startingWeapons.map((x) => {
+        const updatedWeapons = data.startingWeapons.map((x) => {
             const weapon: Weapon = {
                 currentAmmunition: x.maxAmmunition,
                 weaponId: x.weaponId,
                 name: x.name,
-					 image: x.image,
-					 description: x.description,
-					 shortRange: x.shortRange,
-					 longRange: x.longRange,
+                image: x.image,
+                description: x.description,
+                shortRange: x.shortRange,
+                longRange: x.longRange,
                 maxAmmunition: x.maxAmmunition,
                 specialRules: x.specialRules,
                 weaponTemplateId: x.weaponTemplateId,
             }
             return weapon
         })
+        newCharacter.startingWeapons = updatedWeapons
+        newCharacter.currentWeapons = updatedWeapons
         newCharacter.bodyParts = BODY_PARTS.map((part) => ({
             ...part,
             currentDamage: 0,
-            id: uuid(),
+            id: uuid.v4(),
         }))
-        console.log('🚀 ~ handleConfirmCharacter ~ newCharacter:', newCharacter)
+        console.log('🚀 ~ handleConfirmCharacter ~ newCharacter dfd:', newCharacter)
         // Confirm character logic here
+        dispatch(addCharacterToPosseMembers([newCharacter]))
+        router.replace(`./${selectedPosse?.posseId}`)
+        router.back()
+        router.back()
     }
+
+    useEffect(() => {
+        console.log(customCharacters, 'customCharacters')
+    }, [customCharacters.length])
     const handleError = (error: any) => {
         console.error('🚀 ~ characterEdit ~ error:', error)
     }
@@ -127,6 +199,24 @@ const characterEdit = () => {
         setShowAdditionalWeaponOption((prev) => !prev)
         removeStartingWeapon(1) // Remove the second weapon if it exists
     }
+
+    // TEST
+    //  const fetchDataWithCallback = (callback: any) => {
+    //       return async (dispatch, getState) => {
+    //           dispatch({ type: 'FETCH_DATA_START' })
+    //           try {
+    //               const response = await fetch('your_api_endpoint')
+    //               const data = await response.json()
+    //               dispatch({ type: 'FETCH_DATA_SUCCESS', payload: data }).then((res) => {
+    // 						console.log('Data fetched successfully:', res)
+    // 				  })
+    //               callback(data)
+    //           } catch (error) {
+    //               dispatch({ type: 'FETCH_DATA_ERROR', payload: error })
+    //           }
+    //       }
+    //   }
+    // END TEST
 
     return (
         <>
@@ -137,9 +227,11 @@ const characterEdit = () => {
                 style={{ marginBottom: bottom }}>
                 <ScrollView style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1, paddingBottom: margin * 3 }}>
                     <ThemedContainer paddingHorizontal="sm" paddingVertical="sm">
-                        <Messagebox type={'warning'}>
-                            <ThemedText.Text>Press each section to edit character details</ThemedText.Text>
-                        </Messagebox>
+                        {!isValid && (
+                            <Messagebox type={'error'}>
+                                <ThemedText.Text>Check your form and try again</ThemedText.Text>
+                            </Messagebox>
+                        )}
                     </ThemedContainer>
 
                     <ThemedContainer
@@ -334,6 +426,7 @@ const characterEdit = () => {
                                         )}
                                         onSelect={(_, idx) => {
                                             field.onChange(idx)
+                                            removeStartingWeapon(0) // Remove the first weapon if it exists
                                             appendStartingWeapon(WEAPONS[idx])
                                         }}
                                         initialIndex={field.value}
@@ -411,6 +504,7 @@ const characterEdit = () => {
                                             )}
                                             onSelect={(_, idx) => {
                                                 field.onChange(idx)
+                                                removeStartingWeapon(1) // Remove the first weapon if it exists
                                                 appendStartingWeapon(WEAPONS[idx])
                                             }}
                                             initialIndex={field.value}
@@ -442,23 +536,7 @@ const characterEdit = () => {
                                     alignItems: 'center',
                                     justifyContent: 'space-between',
                                 }}>
-                                {/* <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded}>
-                            {playerCharacter.currentWeapons?.map((item, index) => (
-                                <WeaponContainer weapon={item} onAmmoChange={handleWeaponAmmoChange} />
-                            ))}
-                        </AnimatedAccordion> */}
                             </View>
-                            {/* <TouchableWithoutFeedback onPress={handleExpandToggle}>
-                        <View
-                            style={{
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                paddingVertical: padding,
-                            }}>
-                            <ExpandedIndicator isExpanded={!collapsed} onPress={handleExpandToggle} />
-                        </View>
-                    </TouchableWithoutFeedback> */}
                         </View>
                     </ThemedContainer>
                 </ScrollView>

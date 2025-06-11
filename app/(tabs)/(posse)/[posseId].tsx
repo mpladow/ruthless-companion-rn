@@ -124,7 +124,7 @@ const PosseCharacters = () => {
                 )
             },
         })
-    }, [navigation, editMode])
+    }, [navigation, editMode, posse?.members.length])
 
     const handleCollapseAll = () => {
         setCollapsedView(!collapsedView)
@@ -258,7 +258,9 @@ const PosseCharacters = () => {
                                 <ThemedText.Heading headingSize="h2">
                                     You have no members in your posse
                                 </ThemedText.Heading>
-                                <ThemedText.Text>Recruit some new members now</ThemedText.Text>
+                                <ThemedText.Text style={{ marginTop: margin }}>
+                                    Recruit some new members now
+                                </ThemedText.Text>
                             </View>
                             <ThemedButton
                                 title={'+ Add Members'}
@@ -266,7 +268,7 @@ const PosseCharacters = () => {
                                     handleAddMembersPress()
                                 }}
                                 size={'lg'}
-                                type="success"
+                                type="primary"
                             />
                         </View>
                     }

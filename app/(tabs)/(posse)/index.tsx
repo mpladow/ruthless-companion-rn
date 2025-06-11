@@ -6,7 +6,6 @@ import Messagebox from '@/components/Messagebox/Messagebox'
 import CustomModal from '@/components/Modal/CustomModal'
 import ThemedButton from '@/components/ThemedButton/ThemedButton'
 import { DUMMY_DATA } from '@/data/dummy_posse'
-import { useResponsiveWidth } from '@/hooks'
 import { setCurrentPosse } from '@/state/posse/posseSlice'
 import { deletePosse } from '@/state/posse/userPossesSlice'
 import { AppDispatch, RootState } from '@/state/store'
@@ -14,7 +13,7 @@ import { margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import { useNavigation, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { Dimensions, Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import Animated, {
 	Extrapolation,
 	interpolate,
@@ -33,12 +32,10 @@ const Home = () => {
     const [focusedId, setFocusedId] = useState<string | null>(null)
     const [headerHeight, setHeaderHeight] = useState(0)
 
-    const { height } = Dimensions.get('window')
     const scrollY = useSharedValue(0)
 
     const { currentTheme } = useTheme()
     const { bottom, top } = useSafeAreaInsets()
-    const width = useResponsiveWidth()
     const router = useRouter()
     const dispatch = useDispatch<AppDispatch>()
     const navigation = useNavigation()
@@ -60,7 +57,6 @@ const Home = () => {
         }
     }
 
-    const handleEditPosse = () => {}
     const handleCreatePossePress = () => {
         router.navigate('../../posseEditor')
     }
@@ -106,23 +102,27 @@ const Home = () => {
                     onHeightChange={handleChildHeightChange}
                     subheadingComponent={
                         posses.length === 0 ? (
-                            <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
-                                    <View style={{ height: 24, width: 24 }}>
-                                        <FingerPointing fill={currentTheme.colors.textDefault} />
-                                    </View>
-                                    <ThemedText.Text type="semibold">Create a posse to begin!</ThemedText.Text>
-                                </View>
-                            </Messagebox>
-                        ) : (
                             <View style={{ paddingHorizontal: padding * 2 }}>
                                 <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
                                         <View style={{ height: 24, width: 24 }}>
                                             <FingerPointing fill={currentTheme.colors.textDefault} />
                                         </View>
+                                        <ThemedText.Text type="semibold">Create a posse to begin!</ThemedText.Text>
+                                    </View>
+                                </Messagebox>
+                            </View>
+                        ) : (
+                            <View style={{ paddingHorizontal: padding * 2 }}>
+                                <Messagebox
+                                    type={'warning'}
+                                    viewStyle={{ marginBottom: margin * 2, paddingHorizontal: padding * 2 }}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
+                                        <View style={{ height: 24, width: 24 }}>
+                                            <FingerPointing fill={currentTheme.colors.textDefault} />
+                                        </View>
                                         <ThemedText.Text type="semibold">Choose your posse to begin!</ThemedText.Text>
-                                    </View>{' '}
+                                    </View>
                                 </Messagebox>
                             </View>
                         )
@@ -185,7 +185,6 @@ const Home = () => {
                             {index === posses.length - 1 && (
                                 <View style={{ padding: padding * 3, alignItems: 'center' }}>
                                     <ThemedButton
-                                        alternateTitle
                                         title={'Add New Posse'}
                                         onPress={() => {
                                             handleCreatePossePress()

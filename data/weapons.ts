@@ -80,7 +80,7 @@ export const WPN_SHARPS: Weapon = {
 	description: "The Sharps Carbine was a popular rifle during the American Civil War and the Indian Wars. Known for its accuracy and powerful .52 caliber cartridge, it was favored by both military and civilian marksmen."
 }
 export const WEAPONS = [
-	WPN_DERRINGER, WPN_BOW, WPN_BUNTLINE_SPECIAL, WPN_DERRINGER, WPN_SHOTGUN, WPN_REVOLVER, WPN_REPEATER, WPN_SHARPS
+	WPN_REVOLVER, WPN_DERRINGER, WPN_REPEATER, WPN_BOW, WPN_BUNTLINE_SPECIAL, WPN_SHOTGUN, WPN_SHARPS
 ]
 
 

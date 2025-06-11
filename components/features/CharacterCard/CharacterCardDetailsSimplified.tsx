@@ -48,20 +48,22 @@ const CharacterCardDetailsSimplified = ({ playerCharacter, healthStatus }: Chara
                 width: '100%',
                 padding: padding,
             }}>
-            <View
-                style={{
-                    flexDirection: 'row',
-                    backgroundColor: Color(currentTheme.colors.grey1).lighten(0.2).hex(),
-                    padding: padding,
-                }}>
-                {playerCharacter.specialRules.map((x, index) => {
-                    return (
-                        <ThemedText.Heading headingSize="h3">
-                            {x.name} {playerCharacter.specialRules.length != index + 1 && ' / '}
-                        </ThemedText.Heading>
-                    )
-                })}
-            </View>
+            {playerCharacter.specialRules.length > 0 && (
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        backgroundColor: Color(currentTheme.colors.grey1).lighten(0.2).hex(),
+                        padding: padding,
+                    }}>
+                    {playerCharacter.specialRules.map((x, index) => {
+                        return (
+                            <ThemedText.Heading headingSize="h3">
+                                {x.name} {playerCharacter.specialRules.length != index + 1 && ' / '}
+                            </ThemedText.Heading>
+                        )
+                    })}
+                </View>
+            )}
             <View style={{ flexDirection: 'column', padding: padding }}>
                 {playerCharacter.currentWeapons?.map((x, index) => {
                     return (

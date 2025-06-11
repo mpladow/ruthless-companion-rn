@@ -94,12 +94,18 @@ const CharacterCardReadOnly = ({ playerCharacter, collapsedView }: CharacterCard
                 <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded}>
                     {playerCharacter.specialRules.length > 0 && (
                         <SpecialRulesContainer
+                            key={playerCharacter.playerCharacterId}
                             specialRules={playerCharacter.specialRules}
                             onSpecialRulesUsageChange={handleSpecialRulesChange}
                         />
                     )}
-                    {playerCharacter.currentWeapons?.map((item, index) => (
-                        <WeaponContainer readOnly={true} weapon={item} onAmmoChange={handleWeaponAmmoChange} />
+                    {playerCharacter.startingWeapons?.map((item, index) => (
+                        <WeaponContainer
+                            key={index + item.weaponId}
+                            readOnly={true}
+                            weapon={item}
+                            onAmmoChange={handleWeaponAmmoChange}
+                        />
                     ))}
                 </AnimatedAccordion>
             </View>
