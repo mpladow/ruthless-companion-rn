@@ -34,7 +34,6 @@ type CharacterCardProps = {
 }
 
 const CharacterCard = ({ playerCharacter, collapsedView, readOnly, editMode }: CharacterCardProps) => {
-    console.log('🚀 ~ CharacterCard ~ collapsedView:', collapsedView)
     const { currentTheme } = useTheme()
     const [collapsed, setCollapsed] = useState(collapsedView)
 
@@ -79,7 +78,6 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly, editMode }: C
     }, [collapsed])
 
     const handleExpandToggle = () => {
-        console.log('PRESSING CARD')
         setCollapsed((old) => !old)
     }
 

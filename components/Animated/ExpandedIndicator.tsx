@@ -1,7 +1,7 @@
 import { useTheme } from '@/theme/ThemeProvider'
 import Entypo from '@expo/vector-icons/Entypo'
 import React, { useEffect } from 'react'
-import { Pressable, StyleSheet } from 'react-native'
+import { Pressable } from 'react-native'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 
 export type ExpandedIndicatorType = {
@@ -9,9 +9,13 @@ export type ExpandedIndicatorType = {
     onPress: () => void
 }
 const ExpandedIndicator = ({ isExpanded, onPress }: ExpandedIndicatorType) => {
-    console.log('🚀 ~ ExpandedIndicator ~ isExpanded:', isExpanded)
     const { currentTheme } = useTheme()
     const rotation = useSharedValue(isExpanded ? 0 : 180) //  either true or false
+
+    useEffect(() => {
+        rotation.value = withTiming(isExpanded ? 1 : 0)
+        //   handleOnPress()
+    }, [isExpanded])
 
     const animatedStyle = useAnimatedStyle(() => {
         const spin = interpolate(rotation.value, [0, 1], [0, 180])
@@ -20,10 +24,6 @@ const ExpandedIndicator = ({ isExpanded, onPress }: ExpandedIndicatorType) => {
     const handleOnPress = () => {
         onPress()
     }
-    useEffect(() => {
-        rotation.value = withTiming(isExpanded ? 1 : 0)
-        //   handleOnPress()
-    }, [isExpanded])
 
     return (
         <Pressable onPress={handleOnPress}>
@@ -35,5 +35,3 @@ const ExpandedIndicator = ({ isExpanded, onPress }: ExpandedIndicatorType) => {
 }
 
 export default ExpandedIndicator
-
-const styles = StyleSheet.create({})
