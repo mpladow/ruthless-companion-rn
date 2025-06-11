@@ -8,6 +8,7 @@ const CharacterEditorStack = () => {
         <Stack
             screenOptions={{
                 headerShown: true,
+                gestureEnabled: false,
                 header: (x) => {
                     const title = x.options.title || x.route.name
                     return (

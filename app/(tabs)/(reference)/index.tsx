@@ -57,7 +57,7 @@ const index = () => {
                             flexDirection: 'column',
                         }}>
                         <ThemedText.Text inverted size="xs">
-                            Authors: {data?.authors.join(', ')}
+                            Authors: {data?.authors && data?.authors.join(', ')}
                         </ThemedText.Text>
                         <ThemedText.Text inverted size="xs">
                             App developed by: ML Development

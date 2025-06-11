@@ -87,7 +87,7 @@ const PosseCharacters = () => {
                                     type="primary"
                                     variant="icon"
                                 />
-                                {posse?.members.length > 0 && (
+                                {posse?.members && posse?.members.length > 0 && (
                                     <ThemedButton
                                         onPress={handleEditModeToggle}
                                         title={

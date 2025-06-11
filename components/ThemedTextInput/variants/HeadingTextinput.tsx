@@ -1,12 +1,16 @@
+import { ThemedText } from '@/components'
+import { padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import React from 'react'
-import { StyleSheet, Text, TextInput, TextInputProps, View, ViewStyle } from 'react-native'
+import { StyleSheet, TextInput, TextInputProps, View, ViewStyle } from 'react-native'
 
 interface CustomTextInputProps extends TextInputProps {
     label?: string
     error?: string
     containerStyle?: ViewStyle
     inputStyle?: TextInputProps['style']
+    invertColor?: boolean
+    value: string
 }
 
 const HeadingTextInput: React.FC<CustomTextInputProps> = ({
@@ -21,12 +25,13 @@ const HeadingTextInput: React.FC<CustomTextInputProps> = ({
     inputStyle,
     error,
     containerStyle,
+    invertColor = false,
     ...rest
 }) => {
     const { currentTheme, currentFontFamilies } = useTheme()
     return (
         <View style={[styles.container, containerStyle]}>
-            {label && <Text style={styles.label}>{label}</Text>}
+            {label && <ThemedText.Text style={styles.label}>{label}</ThemedText.Text>}
             <TextInput
                 style={[
                     {
@@ -35,7 +40,10 @@ const HeadingTextInput: React.FC<CustomTextInputProps> = ({
                                 ? currentFontFamilies[0].family
                                 : currentFontFamilies[1].family,
                         fontSize: 20,
-                        color: currentTheme.colors.textInverted,
+                        borderWidth: 1,
+                        backgroundColor: currentTheme.colors.background,
+                        padding: padding * 2,
+                        color: invertColor ? currentTheme.colors.textInverted : currentTheme.colors.textDefault,
                     },
                     inputStyle,
                 ]}
@@ -52,8 +60,7 @@ const HeadingTextInput: React.FC<CustomTextInputProps> = ({
 }
 
 const styles = StyleSheet.create({
-    container: {
-    },
+    container: {},
     label: {
         marginBottom: 6,
         fontSize: 16,

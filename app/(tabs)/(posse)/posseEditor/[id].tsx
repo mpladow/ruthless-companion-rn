@@ -36,7 +36,7 @@ const PosseName = () => {
 
     useEffect(() => {
         if (id !== null && Number(id) > 0) {
-            setPosseId(id)
+            setPosseId(Number(id))
             const posseFound = posses.find((x) => x.posseId == id)
             if (posseFound) {
                 setName(posseFound?.name)

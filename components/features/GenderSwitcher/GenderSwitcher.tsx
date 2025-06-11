@@ -23,7 +23,7 @@ const GenderSwitcher = ({ value, onChange }: GenderSwitcherProps) => {
                     value == 'male'
                         ? { backgroundColor: currentTheme.colors.primary }
                         : { backgroundColor: 'transparent' },
-                    { paddingVertical: padding },
+                    { paddingVertical: padding, paddingHorizontal: padding * 5 },
                 ]}
             />
             <ThemedButton
@@ -33,7 +33,7 @@ const GenderSwitcher = ({ value, onChange }: GenderSwitcherProps) => {
                 size={'sm'}
                 style={[
                     value == 'female' ? { backgroundColor: currentTheme.colors.primary } : {},
-                    { paddingVertical: padding },
+                    { paddingVertical: padding, paddingHorizontal: padding * 5 },
                 ]}
             />
         </View>
