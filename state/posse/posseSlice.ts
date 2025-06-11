@@ -29,6 +29,11 @@ const posseSlice = createSlice({
 				}
 			}
 		},
+		deleteMultipleCharacters: (state, action: PayloadAction<string[]>) => {
+			if (state) {
+				state.members = state.members.filter(member => !action.payload.includes(member?.playerCharacterId));
+			}
+		},
 		setCurrentAmmoForWeapon: (state, action: PayloadAction<SetWeaponForCharacter>) => {
 			if (state) {
 				const member = state.members.find(x => x.playerCharacterId == action.payload.characterId);
@@ -67,5 +72,5 @@ const posseSlice = createSlice({
 	}
 })
 
-export const { setCurrentPosse, addCharacterToPosseMembers, deleteCharacter, setCurrentAmmoForWeapon, setCurrentHealthToBodyPart, setSpecialRuleUsage } = posseSlice.actions;
+export const { setCurrentPosse, addCharacterToPosseMembers, deleteCharacter, deleteMultipleCharacters, setCurrentAmmoForWeapon, setCurrentHealthToBodyPart, setSpecialRuleUsage } = posseSlice.actions;
 export default posseSlice.reducer;

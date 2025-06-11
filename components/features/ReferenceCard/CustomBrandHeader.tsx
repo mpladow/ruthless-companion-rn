@@ -1,8 +1,10 @@
 import { ThemedText } from '@/components'
 import { useTheme } from '@/theme/ThemeProvider'
 import { margin, padding } from '@/theme/constants'
+import Ionicons from '@expo/vector-icons/Ionicons'
+import { useRouter } from 'expo-router'
 import React from 'react'
-import { Image, LayoutChangeEvent, StyleSheet, View } from 'react-native'
+import { Image, LayoutChangeEvent, Platform, Pressable, StyleSheet, View } from 'react-native'
 import Animated, { Extrapolation, interpolate, SharedValue, useAnimatedStyle } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -19,7 +21,7 @@ const CustomBrandHeader = ({
 }) => {
     const { currentTheme } = useTheme()
     const HEADINGFONTSIZE = 44
-
+    const router = useRouter()
     const insets = useSafeAreaInsets()
 
     const handleLayout = (event: LayoutChangeEvent) => {
@@ -33,6 +35,16 @@ const CustomBrandHeader = ({
             const opacity = interpolate(scrollPos?.value, [0, 80], outputRange)
             return { opacity }
         }, [scrollPos])
+
+    const settingsAnimatedStyles = useAnimatedStyle(() => {
+        return {
+            transform: [
+                {
+                    translateY: interpolate(scrollPos?.value, [0, 400], [0, -320 * -1], Extrapolation.CLAMP),
+                },
+            ],
+        }
+    }, [scrollPos])
 
     const imageAnimatedStyles = useAnimatedStyle(() => {
         return {
@@ -96,7 +108,7 @@ const CustomBrandHeader = ({
                                 headingSize="h1"
                                 inverted
                                 style={{
-                                    fontSize: HEADINGFONTSIZE + 32,
+                                    fontSize: Platform.OS == 'ios'?  HEADINGFONTSIZE + 32 : HEADINGFONTSIZE + 40,
                                     lineHeight: HEADINGFONTSIZE + 32,
                                     textTransform: 'uppercase',
                                 }}>
@@ -205,6 +217,27 @@ const CustomBrandHeader = ({
                         </ThemedText.Heading>
                     </Animated.View>
                 )}
+                {isHeading && (
+                    <Animated.View
+                        style={[
+                            {
+                                flex: 1,
+                                alignItems: 'flex-start',
+                                justifyContent: 'flex-end',
+                                position: 'absolute',
+                                right: padding * 2,
+                                top: insets.top * 2,
+                                zIndex: 10,
+                                //   bottom: insets.top / 2,
+                            },
+                            settingsAnimatedStyles,
+                        ]}>
+                        <Pressable onPress={() => router.navigate('/(settings)')}>
+                            <Ionicons name="settings-outline" size={24} color={currentTheme.colors.textInverted} />
+                        </Pressable>
+                    </Animated.View>
+                )}
+
                 <Animated.Image
                     source={require('../../../assets/images/cowboy-m-rev.png')}
                     style={[isHeading ? styles.headingImage : styles.headingSmall, imageAnimatedStyles]}

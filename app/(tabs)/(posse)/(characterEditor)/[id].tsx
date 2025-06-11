@@ -12,7 +12,6 @@ import { useDispatch } from 'react-redux'
 const CharacterEditor = () => {
     const { currentTheme } = useTheme()
     const { id } = useLocalSearchParams()
-    console.log('🚀 ~ navigationCheck CharacterEditor ~ id:', id)
     const router = useRouter()
     const dispatch = useDispatch<AppDispatch>()
 
@@ -20,7 +19,7 @@ const CharacterEditor = () => {
         router.navigate('/preselectedCharacters')
     }
     const handleAddCustomPress = () => {
-        router.navigate('../(editor)')
+        router.navigate('../editor')
     }
     return (
         <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>

@@ -76,6 +76,14 @@ export default function TabLayout() {
                     tabBarIcon: ({ color }) => <Entypo name="text-document" size={24} color={color} />,
                 }}
             />
+            <Tabs.Screen
+                name="(settings)"
+                options={{
+                    href: null,
+                    title: 'Settings',
+                    tabBarIcon: ({ color }) => <Entypo name="cog" size={24} color={color} />,
+                }}
+            />
         </Tabs>
     )
 }

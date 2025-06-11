@@ -8,8 +8,8 @@ import { setCurrentPosse } from '@/state/posse/posseSlice'
 import { createPosse, updatePosse } from '@/state/posse/userPossesSlice'
 import { AppDispatch, RootState } from '@/state/store'
 import { margin } from '@/theme/constants'
-import { useLocalSearchParams, useRouter } from 'expo-router'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -24,9 +24,15 @@ const PosseName = () => {
 
     const dispatch = useDispatch<AppDispatch>()
     const router = useRouter()
+    const navigation = useNavigation()
     const posses = useSelector((state: RootState) => {
         return state._persist.rehydrated ? state.userPosses : []
     })
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: posseId > 0 ? 'Edit Posse' : 'Create Posse',
+        })
+    }, [navigation, posseId])
 
     useEffect(() => {
         if (id !== null && Number(id) > 0) {

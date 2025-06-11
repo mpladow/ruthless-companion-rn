@@ -5,6 +5,7 @@ import Animated, {
 	useAnimatedStyle,
 	useDerivedValue,
 	useSharedValue,
+	withDelay,
 	withTiming,
 } from 'react-native-reanimated'
 
@@ -14,6 +15,7 @@ type AccordionItemType = {
     invertExpanded?: boolean
     style?: ViewStyle
     duration?: number
+    delay?: number
 } & PropsWithChildren
 const AnimatedAccordion = ({
     isExpanded,
@@ -21,14 +23,18 @@ const AnimatedAccordion = ({
     viewKey,
     style,
     invertExpanded,
-    duration = 500,
+    duration = 250,
+    delay = 0,
 }: AccordionItemType) => {
     const height = useSharedValue(0)
 
     const derivedHeight = useDerivedValue(() =>
-        withTiming(height.value * Number(invertExpanded ? !isExpanded.value : isExpanded.value), {
-            duration,
-        })
+        withDelay(
+            delay,
+            withTiming(height.value * Number(invertExpanded ? !isExpanded.value : isExpanded.value), {
+                duration,
+            })
+        )
     )
     const bodyStyle = useAnimatedStyle(() => ({
         height: derivedHeight.value,

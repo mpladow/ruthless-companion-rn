@@ -29,20 +29,27 @@ const Home = () => {
         return state._persist.rehydrated ? state.userPosses : [DUMMY_DATA]
     })
     //  const posses = [DUMMY_DATA]
-    const { currentTheme } = useTheme()
     const [confirmModalOpen, setConfirmModalOpen] = useState(false)
     const [focusedId, setFocusedId] = useState<string | null>(null)
+    const [headerHeight, setHeaderHeight] = useState(0)
+
     const { height } = Dimensions.get('window')
+    const scrollY = useSharedValue(0)
+
+    const { currentTheme } = useTheme()
     const { bottom, top } = useSafeAreaInsets()
     const width = useResponsiveWidth()
     const router = useRouter()
     const dispatch = useDispatch<AppDispatch>()
+    const navigation = useNavigation()
 
     useEffect(() => {
         console.log('🚀 ~ Setting current posse to null')
         dispatch(setCurrentPosse(undefined))
     }, [])
-
+    useEffect(() => {
+        navigation.setOptions({ headerShown: false })
+    }, [])
     const handleDeletePosseConfirm = () => {
         if (focusedId) {
             setConfirmModalOpen(false)
@@ -61,7 +68,6 @@ const Home = () => {
         router.navigate(`../../posseEditor/${posseId}`)
     }
     const handleListItemPress = (posseId: string) => {
-        console.log(`OPENING ${posseId}`)
         // findPosse
         const selectedPosse = posses.find((x) => x.posseId == posseId)
         if (selectedPosse) {
@@ -69,28 +75,18 @@ const Home = () => {
         }
         router.navigate(`./${selectedPosse?.posseId}`)
     }
-    const [name, setName] = useState('')
-    const navigation = useNavigation()
     const handleOnAddMemberPress = (posseId: string) => {
         const foundPosse = posses.find((x) => x.posseId == posseId)
-        console.log('🚀 ~ navigationCheck handleOnAddMemberPress ~ foundPosse:', foundPosse)
         if (foundPosse) {
             dispatch(setCurrentPosse(foundPosse))
             router.navigate(`../(characterEditor)/${foundPosse.posseId}`)
         }
     }
 
-    useEffect(() => {
-        navigation.setOptions({ headerShown: false })
-    }, [])
-
     // handle scrolling of scrollview
-    const scrollY = useSharedValue(0)
     const handleScroll = useAnimatedScrollHandler((event) => {
         scrollY.value = event.contentOffset.y
     })
-
-    const [headerHeight, setHeaderHeight] = useState(0)
 
     const handleChildHeightChange = (height: number) => {
         setHeaderHeight(height)
@@ -179,7 +175,6 @@ const Home = () => {
                                 item={item}
                                 onListItemPress={handleListItemPress}
                                 onDeletePossePress={(posseId: string) => {
-                                    console.log('🚀 ~ Home ~ posseId:', posseId)
                                     setFocusedId(posseId)
                                     setConfirmModalOpen(true)
                                 }}

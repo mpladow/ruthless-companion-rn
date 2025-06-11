@@ -32,7 +32,6 @@ const index = () => {
     useEffect(() => {
         getReferenceDataAsync()
     }, [])
-    console.log('🚀 ~ index ~ TEST_CONTENT:', TEST_CONTENT)
 
     const { currentTheme, currentFontFamilies } = useTheme()
     const [focusedSection, setFocusedSection] = useState<Section | null>(null)

@@ -26,7 +26,7 @@ const CharacterEditorStack = () => {
             initialRouteName="index">
             <Stack.Screen name="index" options={{ title: 'Add Posse Member' }} />
             <Stack.Screen name="[id]" options={{ title: 'Add Posse Member' }} />
-
+            <Stack.Screen name="editor" options={{ title: 'Create Custom Character' }} />
             <Stack.Screen name="preselectedCharacters" options={{ title: 'Select a character' }} />
         </Stack>
     )

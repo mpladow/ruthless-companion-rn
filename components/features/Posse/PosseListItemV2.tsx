@@ -278,8 +278,11 @@ const PosseListItemV2 = ({
                                             //   paddingTop: 3,
                                             //   borderBottomWidth: 2,
                                             justifyContent: 'flex-end',
-                                            alignItems: 'center',
+                                            alignItems: 'flex-end',
+                                            padding: 12,
+                                            paddingRight: 0,
                                             zIndex: 999,
+                                            borderRadius: borderRadius * 20,
                                         }}>
                                         <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
                                     </View>
@@ -290,17 +293,12 @@ const PosseListItemV2 = ({
                             </MenuTrigger>
                             <MenuOptions customStyles={{ optionsContainer: {} }}>
                                 <MenuOption onSelect={() => onEditPossePress()}>
-                                    <View style={{ padding: padding }}>
+                                    <View style={{ paddingVertical: padding * 2, paddingHorizontal: padding * 4 }}>
                                         <ThemedText.Text>Edit</ThemedText.Text>
                                     </View>
                                 </MenuOption>
-                                <MenuOption onSelect={() => alert(`Duplicate`)}>
-                                    <View style={{ padding: padding }}>
-                                        <ThemedText.Text>Duplicate</ThemedText.Text>
-                                    </View>
-                                </MenuOption>
                                 <MenuOption onSelect={() => onDeletePossePress(item.posseId)}>
-                                    <View style={{ padding: padding }}>
+                                    <View style={{ paddingVertical: padding * 2, paddingHorizontal: padding * 4 }}>
                                         <ThemedText.Text style={{ color: currentTheme.colors.error }}>
                                             Delete
                                         </ThemedText.Text>

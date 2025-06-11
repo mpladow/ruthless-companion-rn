@@ -7,20 +7,24 @@ import ThemedButton from '@/components/ThemedButton/ThemedButton'
 import { DODGE_CITY_SCENARIO } from '@/data/Pregenerated'
 import { PlayerCharacter } from '@/models/playerCharacter'
 import { addCharacterToPosseMembers } from '@/state/posse/posseSlice'
-import { AppDispatch } from '@/state/store'
+import { AppDispatch, RootState } from '@/state/store'
 import { margin } from '@/theme/constants'
 import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { ActivityIndicator, Platform, Pressable, StyleSheet, View } from 'react-native'
 import Animated, { SlideInDown } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const PreselectedCharacters = () => {
     const pregeneratedCharacters: PlayerCharacter[] = DODGE_CITY_SCENARIO
     const { bottom } = useSafeAreaInsets()
     const [charactersToAdd, setCharactersToAdd] = useState<string[]>([])
     const dispatch = useDispatch<AppDispatch>()
+
+    const posse = useSelector((state: RootState) => {
+        return state._persist.rehydrated ? state.selectedPosse : null
+    })
     const handleCheckPress = (characterId: string) => {
         const idFound = charactersToAdd.find((x) => x == characterId)
         if (idFound) {
@@ -35,11 +39,13 @@ const PreselectedCharacters = () => {
     const handleAddToPosse = () => {
         setLoading(true)
         const characters = pregeneratedCharacters.filter((x) => charactersToAdd.includes(x.playerCharacterId))
-        console.log('🚀 ~ handleAddToPosse ~ characters:', characters)
         dispatch(addCharacterToPosseMembers(characters))
         setTimeout(() => {
+            // this is gross but it works and shouldn't break. not sure why replace is not working for this route.
+            router.replace(`./${posse?.posseId.toString()}`)
+            router.back()
+            router.back()
             setLoading(false)
-            router.replace('/(tabs)/(posse)/posseCharacters')
         }, 1000)
     }
     return (

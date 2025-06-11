@@ -1,3 +1,4 @@
+import { GenderType } from '@/components/features/GenderSwitcher/GenderSwitcher';
 import { BodyPartTemplate } from './bodyParttemplate';
 import { Weapon } from './weapon';
 
@@ -6,6 +7,6 @@ export interface CharacterTemplate {
 	toughness: number;
 	startingWeapons: Weapon[];
 	bodyParts: BodyPartTemplate[]
-	gender: 'male' | 'female' | 'other';
+	gender: GenderType;
 
 }

@@ -27,7 +27,7 @@ export default function RootLayout() {
         CourierPrime_400Regular,
         CourierPrime_400Regular_Italic,
         CourierPrime_700Bold,
-		  CourierPrime_700Bold_Italic,
+        CourierPrime_700Bold_Italic,
         Rye_400Regular,
         Smokum_400Regular,
     })
@@ -102,6 +102,7 @@ export default function RootLayout() {
             fontFamily: 'Smokum_400Regular',
         },
     }
+
     return (
         <GestureHandlerRootView style={styles.container}>
             <Provider store={store}>
@@ -121,6 +122,8 @@ export default function RootLayout() {
                                                 headerShown: false,
                                             }}
                                         />
+                                        <Stack.Screen name="(settings)" />
+
                                         <Stack.Screen name="+not-found" />
                                     </Stack>
 

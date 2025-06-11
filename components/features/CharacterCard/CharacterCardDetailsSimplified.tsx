@@ -47,9 +47,13 @@ const CharacterCardDetailsSimplified = ({ playerCharacter, healthStatus }: Chara
                 flexGrow: 1,
                 width: '100%',
                 padding: padding,
-                backgroundColor: Color(currentTheme.colors.grey1).lighten(0.2).hex(),
             }}>
-            <View style={{ flexDirection: 'row' }}>
+            <View
+                style={{
+                    flexDirection: 'row',
+                    backgroundColor: Color(currentTheme.colors.grey1).lighten(0.2).hex(),
+                    padding: padding,
+                }}>
                 {playerCharacter.specialRules.map((x, index) => {
                     return (
                         <ThemedText.Heading headingSize="h3">
@@ -58,16 +62,17 @@ const CharacterCardDetailsSimplified = ({ playerCharacter, healthStatus }: Chara
                     )
                 })}
             </View>
-            <View style={{ flexDirection: 'column' }}>
+            <View style={{ flexDirection: 'column', padding: padding }}>
                 {playerCharacter.currentWeapons?.map((x, index) => {
                     return (
                         <ThemedText.Text>
-                            {x.name} - {x.currentAmmunition}/{x.maxAmmunition}
+                            <ThemedText.Text type="bold">{x.name}</ThemedText.Text> - {x.currentAmmunition}/
+                            {x.maxAmmunition} - {x.specialRules.map((y) => y.name).join(', ')}
                         </ThemedText.Text>
                     )
                 })}
             </View>
-            <View style={{ flexDirection: 'row' }}>{_healthStatus}</View>
+            <View style={{ flexDirection: 'row', padding: padding }}>{_healthStatus}</View>
         </View>
     )
 }

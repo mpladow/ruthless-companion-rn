@@ -29,9 +29,11 @@ type CharacterCardProps = {
     playerCharacter: PlayerCharacter
     collapsedView: boolean
     readOnly?: boolean
+    /**Toggles checkbox to delete character */
+    editMode?: boolean
 }
 
-const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCardProps) => {
+const CharacterCard = ({ playerCharacter, collapsedView, readOnly, editMode }: CharacterCardProps) => {
     console.log('🚀 ~ CharacterCard ~ collapsedView:', collapsedView)
     const { currentTheme } = useTheme()
     const [collapsed, setCollapsed] = useState(collapsedView)
@@ -132,6 +134,7 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCa
                     onPress={handleExpandToggle}
                     name={playerCharacter.name}
                     toughness={playerCharacter.toughness}
+						  gender={playerCharacter.gender}
                 />
                 <View
                     style={{
@@ -139,7 +142,11 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCa
                         alignItems: 'center',
                         justifyContent: 'space-between',
                     }}>
-                    <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded} invertExpanded>
+                    <AnimatedAccordion
+                        viewKey="playerCharacter.weapon"
+                        isExpanded={isExpanded}
+                        invertExpanded
+                        delay={0}>
                         <Pressable onPress={handleExpandToggle} style={{ width: '100%' }}>
                             <CharacterCardDetailsSimplified
                                 healthStatus={healthStatus}
@@ -147,7 +154,7 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCa
                             />
                         </Pressable>
                     </AnimatedAccordion>
-                    <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded}>
+                    <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded} delay={100}>
                         {playerCharacter.specialRules.length > 0 && (
                             <SpecialRulesContainer
                                 specialRules={playerCharacter.specialRules}
@@ -173,6 +180,7 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly }: CharacterCa
                             justifyContent: 'center',
                             alignItems: 'center',
                             paddingVertical: padding,
+                            zIndex: 2,
                         }}>
                         <ExpandedIndicator isExpanded={!collapsed} onPress={handleExpandToggle} />
                     </View>

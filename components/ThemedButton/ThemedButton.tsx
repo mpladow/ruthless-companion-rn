@@ -13,7 +13,7 @@ type ThemedButtonProps = {
     style?: ViewStyle
     textStyle?: TextStyle
     type?: Variant
-    variant?: 'ghost' | 'text' | 'filled'
+    variant?: 'ghost' | 'text' | 'filled' | 'icon'
     alternateTitle?: boolean
     size: 'sm' | 'lg'
     loading?: boolean
@@ -77,7 +77,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
         switch (variant) {
             case 'ghost':
                 return {
-                    backgroundColor: 'transparent',
+                    backgroundColor: currentTheme.colors.background,
                     textColor: currentType.backgroundColor,
                     borderColor: currentType.backgroundColor,
                     borderWidth: 2,
@@ -92,7 +92,17 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
                 }
             case 'filled':
                 return commonStyles.boxShadow
-
+            case 'icon':
+                return {
+                    padding: 8,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'transparent',
+                    textColor: currentType.backgroundColor,
+                    borderColor: currentType.backgroundColor,
+                    paddingHorizontal: 4,
+                    borderWidth: 0,
+                }
             default:
                 return commonStyles.boxShadow
         }
@@ -100,6 +110,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
 
     return (
         <Pressable
+            hitSlop={variant == 'icon' ? 8 : 12}
             onPress={onPress}
             disabled={disabled}
             style={({ pressed }) => [
@@ -107,6 +118,12 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
                 { backgroundColor: pressed ? currentType.pressedColor : currentType.backgroundColor },
                 disabled && styles.disabled,
                 size == 'sm' ? styles.buttonSmall : styles.buttonLarge,
+                variant == 'text' && {
+                    backgroundColor: 'transparent',
+                    padding: 0,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                },
                 currentVariantStyles,
                 style,
             ]}

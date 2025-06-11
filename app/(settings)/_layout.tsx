@@ -3,7 +3,7 @@ import { Stack } from 'expo-router'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 
-const PosseStackLayout = () => {
+const SettingsStackLayout = () => {
     return (
         <Stack
             screenOptions={{
@@ -22,27 +22,12 @@ const PosseStackLayout = () => {
                         />
                     )
                 },
-            }}
-            initialRouteName="index">
-            <Stack.Screen name="index" options={{ title: 'Home' }} />
-            <Stack.Screen name="[posseId]" options={{ title: 'Posse' }} />
-
-            <Stack.Screen
-                name="posseEditor"
-                options={{ title: 'Create Posse', presentation: 'modal', headerShown: false }}
-            />
-            <Stack.Screen
-                name="(characterEditor)"
-                options={{ presentation: 'modal', headerShown: false, title: 'Select Character' }}
-            />
-            <Stack.Screen
-                name="(editor)"
-                options={{ headerShown: false, title: 'Create a character' }}
-            />
+            }}>
+            <Stack.Screen name="(settings)" options={{ title: 'Settings' }} />
         </Stack>
     )
 }
 
-export default PosseStackLayout
+export default SettingsStackLayout
 
 const styles = StyleSheet.create({})

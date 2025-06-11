@@ -129,10 +129,11 @@ const ThemedBottomSheet: React.FC<ThemedBottomSheetProps> = ({
             style={detached ? styles.sheetContentDetached : styles.sheetContent}
             onDismiss={onClose}
             footerComponent={renderFooter}
+				
             enablePanDownToClose
             maxDynamicContentSize={maxHeight}
             containerComponent={(props) =>
-                Platform.OS != 'web' ? <FullWindowOverlay>{props.children}</FullWindowOverlay> : <>{props.children}</>
+                Platform.OS == 'ios' ? <FullWindowOverlay>{props.children}</FullWindowOverlay> : <>{props.children}</>
             }>
             {scrollable ? (
                 <BottomSheetScrollView style={styles.bottomView} contentContainerStyle={styles.bottomView}>

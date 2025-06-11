@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 60,
         //   paddingHorizontal: padding * 2,
-        paddingTop: Platform.OS === 'ios' ? 20 : 0,
+        paddingTop: 20,
         backgroundColor: '#fff',
         flexDirection: 'row',
         alignItems: 'center',
