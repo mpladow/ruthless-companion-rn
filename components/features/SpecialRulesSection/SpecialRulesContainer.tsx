@@ -74,7 +74,15 @@ const SpecialRulesContainer = ({ specialRules, onSpecialRulesUsageChange }: Spec
                                     _checked = true
                                 }
                                 return (
-                                    <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+                                    <View
+                                        style={{
+                                            flex: 1,
+                                            justifyContent: 'flex-start',
+                                            alignItems: 'flex-start',
+                                            flexDirection: 'row',
+                                            gap: 4,
+                                        }}
+                                        key={index}>
                                         <SpecialRuleCheckbox
                                             onPress={() => handleSpecialRulesPress(item, _checked)}
                                             isChecked={_checked}

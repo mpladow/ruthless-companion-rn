@@ -8,6 +8,7 @@ export const SPEC_RULE_FANFIRE: SpecialRule = {
 	weaponRule: true,
 	alignmentType: [],
 	specialityType: [],
+	version: 0
 }
 export const SPEC_RULE_SHOTGUN: SpecialRule = {
 	specialRuleId: "2",
@@ -17,6 +18,7 @@ export const SPEC_RULE_SHOTGUN: SpecialRule = {
 	weaponRule: true,
 	alignmentType: [],
 	specialityType: [],
+	version: 0
 }
 export const SPEC_RULE_FREE_RELOAD: SpecialRule = {
 	specialRuleId: "2",
@@ -26,6 +28,7 @@ export const SPEC_RULE_FREE_RELOAD: SpecialRule = {
 	weaponRule: true,
 	alignmentType: [],
 	specialityType: [],
+	version: 0
 }
 
 export const SPEC_RULE_BOWIE_KNIFE: SpecialRule = {
@@ -35,16 +38,18 @@ export const SPEC_RULE_BOWIE_KNIFE: SpecialRule = {
 	points: 3,
 	alignmentType: ['neutral'],
 	specialityType: ['melee', 'brave'],
+	version: 0
 }
 export const SPEC_RULE_COOL_HAND: SpecialRule = {
 	specialRuleId: '9',
 	name: 'Cool Hand',
 	description: 'Ignores first failed Toughness test',
 	points: 1,
-	maxUsage: 3,
+	maxUsage: 1,
 	currentUsage: 0,
 	alignmentType: ['neutral'],
-	specialityType: ['tough']
+	specialityType: ['tough'],
+	version: 0
 }
 export const SPEC_RULE_DIRTY_CHEAT: SpecialRule = {
 	specialRuleId: '10',
@@ -53,6 +58,7 @@ export const SPEC_RULE_DIRTY_CHEAT: SpecialRule = {
 	points: 2,
 	alignmentType: ['bandit', 'neutral'],
 	specialityType: ['cowardly', 'regular'],
+	version: 0
 }
 export const SPEC_RULE_DRUNK: SpecialRule = {
 	specialRuleId: '11',
@@ -61,6 +67,7 @@ export const SPEC_RULE_DRUNK: SpecialRule = {
 	points: -3,
 	alignmentType: ['neutral'],
 	specialityType: ['veteran'],
+	version: 0
 }
 export const SPEC_RULE_EXPERT_RIDER: SpecialRule = {
 	specialRuleId: '12',
@@ -69,6 +76,7 @@ export const SPEC_RULE_EXPERT_RIDER: SpecialRule = {
 	points: 3,
 	alignmentType: ['neutral'],
 	specialityType: ['veteran', 'ranged'],
+	version: 0
 }
 export const SPEC_RULE_GREENHORN: SpecialRule = {
 	specialRuleId: '13',
@@ -77,6 +85,7 @@ export const SPEC_RULE_GREENHORN: SpecialRule = {
 	points: -3,
 	alignmentType: ['neutral'],
 	specialityType: ['ranged', 'greenhorn'],
+	version: 0
 }
 export const SPEC_RULE_GUNFIGHTER: SpecialRule = {
 	specialRuleId: '14',
@@ -85,6 +94,7 @@ export const SPEC_RULE_GUNFIGHTER: SpecialRule = {
 	points: 3,
 	alignmentType: ['neutral'],
 	specialityType: ['ranged', 'veteran'],
+	version: 0
 }
 export const SPEC_RULE_LAW_DOG: SpecialRule = {
 	specialRuleId: '16',
@@ -92,7 +102,8 @@ export const SPEC_RULE_LAW_DOG: SpecialRule = {
 	description: 'Cannot Shoot until an enemy fires first',
 	points: -2,
 	alignmentType: ['lawman'],
-	specialityType: ['brave']
+	specialityType: ['brave'],
+	version: 0
 }
 export const SPEC_RULE_LOUDMOUTH: SpecialRule = {
 	specialRuleId: '15',
@@ -101,6 +112,7 @@ export const SPEC_RULE_LOUDMOUTH: SpecialRule = {
 	points: 2,
 	alignmentType: ['neutral'],
 	specialityType: ['veteran', 'greenhorn', 'tough'],
+	version: 0
 }
 export const SPEC_RULE_LUCKY: SpecialRule = {
 	specialRuleId: '17',
@@ -111,6 +123,7 @@ export const SPEC_RULE_LUCKY: SpecialRule = {
 	currentUsage: 0,
 	alignmentType: ['neutral'],
 	specialityType: ['cowardly', 'veteran', 'greenhorn', 'stealthy'],
+	version: 0
 }
 export const SPEC_RULE_MARKSMAN: SpecialRule = {
 	specialRuleId: '18',
@@ -119,6 +132,7 @@ export const SPEC_RULE_MARKSMAN: SpecialRule = {
 	points: 2,
 	alignmentType: ['neutral'],
 	specialityType: ['ranged', 'veteran'],
+	version: 0
 }
 export const SPEC_RULE_NERVOUS: SpecialRule = {
 	specialRuleId: '19',
@@ -128,6 +142,7 @@ export const SPEC_RULE_NERVOUS: SpecialRule = {
 
 	alignmentType: ['neutral'],
 	specialityType: ['cowardly', 'greenhorn', 'stealthy'],
+	version: 0
 }
 export const SPEC_RULE_OLD_WOUND: SpecialRule = {
 	specialRuleId: '20',
@@ -136,6 +151,7 @@ export const SPEC_RULE_OLD_WOUND: SpecialRule = {
 	points: -2,
 	alignmentType: ['neutral'],
 	specialityType: ['tough', 'brave', 'veteran'],
+	version: 0
 }
 export const SPEC_RULE_STEALTHY: SpecialRule = {
 	specialRuleId: '21',
@@ -144,6 +160,7 @@ export const SPEC_RULE_STEALTHY: SpecialRule = {
 	points: 2,
 	alignmentType: ['neutral'],
 	specialityType: ['stealthy'],
+	version: 0
 }
 export const SPEC_RULE_STUBBORN: SpecialRule = {
 	specialRuleId: '24',
@@ -152,6 +169,7 @@ export const SPEC_RULE_STUBBORN: SpecialRule = {
 	points: 2,
 	alignmentType: ['neutral'],
 	specialityType: ['tough'],
+	version: 0
 }
 export const SPEC_RULE_TOMAHAWK: SpecialRule = {
 	specialRuleId: '25',
@@ -160,6 +178,7 @@ export const SPEC_RULE_TOMAHAWK: SpecialRule = {
 	points: 2,
 	alignmentType: ['neutral'],
 	specialityType: ['melee', 'brave'],
+	version: 0
 }
 export const SPEC_RULE_ROUGHASNAILS: SpecialRule = {
 	specialRuleId: '6',
@@ -170,6 +189,7 @@ export const SPEC_RULE_ROUGHASNAILS: SpecialRule = {
 	currentUsage: 0,
 	alignmentType: ['neutral'],
 	specialityType: ['tough'],
+	version: 0
 }
 export const SPEC_RULE_TRIGGERFINGER: SpecialRule = {
 	specialRuleId: '7',
@@ -178,6 +198,7 @@ export const SPEC_RULE_TRIGGERFINGER: SpecialRule = {
 	points: 2,
 	alignmentType: ['neutral'],
 	specialityType: ['ranged'],
+	version: 0
 }
 export const SPEC_RULE_UNPREPARED: SpecialRule = {
 	specialRuleId: '21',
@@ -186,7 +207,7 @@ export const SPEC_RULE_UNPREPARED: SpecialRule = {
 	points: -3,
 	alignmentType: ['neutral'],
 	specialityType: [],
-
+	version: 0
 }
 export const SPEC_RULE_YELLABELLY: SpecialRule = {
 	specialRuleId: '22',
@@ -195,6 +216,7 @@ export const SPEC_RULE_YELLABELLY: SpecialRule = {
 	points: -2,
 	alignmentType: ['neutral'],
 	specialityType: ['cowardly', 'stealthy'],
+	version: 0
 }
 
 export const SPEC_RULES: SpecialRule[] = [

@@ -8,6 +8,7 @@ export interface CharacterTemplate {
 	name: string;
 	toughness: number;
 	startingWeapons: Weapon[];
+	currentWeapons?: Weapon[];
 	specialRules: SpecialRule[];
 	bodyParts: BodyPartTemplate[];
 	isCustom: boolean;

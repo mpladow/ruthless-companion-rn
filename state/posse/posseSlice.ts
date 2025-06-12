@@ -18,7 +18,10 @@ const posseSlice = createSlice({
 		},
 		addCharacterToPosseMembers: (state, { payload }: PayloadAction<PlayerCharacter[]>) => {
 			if (state) {
-				state.members.push(...payload);
+				payload.map(character => {
+					let updatedOrder = state.members.length + 1;
+					state.members.push({...character, order: updatedOrder});
+				})
 			}
 		},
 		deleteCharacter: (state, action: PayloadAction<number>) => {

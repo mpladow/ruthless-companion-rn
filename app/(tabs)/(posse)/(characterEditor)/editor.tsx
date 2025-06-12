@@ -124,7 +124,7 @@ const characterEdit = () => {
                 } as BodyPart)
         )
 
-        newCharacterTemplate.startingWeapons = data.startingWeapons.map((x) => {
+        let weaponInstance = data.startingWeapons.map((x) => {
             const weapon: Weapon = {
                 weaponId: x.weaponId,
                 name: x.name,
@@ -139,6 +139,9 @@ const characterEdit = () => {
             }
             return weapon
         })
+        newCharacterTemplate.startingWeapons = weaponInstance
+        newCharacterTemplate.currentWeapons = weaponInstance
+        console.log('🚀 ~ handleAddToPosse handleConfirmCharacter ~ newCharacterTemplate:', newCharacterTemplate)
 
         try {
             dispatch(addCustomCharacter(newCharacterTemplate))

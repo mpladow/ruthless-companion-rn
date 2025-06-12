@@ -11,6 +11,7 @@ export interface SpecialRuleTemplate {
 	weaponRule?: boolean;
 	alignmentType: AlignmentType[]
 	specialityType: SpecialityType[];
+	version: number
 }
 
 export interface SpecialRule extends SpecialRuleTemplate {
