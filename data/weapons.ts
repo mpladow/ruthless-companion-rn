@@ -10,7 +10,8 @@ export const WPN_DERRINGER: Weapon = {
 	longRange: 0,
 	specialRules: [],
 	weaponTemplateId: 5,
-	currentAmmunition: 2
+	currentAmmunition: 2,
+	description: "The Derringer is a small, easily concealable pistol, often used as a backup weapon. It typically holds two rounds and is effective at close range, making it a popular choice for discreet self-defense."
 }
 export const WPN_SHOTGUN: Weapon = {
 	weaponId: 2,
@@ -20,7 +21,8 @@ export const WPN_SHOTGUN: Weapon = {
 	longRange: 12,
 	specialRules: [SPEC_RULE_SHOTGUN],
 	currentAmmunition: 2,
-	weaponTemplateId: 2
+	weaponTemplateId: 2,
+	description: "Double-barreled shotguns, like the 'coach gun,' were particularly popular, offering versatility for both hunting and self-defense. Single-barreled shotguns, such as the 'Winchester Model 1897 pump action,' were also common, especially among military personnel and law enforcement."
 }
 export const WPN_REVOLVER: Weapon = {
 	weaponId: 1,
@@ -30,7 +32,8 @@ export const WPN_REVOLVER: Weapon = {
 	longRange: 12,
 	specialRules: [SPEC_RULE_FANFIRE],
 	currentAmmunition: 6,
-	weaponTemplateId: 1
+	weaponTemplateId: 1,
+	description: "During the American West, several six-shot revolvers were common and well-regarded. The Colt Single Action Army is arguably the most iconic, while others like the Colt 1851 Navy, Remington Army .44, and Colt Walker also gained popularity."
 }
 export const WPN_BUNTLINE_SPECIAL: Weapon = {
 	weaponId: 6,
@@ -40,7 +43,8 @@ export const WPN_BUNTLINE_SPECIAL: Weapon = {
 	name: "Buntline Special",
 	maxAmmunition: 6,
 	specialRules: [SPEC_RULE_FANFIRE],
-	weaponTemplateId: 0
+	weaponTemplateId: 0,
+	description: "The Buntline Special is a legendary revolver, often associated with the American West and famous for its long barrel. It was reputedly commissioned by Edward E. Beeman for Wyatt Earp, and its distinctive design made it a favorite among lawmen and outlaws alike."
 }
 export const WPN_BOW: Weapon = {
 	currentAmmunition: 0,
@@ -48,7 +52,10 @@ export const WPN_BOW: Weapon = {
 	name: 'Bow',
 	maxAmmunition: 0,
 	specialRules: [SPEC_RULE_FREE_RELOAD],
-	weaponTemplateId: 0
+	shortRange: 8,
+	longRange: 10,
+	weaponTemplateId: 0,
+	description: "The Bow is a traditional ranged weapon that uses a flexible arc to launch arrows. It is silent and deadly, making it ideal for hunting and stealthy attacks. Bows can vary in size and draw weight, affecting their range and power."
 }
 export const WPN_REPEATER: Weapon = {
 	weaponId: 3,
@@ -58,7 +65,8 @@ export const WPN_REPEATER: Weapon = {
 	longRange: 24,
 	specialRules: [],
 	currentAmmunition: 10,
-	weaponTemplateId: 3
+	weaponTemplateId: 3,
+	description: "The Repeating Rifle, such as the Winchester Model 1873, was a significant advancement in firearm technology during the American West. It allowed for multiple shots without reloading after each shot, making it a favorite among settlers and lawmen."
 }
 export const WPN_SHARPS: Weapon = {
 	weaponId: 4,
@@ -68,8 +76,12 @@ export const WPN_SHARPS: Weapon = {
 	longRange: 36,
 	specialRules: [],
 	currentAmmunition: 1,
-	weaponTemplateId: 4
+	weaponTemplateId: 4,
+	description: "The Sharps Carbine was a popular rifle during the American Civil War and the Indian Wars. Known for its accuracy and powerful .52 caliber cartridge, it was favored by both military and civilian marksmen."
 }
+export const WEAPONS = [
+	WPN_REVOLVER, WPN_DERRINGER, WPN_REPEATER, WPN_BOW, WPN_BUNTLINE_SPECIAL, WPN_SHOTGUN, WPN_SHARPS
+]
 
 
 //TEMPLATES

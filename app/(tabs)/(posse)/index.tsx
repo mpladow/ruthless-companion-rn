@@ -1,20 +1,24 @@
-import { AnimatedFlatList, ThemedText } from '@/components'
-import PosseListItem from '@/components/features/Posse/PosseListItem'
-import Messagebox from '@/components/Messagebox/Messagebox'
+import { ThemedText } from '@/components'
+import PosseListItemV2 from '@/components/features/Posse/PosseListItemV2'
+import CustomBrandHeader from '@/components/features/ReferenceCard/CustomBrandHeader'
 import CustomModal from '@/components/Modal/CustomModal'
-import PageContainer from '@/components/PageContainer/PageContainer'
 import ThemedButton from '@/components/ThemedButton/ThemedButton'
-import ThemedContainer from '@/components/ThemedContainer'
 import { DUMMY_DATA } from '@/data/dummy_posse'
-import { useResponsiveWidth } from '@/hooks'
 import { setCurrentPosse } from '@/state/posse/posseSlice'
 import { deletePosse } from '@/state/posse/userPossesSlice'
 import { AppDispatch, RootState } from '@/state/store'
 import { margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
-import { useRouter } from 'expo-router'
+import { useNavigation, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { Dimensions, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
+import Animated, {
+	Extrapolation,
+	interpolate,
+	useAnimatedScrollHandler,
+	useAnimatedStyle,
+	useSharedValue,
+} from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 const Home = () => {
@@ -22,20 +26,25 @@ const Home = () => {
         return state._persist.rehydrated ? state.userPosses : [DUMMY_DATA]
     })
     //  const posses = [DUMMY_DATA]
-    const { currentTheme } = useTheme()
     const [confirmModalOpen, setConfirmModalOpen] = useState(false)
     const [focusedId, setFocusedId] = useState<string | null>(null)
-    const { height } = Dimensions.get('window')
-    const { bottom } = useSafeAreaInsets()
-    const width = useResponsiveWidth()
+    const [headerHeight, setHeaderHeight] = useState(0)
+
+    const scrollY = useSharedValue(0)
+
+    const { currentTheme } = useTheme()
+    const { bottom, top } = useSafeAreaInsets()
     const router = useRouter()
     const dispatch = useDispatch<AppDispatch>()
+    const navigation = useNavigation()
 
     useEffect(() => {
         console.log('🚀 ~ Setting current posse to null')
         dispatch(setCurrentPosse(undefined))
     }, [])
-
+    useEffect(() => {
+        navigation.setOptions({ headerShown: false })
+    }, [])
     const handleDeletePosseConfirm = () => {
         if (focusedId) {
             setConfirmModalOpen(false)
@@ -46,70 +55,146 @@ const Home = () => {
         }
     }
 
-    const handleEditPosse = () => {}
     const handleCreatePossePress = () => {
         router.navigate('../../posseEditor')
     }
-
+    const handleEditPossePress = (posseId: string) => {
+        router.navigate(`../../posseEditor/${posseId}`)
+    }
     const handleListItemPress = (posseId: string) => {
-        console.log(`OPENING ${posseId}`)
         // findPosse
         const selectedPosse = posses.find((x) => x.posseId == posseId)
         if (selectedPosse) {
             dispatch(setCurrentPosse(selectedPosse))
         }
-        router.navigate('/posseCharacters')
+        router.navigate(`./${selectedPosse?.posseId}`)
     }
-    const [name, setName] = useState('')
     const handleOnAddMemberPress = (posseId: string) => {
         const foundPosse = posses.find((x) => x.posseId == posseId)
         if (foundPosse) {
             dispatch(setCurrentPosse(foundPosse))
-            router.navigate(`/(tabs)/(posse)/(characterEditor)`)
+            router.navigate(`../(characterEditor)/${foundPosse.posseId}`)
         }
     }
 
+    // handle scrolling of scrollview
+    const handleScroll = useAnimatedScrollHandler((event) => {
+        scrollY.value = event.contentOffset.y
+    })
+
+    const handleChildHeightChange = (height: number) => {
+        setHeaderHeight(height)
+    }
+
+    const scrollAnimatedStyles = useAnimatedStyle(() => {
+        const translateY = interpolate(scrollY.value, [0, 200], [0, -headerHeight + top], Extrapolation.CLAMP)
+        return { transform: [{ translateY }] }
+    }, [headerHeight, scrollY.value])
+
     return (
-        <>
-            <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
-                <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
-                    <ThemedText.Text type="semibold">Choose your posse to begin!</ThemedText.Text>
-                </Messagebox>
-                <ThemedContainer paddingSize="none" style={{ flex: 1 }}>
-                    <AnimatedFlatList
-                        data={posses}
-                        contentContainerStyle={{ paddingBottom: bottom + 150 }}
-                        style={{ flex: 1 }}
-                        ItemSeparatorComponent={() => <View style={{ height: margin }}></View>}
-                        renderItem={({ item }) => (
-                            <PosseListItem
+        <View style={{ flexGrow: 1, backgroundColor: currentTheme.colors.background }}>
+            <Animated.View style={[scrollAnimatedStyles, { flexGrow: 1 }]}>
+                <CustomBrandHeader
+                    isHeading
+                    scrollPos={scrollY}
+                    onHeightChange={handleChildHeightChange}
+                  //   subheadingComponent={
+                  //       posses.length === 0 ? (
+                  //           <View style={{ paddingHorizontal: padding * 2 }}>
+                  //               <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
+                  //                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
+                  //                       <View style={{ height: 24, width: 24 }}>
+                  //                           <FingerPointing fill={currentTheme.colors.textDefault} />
+                  //                       </View>
+                  //                       <ThemedText.Text type="semibold">Create a posse to begin!</ThemedText.Text>
+                  //                   </View>
+                  //               </Messagebox>
+                  //           </View>
+                  //       ) : (
+                  //           <View style={{ paddingHorizontal: padding * 2 }}>
+                  //               <Messagebox
+                  //                   type={'warning'}
+                  //                   viewStyle={{ marginBottom: margin * 2, paddingHorizontal: padding * 2 }}>
+                  //                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
+                  //                       <View style={{ height: 24, width: 24 }}>
+                  //                           <FingerPointing fill={currentTheme.colors.textDefault} />
+                  //                       </View>
+                  //                       <ThemedText.Text type="semibold">Choose your posse to begin!</ThemedText.Text>
+                  //                   </View>
+                  //               </Messagebox>
+                  //           </View>
+                  //       )
+                  //   }
+                />
+                <Animated.ScrollView
+                    onScroll={handleScroll}
+                    style={{
+                        flex: 1,
+                        backgroundColor: currentTheme.colors.background,
+                        paddingVertical: 4,
+                        zIndex: 999,
+                    }}
+                    contentContainerStyle={{
+                        flexGrow: 1,
+                        padding: padding * 2,
+                        paddingBottom: bottom * 3 + padding * 2,
+                    }}>
+                    {posses.length === 0 && (
+                        <View
+                            style={{
+                                padding: padding * 3,
+                                alignItems: 'center',
+                                flexGrow: 1,
+                                justifyContent: 'center',
+                            }}>
+                            <Image
+                                source={require('../../../assets/images/tumbleweed.png')}
+                                style={{ width: 100, height: 100 }}
+                            />
+                            <ThemedText.Text style={{ marginVertical: padding * 4 }}>
+                                You have no created posses.
+                            </ThemedText.Text>
+                            <ThemedButton
+                                title={'Create a Posse'}
+                                onPress={() => {
+                                    handleCreatePossePress()
+                                }}
+                                size={'lg'}
+                                type="primary"
+                                variant="filled"
+                            />
+                        </View>
+                    )}
+                    {posses.map((item, index) => (
+                        <>
+                            <PosseListItemV2
+                                key={index}
                                 item={item}
                                 onListItemPress={handleListItemPress}
                                 onDeletePossePress={(posseId: string) => {
-                                    console.log('🚀 ~ Home ~ posseId:', posseId)
                                     setFocusedId(posseId)
                                     setConfirmModalOpen(true)
                                 }}
+                                onEditPossePress={() => handleEditPossePress(item.posseId)}
                                 onAddMemberPress={handleOnAddMemberPress}
                             />
-                        )}
-                        ListFooterComponent={() => (
-                            <View style={{ padding: padding * 3 }}>
-                                <ThemedButton
-                                    title={'Add New Posse'}
-                                    onPress={() => {
-                                        console.log('dispatching create posse')
-                                        handleCreatePossePress()
-                                    }}
-                                    size={'lg'}
-                                    variant="ghost"
-                                />
-                            </View>
-                        )}
-                        keyExtractor={(index) => String(index)}
-                    />
-                </ThemedContainer>
-            </PageContainer>
+                            <View style={{ height: margin }}></View>
+                            {index === posses.length - 1 && (
+                                <View style={{ padding: padding * 3, alignItems: 'center' }}>
+                                    <ThemedButton
+                                        title={'Add New Posse'}
+                                        onPress={() => {
+                                            handleCreatePossePress()
+                                        }}
+                                        size={'lg'}
+                                        variant="ghost"
+                                    />
+                                </View>
+                            )}
+                        </>
+                    ))}
+                </Animated.ScrollView>
+            </Animated.View>
 
             <CustomModal
                 visible={confirmModalOpen}
@@ -136,7 +221,7 @@ const Home = () => {
                     </View>
                 </View>
             </CustomModal>
-        </>
+        </View>
     )
 }
 

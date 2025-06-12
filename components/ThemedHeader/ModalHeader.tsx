@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         paddingVertical: padding * 2,
         marginBottom: 12,
         //   paddingHorizontal: padding * 2,
-        paddingTop: Platform.OS === 'ios' ? 24 : 0,
+        paddingTop: Platform.OS === 'ios' ? 24 : 24,
         flexDirection: 'row',
         alignItems: 'center',
         //   borderBottomColor: '#eee',

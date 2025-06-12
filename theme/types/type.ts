@@ -19,6 +19,7 @@ export type ThemeConfig = {
 	colors: {
 		primary: string,
 		secondary: string,
+		secondaryLight: string
 		background: string,
 		black: string,
 		white: string,

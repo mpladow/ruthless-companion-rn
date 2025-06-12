@@ -1,10 +1,16 @@
+import { GenderType } from '@/components/features/GenderSwitcher/GenderSwitcher';
 import { BodyPartTemplate } from './bodyParttemplate';
+import { SpecialRule } from './specialRuleTemplate';
 import { Weapon } from './weapon';
 
 export interface CharacterTemplate {
-	characterTemplateId: number;
+	characterTemplateId: string;
+	name: string;
 	toughness: number;
 	startingWeapons: Weapon[];
-	bodyParts: BodyPartTemplate[]
+	specialRules: SpecialRule[];
+	bodyParts: BodyPartTemplate[];
+	isCustom: boolean;
+	gender: GenderType;
 
 }

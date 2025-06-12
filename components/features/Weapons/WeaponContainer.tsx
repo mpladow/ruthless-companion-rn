@@ -8,8 +8,9 @@ import WeaponControls from './components/WeaponControls'
 type WeaponContainerType = {
     weapon: Weapon
     onAmmoChange: (weapon: Weapon) => void
+    readOnly?: boolean
 }
-const WeaponContainer = ({ weapon, onAmmoChange }: WeaponContainerType) => {
+const WeaponContainer = ({ weapon, onAmmoChange, readOnly }: WeaponContainerType) => {
     const [ammo, setAmmo] = useState(weapon.currentAmmunition)
     const { currentTheme } = useTheme()
     //  const dispatch = useDispatch<AppDispatch>()
@@ -39,7 +40,6 @@ const WeaponContainer = ({ weapon, onAmmoChange }: WeaponContainerType) => {
     }
 
     useEffect(() => {
-        console.log('🚀 ~ WeaponContainer ~ ammo:', ammo)
         onAmmoChange({ ...weapon, currentAmmunition: ammo } as Weapon)
     }, [ammo])
 
@@ -51,7 +51,9 @@ const WeaponContainer = ({ weapon, onAmmoChange }: WeaponContainerType) => {
                 onReloadPress={handleReloadPress}
                 onReloadAllPress={handleReloadAllPress}
             />
-            <RangedWeapon maxAmmo={weapon?.maxAmmunition} currentAmmo={ammo} onAmmoPress={handleAmmoButtonPress} />
+            {!readOnly && (
+                <RangedWeapon maxAmmo={weapon?.maxAmmunition} currentAmmo={ammo} onAmmoPress={handleAmmoButtonPress} />
+            )}
         </View>
     )
 }

@@ -10,19 +10,21 @@ import {
 	REGISTER,
 	REHYDRATE,
 } from 'redux-persist';
+import customCharactersReducer from './editor/customCharactersSlice'; // assuming you have a customCharactersSlice
 import posseReducer from './posse/posseSlice';
 import userPossesReducer from './posse/userPossesSlice';
 
 const rootReducer = combineReducers({
 	selectedPosse: posseReducer,
-	userPosses: userPossesReducer
+	userPosses: userPossesReducer,
+	customCharacters: customCharactersReducer, // assuming you have a customCharactersReducer
 	// add more reducers here
 });
 const persistConfig = {
 	key: 'root',
 	storage: AsyncStorage,
 	timeout: 1000,
-	whitelist: ['userPosses', 'posse'], // reducers to persist
+	whitelist: ['userPosses', 'posse', 'customCharacters'], // reducers to persist
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -39,6 +41,7 @@ export const store = configureStore({
 
 
 export const persistor = persistStore(store);
+
 
 export type RootState = ReturnType<typeof store.getState>
 

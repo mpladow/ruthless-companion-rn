@@ -16,9 +16,9 @@ const posseSlice = createSlice({
 		setCurrentPosse: (state, { payload }: PayloadAction<Posse | undefined>) => {
 			return payload;
 		},
-		addCharacterToPosseMembers: (state, { payload }: PayloadAction<PlayerCharacter>) => {
+		addCharacterToPosseMembers: (state, { payload }: PayloadAction<PlayerCharacter[]>) => {
 			if (state) {
-				state.members.push(payload)
+				state.members.push(...payload);
 			}
 		},
 		deleteCharacter: (state, action: PayloadAction<number>) => {
@@ -27,6 +27,11 @@ const posseSlice = createSlice({
 				if (index !== -1) {
 					state.members.splice(index, 1);
 				}
+			}
+		},
+		deleteMultipleCharacters: (state, action: PayloadAction<string[]>) => {
+			if (state) {
+				state.members = state.members.filter(member => !action.payload.includes(member?.playerCharacterId));
 			}
 		},
 		setCurrentAmmoForWeapon: (state, action: PayloadAction<SetWeaponForCharacter>) => {
@@ -67,5 +72,5 @@ const posseSlice = createSlice({
 	}
 })
 
-export const { setCurrentPosse, addCharacterToPosseMembers, deleteCharacter, setCurrentAmmoForWeapon, setCurrentHealthToBodyPart, setSpecialRuleUsage } = posseSlice.actions;
+export const { setCurrentPosse, addCharacterToPosseMembers, deleteCharacter, deleteMultipleCharacters, setCurrentAmmoForWeapon, setCurrentHealthToBodyPart, setSpecialRuleUsage } = posseSlice.actions;
 export default posseSlice.reducer;

@@ -7,7 +7,9 @@ export interface WeaponTemplate {
 	shortRange?: number;
 	longRange?: number;
 	specialRules: SpecialRuleTemplate[];
-	weaponTemplateId: number
+	weaponTemplateId: number;
+	description?: string;
+	image?: string;
 }
 
 export interface Weapon extends WeaponTemplate {

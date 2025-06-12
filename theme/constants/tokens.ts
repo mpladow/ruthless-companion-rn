@@ -24,4 +24,5 @@ export const TypopgraphySize = {
 export const padding = 4;
 export const margin = 12;
 export const borderWidth = 2;
-export const borderRadius = 24;
+// export const borderRadius = 24;
+export const borderRadius = 2;

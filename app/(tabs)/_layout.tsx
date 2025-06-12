@@ -6,17 +6,19 @@ import { HapticTab } from '@/components/HapticTab'
 import TabBarBackground from '@/components/ui/TabBarBackground'
 import { Colors } from '@/constants/Colors'
 import { useColorScheme } from '@/hooks/useColorScheme'
+import { useTheme } from '@/theme/ThemeProvider'
 import Entypo from '@expo/vector-icons/Entypo'
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
+import Animated from 'react-native-reanimated'
 
 export default function TabLayout() {
     const colorScheme = useColorScheme()
 
     const navigation = useNavigation()
+    const { currentTheme } = useTheme()
     return (
         <Tabs
             tabBar={(props) => <CustomTabBar {...props} />}
+            initialRouteName="(posse)"
             screenOptions={{
                 tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
                 headerShown: false,
@@ -32,42 +34,54 @@ export default function TabLayout() {
                     //       default: {},
                     //   }),
                 ],
-                //  header: (x) => {
-                // 	console.log('dfdsf', x.route.name)
-                //      const title = x.options.title || x.route.name
-                //      console.log('🚀 ~ TabLayout ~ title:', title)
-                //      return (
-                //          <CustomHeader
-                //              title={title}
-                //              showBack={title !== 'Home'}
-                //              rightComponent={
-                //                  <Pressable onPress={() => console.log('Settings')}>
-                //                      <ThemedText.Text>Settings</ThemedText.Text>
-                //                  </Pressable>
-                //              }
-                //          />
-                //      )
-                //  },
             }}>
-            <Tabs.Screen
+            {/* <Tabs.Screen
                 name="(scenarios)"
                 options={{
                     title: 'Scenarios',
                     tabBarIcon: ({ color }) => <FontAwesome5 name="dice" size={24} color={color} />,
                 }}
-            />
+            /> */}
             <Tabs.Screen
                 name="(posse)"
                 options={{
                     title: 'Home',
-                    tabBarIcon: ({ color }) => <FontAwesome6 name="users" size={24} color={color} />,
+                    tabBarIcon: ({ color }) => (
+                        <Animated.View
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                borderWidth: 1,
+                                borderColor: color,
+                                overflow: 'hidden',
+                                width: 28,
+                            }}>
+                            <Animated.Image
+                                source={require('../../assets/images/cowboy-f-rev.png')}
+                                style={{ height: 24, width: 24, marginBottom: 0, marginLeft: -6, tintColor: color }}
+                            />
+                            <Animated.Image
+                                source={require('../../assets/images/cowboy-m-rev.png')}
+                                style={{ height: 24, width: 24, marginBottom: 0, marginLeft: -15, tintColor: color }}
+                            />
+                        </Animated.View>
+                    ),
+                    //   <FontAwesome6 name="users" size={24} color={color} />,
                 }}
             />
             <Tabs.Screen
-                name="explore"
+                name="(reference)/index"
                 options={{
-                    title: 'Explore',
+                    title: 'Reference',
                     tabBarIcon: ({ color }) => <Entypo name="text-document" size={24} color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="(settings)"
+                options={{
+                    href: null,
+                    title: 'Settings',
+                    tabBarIcon: ({ color }) => <Entypo name="cog" size={24} color={color} />,
                 }}
             />
         </Tabs>

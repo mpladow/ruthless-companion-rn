@@ -25,6 +25,7 @@ const PosseEditorLayout = () => {
                 },
             }}>
             <Stack.Screen name="index" options={{ title: 'Create Posse' }} />
+            <Stack.Screen name="[id]" options={{ title: 'Edit Posse' }} />
         </Stack>
     )
 }

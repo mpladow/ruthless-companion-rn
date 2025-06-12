@@ -1,36 +1,65 @@
 import { ThemedText } from '@/components'
-import { PlayerCharacter } from '@/models/playerCharacter'
+import GenderIcon from '@/components/GenderIcons/GenderIcon'
 import { useTheme } from '@/theme/ThemeProvider'
 import { borderWidth, padding } from '@/theme/constants'
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { PropsWithChildren } from 'react'
+import { Pressable, StyleSheet, View } from 'react-native'
+import { GenderType } from '../GenderSwitcher/GenderSwitcher'
 
-const CardHeading = ({ playerCharacter }: { playerCharacter: PlayerCharacter }) => {
+const CardHeading = ({
+    name,
+    toughness,
+    gender,
+    onPress,
+    children,
+}: {
+    name?: string
+    toughness?: number
+    gender?: GenderType
+    onPress?: () => void
+    children?: PropsWithChildren['children']
+}) => {
     const { currentTheme } = useTheme()
     return (
-        <View
-            style={{
-                backgroundColor: currentTheme.colors.primary,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: padding * 2,
-                borderBottomWidth: borderWidth + 1,
-            }}>
-            <View>
-                <ThemedText.Heading headingSize="h2" inverted>
-                    {playerCharacter.name}
-                </ThemedText.Heading>
-            </View>
-            <View>
-                <ThemedText.Heading headingSize="h2" inverted>
-                    {playerCharacter.toughness}
-                </ThemedText.Heading>
-            </View>
-        </View>
+        <Pressable
+            onPress={() => {
+                onPress?.()
+            }}
+            style={[
+                styles.cardHeadingContainer,
+                {
+                    backgroundColor: currentTheme.colors.primary,
+                },
+            ]}>
+            {children ? (
+                children
+            ) : (
+                <>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <ThemedText.Heading headingSize="h2" inverted>
+                            {name}
+                        </ThemedText.Heading>
+                        <GenderIcon value={gender ?? 'male'} invertColor style={{ paddingLeft: padding }} />
+                    </View>
+                    <View>
+                        <ThemedText.Heading headingSize="h2" inverted>
+                            {toughness}
+                        </ThemedText.Heading>
+                    </View>
+                </>
+            )}
+        </Pressable>
     )
 }
 
 export default CardHeading
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    cardHeadingContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: padding * 2,
+        borderBottomWidth: borderWidth + 1,
+    },
+})

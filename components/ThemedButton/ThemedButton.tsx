@@ -13,7 +13,8 @@ type ThemedButtonProps = {
     style?: ViewStyle
     textStyle?: TextStyle
     type?: Variant
-    variant?: 'ghost' | 'text' | 'filled'
+    variant?: 'ghost' | 'text' | 'filled' | 'icon'
+    alternateTitle?: boolean
     size: 'sm' | 'lg'
     loading?: boolean
 } & PressableProps
@@ -21,6 +22,7 @@ type ThemedButtonProps = {
 const ThemedButton: React.FC<ThemedButtonProps> = ({
     title,
     onPress,
+    alternateTitle,
     disabled = false,
     style,
     textStyle,
@@ -75,7 +77,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
         switch (variant) {
             case 'ghost':
                 return {
-                    backgroundColor: 'transparent',
+                    backgroundColor: currentTheme.colors.background,
                     textColor: currentType.backgroundColor,
                     borderColor: currentType.backgroundColor,
                     borderWidth: 2,
@@ -90,14 +92,25 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
                 }
             case 'filled':
                 return commonStyles.boxShadow
-
+            case 'icon':
+                return {
+                    padding: 8,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'transparent',
+                    textColor: currentType.backgroundColor,
+                    borderColor: currentType.backgroundColor,
+                    paddingHorizontal: 4,
+                    borderWidth: 0,
+                }
             default:
-                return {}
+                return commonStyles.boxShadow
         }
     }, [variant, type])
 
     return (
         <Pressable
+            hitSlop={variant == 'icon' ? 8 : 12}
             onPress={onPress}
             disabled={disabled}
             style={({ pressed }) => [
@@ -105,25 +118,49 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
                 { backgroundColor: pressed ? currentType.pressedColor : currentType.backgroundColor },
                 disabled && styles.disabled,
                 size == 'sm' ? styles.buttonSmall : styles.buttonLarge,
+                variant == 'text' && {
+                    backgroundColor: 'transparent',
+                    padding: 0,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                },
                 currentVariantStyles,
                 style,
             ]}
             {...rest}>
             {typeof title == 'string' ? (
-                <ThemedText.Text
-                    type="semibold"
-                    size={size == 'sm' ? 'xs' : 'default'}
-                    style={[
-                        styles.text,
-                        size == 'sm' && { lineHeight: 16 },
+                alternateTitle ? (
+                    <ThemedText.Heading
+                        headingSize={size == 'sm' ? 'h3' : 'h2'}
+                        type="bold"
+                        size={size == 'sm' ? 'xs' : 'default'}
+                        style={[
+                            styles.text,
+                            size == 'sm' && { lineHeight: 16 },
 
-                        { color: currentType.textColor },
-                        (variant == 'ghost' || variant == 'text') && {
-                            color: currentVariantStyles.textColor,
-                        },
-                    ]}>
-                    {title}
-                </ThemedText.Text>
+                            { color: currentType.textColor },
+                            (variant == 'ghost' || variant == 'text') && {
+                                color: currentVariantStyles.textColor,
+                            },
+                        ]}>
+                        {title}
+                    </ThemedText.Heading>
+                ) : (
+                    <ThemedText.Text
+                        type="bold"
+                        size={size == 'sm' ? 'xs' : 'default'}
+                        style={[
+                            styles.text,
+                            size == 'sm' && { lineHeight: 16 },
+
+                            { color: currentType.textColor },
+                            (variant == 'ghost' || variant == 'text') && {
+                                color: currentVariantStyles.textColor,
+                            },
+                        ]}>
+                        {title}
+                    </ThemedText.Text>
+                )
             ) : (
                 title
             )}
