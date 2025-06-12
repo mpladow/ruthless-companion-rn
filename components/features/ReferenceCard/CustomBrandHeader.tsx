@@ -1,10 +1,9 @@
 import { ThemedText } from '@/components'
 import { useTheme } from '@/theme/ThemeProvider'
 import { margin, padding } from '@/theme/constants'
-import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { Image, LayoutChangeEvent, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { Image, LayoutChangeEvent, Platform, StyleSheet, View } from 'react-native'
 import Animated, { Extrapolation, interpolate, SharedValue, useAnimatedStyle } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -108,7 +107,7 @@ const CustomBrandHeader = ({
                                 headingSize="h1"
                                 inverted
                                 style={{
-                                    fontSize: Platform.OS == 'ios'?  HEADINGFONTSIZE + 32 : HEADINGFONTSIZE + 40,
+                                    fontSize: Platform.OS == 'ios' ? HEADINGFONTSIZE + 32 : HEADINGFONTSIZE + 40,
                                     lineHeight: HEADINGFONTSIZE + 32,
                                     textTransform: 'uppercase',
                                 }}>
@@ -217,7 +216,7 @@ const CustomBrandHeader = ({
                         </ThemedText.Heading>
                     </Animated.View>
                 )}
-                {isHeading && (
+                {/* {isHeading && (
                     <Animated.View
                         style={[
                             {
@@ -236,7 +235,7 @@ const CustomBrandHeader = ({
                             <Ionicons name="settings-outline" size={24} color={currentTheme.colors.textInverted} />
                         </Pressable>
                     </Animated.View>
-                )}
+                )} */}
 
                 <Animated.Image
                     source={require('../../../assets/images/cowboy-m-rev.png')}

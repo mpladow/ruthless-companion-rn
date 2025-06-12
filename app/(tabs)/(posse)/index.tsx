@@ -1,8 +1,6 @@
 import { ThemedText } from '@/components'
 import PosseListItemV2 from '@/components/features/Posse/PosseListItemV2'
 import CustomBrandHeader from '@/components/features/ReferenceCard/CustomBrandHeader'
-import FingerPointing from '@/components/Icons/FingerPointing'
-import Messagebox from '@/components/Messagebox/Messagebox'
 import CustomModal from '@/components/Modal/CustomModal'
 import ThemedButton from '@/components/ThemedButton/ThemedButton'
 import { DUMMY_DATA } from '@/data/dummy_posse'
@@ -100,33 +98,33 @@ const Home = () => {
                     isHeading
                     scrollPos={scrollY}
                     onHeightChange={handleChildHeightChange}
-                    subheadingComponent={
-                        posses.length === 0 ? (
-                            <View style={{ paddingHorizontal: padding * 2 }}>
-                                <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
-                                        <View style={{ height: 24, width: 24 }}>
-                                            <FingerPointing fill={currentTheme.colors.textDefault} />
-                                        </View>
-                                        <ThemedText.Text type="semibold">Create a posse to begin!</ThemedText.Text>
-                                    </View>
-                                </Messagebox>
-                            </View>
-                        ) : (
-                            <View style={{ paddingHorizontal: padding * 2 }}>
-                                <Messagebox
-                                    type={'warning'}
-                                    viewStyle={{ marginBottom: margin * 2, paddingHorizontal: padding * 2 }}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
-                                        <View style={{ height: 24, width: 24 }}>
-                                            <FingerPointing fill={currentTheme.colors.textDefault} />
-                                        </View>
-                                        <ThemedText.Text type="semibold">Choose your posse to begin!</ThemedText.Text>
-                                    </View>
-                                </Messagebox>
-                            </View>
-                        )
-                    }
+                  //   subheadingComponent={
+                  //       posses.length === 0 ? (
+                  //           <View style={{ paddingHorizontal: padding * 2 }}>
+                  //               <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
+                  //                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
+                  //                       <View style={{ height: 24, width: 24 }}>
+                  //                           <FingerPointing fill={currentTheme.colors.textDefault} />
+                  //                       </View>
+                  //                       <ThemedText.Text type="semibold">Create a posse to begin!</ThemedText.Text>
+                  //                   </View>
+                  //               </Messagebox>
+                  //           </View>
+                  //       ) : (
+                  //           <View style={{ paddingHorizontal: padding * 2 }}>
+                  //               <Messagebox
+                  //                   type={'warning'}
+                  //                   viewStyle={{ marginBottom: margin * 2, paddingHorizontal: padding * 2 }}>
+                  //                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
+                  //                       <View style={{ height: 24, width: 24 }}>
+                  //                           <FingerPointing fill={currentTheme.colors.textDefault} />
+                  //                       </View>
+                  //                       <ThemedText.Text type="semibold">Choose your posse to begin!</ThemedText.Text>
+                  //                   </View>
+                  //               </Messagebox>
+                  //           </View>
+                  //       )
+                  //   }
                 />
                 <Animated.ScrollView
                     onScroll={handleScroll}
@@ -157,7 +155,6 @@ const Home = () => {
                                 You have no created posses.
                             </ThemedText.Text>
                             <ThemedButton
-                                alternateTitle
                                 title={'Create a Posse'}
                                 onPress={() => {
                                     handleCreatePossePress()
