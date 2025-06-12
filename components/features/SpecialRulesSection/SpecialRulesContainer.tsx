@@ -48,15 +48,18 @@ const SpecialRulesContainer = ({ specialRules, onSpecialRulesUsageChange }: Spec
                 { backgroundColor: Color(currentTheme.colors.grey1).lighten(0.2).hex() },
             ]}>
             {specialRules.map((item, index) => (
-                <View key={index} style={[styles.specialRulesInnerContainer]}>
-                    <Pressable onPress={() => handleSpecialRulesPress(item, item?.currentUsage > 0)}>
+                <Pressable
+                    key={index}
+                    style={[styles.specialRulesInnerContainer]}
+                    onPress={() => handleSpecialRulesPress(item, item?.currentUsage > 0)}>
+                    <View>
                         <View style={{ flexDirection: 'row', flex: 1 }}>
                             <ThemedText.Heading headingSize="h3">{item.name}</ThemedText.Heading>
                         </View>
                         <View>
                             <ThemedText.Text>{item.description}</ThemedText.Text>
                         </View>
-                    </Pressable>
+                    </View>
                     <Animated.View entering={Platform.OS !== 'web' ? FadeInRight : undefined}>
                         {item.maxUsage &&
                             [...Array(item.maxUsage)].map((item2, index) => {
@@ -71,7 +74,7 @@ const SpecialRulesContainer = ({ specialRules, onSpecialRulesUsageChange }: Spec
                                     _checked = true
                                 }
                                 return (
-                                    <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+                                    <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                                         <SpecialRuleCheckbox
                                             onPress={() => handleSpecialRulesPress(item, _checked)}
                                             isChecked={_checked}
@@ -82,7 +85,7 @@ const SpecialRulesContainer = ({ specialRules, onSpecialRulesUsageChange }: Spec
                                 )
                             })}
                     </Animated.View>
-                </View>
+                </Pressable>
             ))}
         </View>
     )
@@ -94,7 +97,7 @@ const styles = StyleSheet.create({
     specialRulesContainer: {
         flex: 1,
         width: '100%',
-        padding: padding,
+        padding: padding * 2,
         paddingHorizontal: padding * 2,
         paddingBottom: padding * 3,
     },
@@ -103,5 +106,6 @@ const styles = StyleSheet.create({
         marginTop: margin,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'flex-start',
     },
 })

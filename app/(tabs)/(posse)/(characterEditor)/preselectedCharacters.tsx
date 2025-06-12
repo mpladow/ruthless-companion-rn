@@ -48,10 +48,11 @@ const PreselectedCharacters = () => {
                     startingWeapons: x.startingWeapons,
                     gender: x.gender,
                     isCustom: true,
+                    order: posse?.members ? posse?.members.length + 1 : 0,
                 }
                 return newPc
             })
-				setPregeneratedCharacters((prev) => [...prev, ...customCharacterInstances])
+            setPregeneratedCharacters((prev) => [...prev, ...customCharacterInstances])
         }
     }, [customCharacters])
 
@@ -88,7 +89,7 @@ const PreselectedCharacters = () => {
                 ListFooterComponent={() => <View style={{ height: insets.bottom * 4 }}></View>}
                 ItemSeparatorComponent={() => <View style={{ height: margin }}></View>}
                 renderItem={({ item }) => (
-                    <Pressable onPress={(val) => handleCheckPress(item.playerCharacterId)}>
+                    <Pressable key={item.playerCharacterId} onPress={(val) => handleCheckPress(item.playerCharacterId)}>
                         <View style={{ flexDirection: 'row', flexGrow: 1, width: '100%', gap: 6 }}>
                             <View style={{ flex: 1 }}>
                                 <CharacterCardReadOnly playerCharacter={item} collapsedView={true} readOnly />

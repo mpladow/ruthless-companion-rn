@@ -9,12 +9,14 @@ import { GenderType } from '../GenderSwitcher/GenderSwitcher'
 const CardHeading = ({
     name,
     toughness,
+    title,
     gender,
     onPress,
     children,
 }: {
     name?: string
     toughness?: number
+    title?: string
     gender?: GenderType
     onPress?: () => void
     children?: PropsWithChildren['children']
@@ -34,19 +36,28 @@ const CardHeading = ({
             {children ? (
                 children
             ) : (
-                <>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <ThemedText.Heading headingSize="h2" inverted>
-                            {name}
-                        </ThemedText.Heading>
-                        <GenderIcon value={gender ?? 'male'} invertColor style={{ paddingLeft: padding }} />
+                <View style={{ flexDirection: 'column', flex: 1 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <ThemedText.Heading headingSize="h2" inverted>
+                                {name}
+                            </ThemedText.Heading>
+                            <GenderIcon value={gender ?? 'male'} invertColor style={{ paddingLeft: padding }} />
+                        </View>
+                        <View>
+                            <ThemedText.Heading headingSize="h2" inverted>
+                                {toughness}
+                            </ThemedText.Heading>
+                        </View>
                     </View>
-                    <View>
-                        <ThemedText.Heading headingSize="h2" inverted>
-                            {toughness}
-                        </ThemedText.Heading>
-                    </View>
-                </>
+                    {title && (
+                        <View>
+                            <ThemedText.Heading headingSize="h3" inverted>
+                                {title}
+                            </ThemedText.Heading>
+                        </View>
+                    )}
+                </View>
             )}
         </Pressable>
     )

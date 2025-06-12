@@ -91,7 +91,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
                     borderWidth: 0,
                 }
             case 'filled':
-                return commonStyles.boxShadow
+                return { borderWidth: 2, borderColor: 'transparent', ...commonStyles.boxShadow }
             case 'icon':
                 return {
                     padding: 8,
@@ -151,7 +151,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
                         size={size == 'sm' ? 'xs' : 'default'}
                         style={[
                             styles.text,
-                            size == 'sm' && { lineHeight: 16 },
+                            size == 'sm' && { lineHeight: 24 },
 
                             { color: currentType.textColor },
                             (variant == 'ghost' || variant == 'text') && {

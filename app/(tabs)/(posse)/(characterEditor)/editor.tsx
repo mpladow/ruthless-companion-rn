@@ -1,37 +1,41 @@
 import { ThemedBottomSheet, ThemedText } from '@/components'
-import AnimatedCarousel from '@/components/Animated/AnimatedCarousel'
-import GenderSwitcher, { GenderType } from '@/components/features/GenderSwitcher/GenderSwitcher'
-import Bullet from '@/components/Icons/Bullet'
-import Messagebox from '@/components/Messagebox/Messagebox'
+import { GenderType } from '@/components/features/GenderSwitcher/GenderSwitcher'
+import CustomModal from '@/components/Modal/CustomModal'
 import PageContainer from '@/components/PageContainer/PageContainer'
 import ThemedButton from '@/components/ThemedButton/ThemedButton'
 import ThemedContainer from '@/components/ThemedContainer'
-import HeadingTextInput from '@/components/ThemedTextInput/variants/HeadingTextinput'
-import commonStyles from '@/constants/styles'
 import { BODY_PARTS } from '@/data/body_parts'
 import { SPEC_RULES } from '@/data/special_rules'
-import { WEAPONS } from '@/data/weapons'
 import { BodyPart, BodyPartTemplate } from '@/models/bodyParttemplate'
 import { CharacterTemplate } from '@/models/characterTemplate'
 import { PlayerCharacter } from '@/models/playerCharacter'
-import { SpecialRule, SpecialRuleTemplate } from '@/models/specialRuleTemplate'
+import {
+	AlignmentType,
+	SpecialityType,
+	SpecialRule,
+	SpecialRuleTemplate,
+	TraitType,
+} from '@/models/specialRuleTemplate'
 import { Weapon, WeaponTemplate } from '@/models/weapon'
 import { addCustomCharacter } from '@/state/editor/customCharactersSlice'
 import { addCharacterToPosseMembers } from '@/state/posse/posseSlice'
 import { AppDispatch, RootState } from '@/state/store'
-import { borderRadius, borderWidth, margin, padding } from '@/theme/constants'
+import { margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
-import Entypo from '@expo/vector-icons/Entypo'
 import { useRouter } from 'expo-router'
-import React, { useCallback, useEffect, useState } from 'react'
-import { Controller, useFieldArray, useForm } from 'react-hook-form'
-import { Image, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import React, { useCallback, useState } from 'react'
+import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
+import { ActivityIndicator, Image, Platform, Pressable, StyleSheet, View } from 'react-native'
+import Animated, { SlideInRight, SlideOutRight } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import uuid from 'react-native-uuid'
 import { useDispatch, useSelector } from 'react-redux'
+import EditorForm from './editor_form'
+import EditorGenerator from './editor_generator'
 
-type CharacterEditorForm = {
+export type CharacterEditorForm = {
     name: string
+    title: string
     toughness: number
     gender: GenderType
     selectedWeaponIndex1: number
@@ -46,30 +50,27 @@ const characterEdit = () => {
         return state._persist.rehydrated ? state.selectedPosse : null
     })
     const dispatch = useDispatch<AppDispatch>()
+    const [showGeneratorQuestionaire, setShowGeneratorQuestionaire] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const [characterSubmitted, setCharacterSubmitted] = useState<PlayerCharacter | null>(null)
     const [showBottomSheet, setShowBottomSheet] = useState(false)
     const { currentTheme } = useTheme()
     const { bottom } = useSafeAreaInsets()
-    const [showAdditionalWeaponOption, setShowAdditionalWeaponOption] = useState(false)
 
     const router = useRouter()
-    const {
-        control,
-        handleSubmit,
-        getValues,
-        setValue,
-        formState: {
-            errors,
-            isValid,
-            isDirty,
-            isSubmitting,
-            isSubmitSuccessful,
-            dirtyFields,
-            touchedFields,
-            submitCount,
-        },
-    } = useForm<CharacterEditorForm>({
+    // FORM DATA
+    const [quality, setQuality] = useState<TraitType>('regular')
+    const [speciality, setSpeciality] = useState<SpecialityType | undefined>()
+    const [alignment, setAlignment] = useState<AlignmentType>('neutral')
+    const [gender, setGender] = useState<GenderType>('male')
+    const [notoriety, setNotoriety] = useState<'low' | 'medium' | 'high'>('low')
+
+    const [initialLoad, setInitialLoad] = useState(true)
+
+    const methods = useForm<CharacterEditorForm>({
         defaultValues: {
             name: 'New Character',
+            title: '',
             toughness: 5,
             gender: 'male' as GenderType,
             selectedWeaponIndex1: 0,
@@ -81,19 +82,19 @@ const characterEdit = () => {
     })
 
     const {
-        fields: specialRuleFields,
+        fields: specialRulesFields,
         append: appendSpecialRule,
         remove: removeSpecialRule,
     } = useFieldArray({
-        control,
+        control: methods.control,
         name: 'specialRules',
     })
     const {
-        fields: startingWeaponFields,
+        fields: startingWeaponsFields,
         append: appendStartingWeapon,
         remove: removeStartingWeapon,
     } = useFieldArray({
-        control,
+        control: methods.control,
         name: 'startingWeapons',
     })
 
@@ -102,8 +103,7 @@ const characterEdit = () => {
     }, [])
 
     const handleConfirmCharacter = (data: CharacterEditorForm) => {
-        console.log('🚀 ~ handleConfirmCharacter ~ data:', data.startingWeapons)
-        // TODO: remove this and create the character template first.
+        setLoading(true)
         const newCharacterTemplate: CharacterTemplate = {
             characterTemplateId: uuid.v4(),
             name: data.name,
@@ -155,7 +155,9 @@ const characterEdit = () => {
             specialRules: newCharacterTemplate.specialRules,
             playerCharacterId: uuid.v4(),
             characterTemplateId: newCharacterTemplate.characterTemplateId,
+            title: data.title,
             isCustom: true,
+            order: (selectedPosse && selectedPosse?.members.length + 1) || 0, // Set order based on current posse members
         }
         console.log('🚀 ~ dsfsdfdsf setTimeout ~ newCharacter:', newCharacter)
         // set initial values
@@ -181,373 +183,89 @@ const characterEdit = () => {
             currentDamage: 0,
             id: uuid.v4(),
         }))
-        console.log('🚀 ~ handleConfirmCharacter ~ newCharacter dfd:', newCharacter)
         // Confirm character logic here
         dispatch(addCharacterToPosseMembers([newCharacter]))
-        router.replace(`./${selectedPosse?.posseId}`)
-        router.back()
-        router.back()
+        setTimeout(() => {
+            setLoading(false)
+            setCharacterSubmitted(newCharacter)
+            setShowGeneratorQuestionaire(true)
+            setInitialLoad(false) // ensures correctly animation direction for first screen
+        }, 1000)
+        //   router.replace(`./${selectedPosse?.posseId}`)
+        //   router.back()
+        //   router.back()
     }
 
-    useEffect(() => {
-        console.log(customCharacters, 'customCharacters')
-    }, [customCharacters.length])
     const handleError = (error: any) => {
         console.error('🚀 ~ characterEdit ~ error:', error)
     }
-    const handleToggleAdditionalWeapon = () => {
-        setShowAdditionalWeaponOption((prev) => !prev)
-        removeStartingWeapon(1) // Remove the second weapon if it exists
+
+    const handleOnGeneratePress = (character: CharacterEditorForm) => {
+        console.log('🚀 ~ handleOnGeneratePress ~ character:', character)
+        methods.setValue('name', character.name)
+        methods.setValue('gender', character.gender)
+        methods.setValue('toughness', character.toughness)
+        methods.setValue('startingWeapons', character.startingWeapons)
+        methods.setValue('specialRules', character.specialRules)
+        methods.setValue('bodyParts', character.bodyParts)
+        methods.setValue('title', character.title)
+        // set form values.
+        // toggle generator state
+        setShowGeneratorQuestionaire(false)
     }
-
-    // TEST
-    //  const fetchDataWithCallback = (callback: any) => {
-    //       return async (dispatch, getState) => {
-    //           dispatch({ type: 'FETCH_DATA_START' })
-    //           try {
-    //               const response = await fetch('your_api_endpoint')
-    //               const data = await response.json()
-    //               dispatch({ type: 'FETCH_DATA_SUCCESS', payload: data }).then((res) => {
-    // 						console.log('Data fetched successfully:', res)
-    // 				  })
-    //               callback(data)
-    //           } catch (error) {
-    //               dispatch({ type: 'FETCH_DATA_ERROR', payload: error })
-    //           }
-    //       }
-    //   }
-    // END TEST
-
+    const handleCancel = () => {
+        setShowGeneratorQuestionaire(true)
+    }
     return (
         <>
-            <PageContainer
-                paddingSize="sm"
-                paddingVertical="lg"
-                fullScreenWidth={'50%'}
-                style={{ marginBottom: bottom }}>
-                <ScrollView style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1, paddingBottom: margin * 3 }}>
-                    <ThemedContainer paddingHorizontal="sm" paddingVertical="sm">
-                        {!isValid && (
-                            <Messagebox type={'error'}>
-                                <ThemedText.Text>Check your form and try again</ThemedText.Text>
-                            </Messagebox>
-                        )}
-                    </ThemedContainer>
-
-                    <ThemedContainer
-                        style={[
-                            {
-                                borderWidth: borderWidth + 1,
-                                borderRadius: borderRadius / 2,
-                                overflow: 'hidden',
-                            },
-                            commonStyles.boxShadow,
-                        ]}>
-                        <View style={{ paddingVertical: padding * 2, paddingHorizontal: padding * 2 }}>
-                            <ThemedText.Text type="bold">1. Edit Name, Toughness and Gender</ThemedText.Text>
-                        </View>
-                        <Image
-                            source={require('../../../../assets/images/card-texture.png')}
-                            resizeMode="contain"
-                            style={{
-                                opacity: 0.2,
-                                position: 'absolute',
-                                tintColor: 'rgba(0, 0, 0, 0.8)',
-                                zIndex: 0, // Adjust opacity as needed
+            <PageContainer paddingSize="sm" fullScreenWidth={'50%'} style={{ marginBottom: bottom }}>
+                <>
+                    {showGeneratorQuestionaire ? (
+                        <EditorGenerator
+                            onSubmit={handleOnGeneratePress}
+                            onCancelPress={() => {
+                                setShowGeneratorQuestionaire(false)
+                                router.back()
                             }}
+                            quality={quality}
+                            setQualityChange={setQuality}
+                            speciality={speciality}
+                            alignment={alignment}
+                            gender={gender}
+                            notoriety={notoriety}
+                            setSpecialityChange={setSpeciality}
+                            setAlignmentChange={setAlignment}
+                            setGenderChange={setGender}
+                            setNotorietyChange={setNotoriety}
+                            initialLoad={initialLoad}
                         />
-
-                        {/* Heading */}
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: padding }}>
-                            <Controller
-                                render={({ field: { value, onChange } }) => (
-                                    <View style={{ padding: padding, paddingBottom: padding * 2, flex: 1 }}>
-                                        <HeadingTextInput
-                                            value={value.toString()}
-                                            defaultValue={value.toString()}
-                                            onChangeText={onChange}
-                                            selectTextOnFocus={true}
-                                        />
-                                    </View>
-                                )}
-                                name={'name'}
-                                control={control}
-                            />
-
-                            <Controller
-                                render={({ field }) => (
-                                    <View style={{ padding: padding, paddingBottom: padding * 2 }}>
-                                        <HeadingTextInput
-                                            value={field.value.toString()}
-                                            onChangeText={field.onChange}
-                                            keyboardType="numeric"
-                                            selectTextOnFocus={true}
-                                            maxLength={2}
-                                        />
-                                    </View>
-                                )}
-                                name={'toughness'}
-                                control={control}
-                            />
-                        </View>
-                        <Controller
-                            render={({ field }) => (
-                                <View style={{ paddingLeft: padding }}>
-                                    <GenderSwitcher value={field.value} onChange={field.onChange} />
-                                </View>
-                            )}
-                            name={'gender'}
-                            control={control}
-                        />
-                        {/* 2. Traits */}
-                        <View style={{ paddingVertical: padding * 2, paddingHorizontal: padding * 2 }}>
-                            <ThemedText.Text type="bold">2. Select character trait(s)</ThemedText.Text>
-                            <View style={{ padding: padding * 2 }}>
+                    ) : (
+                        <FormProvider {...methods}>
+                            <Animated.View
+                                entering={Platform.OS !== 'web' ? SlideInRight : undefined}
+                                exiting={Platform.OS !== 'web' ? SlideOutRight : undefined}
+                                style={{ justifyContent: 'flex-start', alignItems: 'center' }}>
                                 <ThemedButton
-                                    title={'Select Traits'}
-                                    onPress={handleTraitsModal}
+                                    title={'< Generate from traits'}
+                                    onPress={handleCancel}
                                     size={'sm'}
-                                    variant="ghost"
-                                    type="primary"
-                                />
-                            </View>
-                            {specialRuleFields.map((rule, index) => (
-                                <Controller
-                                    render={({ field }) => (
-                                        <>
-                                            <View
-                                                key={index}
-                                                style={{
-                                                    paddingHorizontal: padding * 2,
-                                                    paddingVertical: padding,
-                                                    borderWidth: 2,
-                                                    borderColor: currentTheme.colors.primary,
-                                                }}>
-                                                <Pressable
-                                                    style={{
-                                                        flexDirection: 'row',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'center',
-                                                    }}
-                                                    onPress={() => {
-                                                        const index = specialRuleFields.findIndex(
-                                                            (r) => r.name === rule.name
-                                                        )
-                                                        console.log('🚀 ~ characterEdit ~ index:', index)
-                                                        if (index !== -1) {
-                                                            removeSpecialRule(index)
-                                                        }
-                                                    }}>
-                                                    <View style={{ flex: 1 }}>
-                                                        <ThemedText.Text type="semibold">{rule.name}</ThemedText.Text>
-                                                        <ThemedText.Text>{rule.description}</ThemedText.Text>
-                                                    </View>
-                                                    <View>
-                                                        <Entypo
-                                                            name="cross"
-                                                            size={24}
-                                                            color={currentTheme.colors.error}
-                                                        />
-                                                    </View>
-                                                </Pressable>
-                                            </View>
-                                            {specialRuleFields.length - 1 == index && (
-                                                <View style={{ height: padding * 2 }}></View>
-                                            )}
-                                        </>
-                                    )}
-                                    name={'specialRules'}
-                                    control={control}
-                                />
-                            ))}
-                        </View>
-                        <View style={{ paddingVertical: padding * 2, paddingHorizontal: padding * 2 }}>
-                            <ThemedText.Text type="bold">3. Select starting weapon(s)</ThemedText.Text>
-                            <Controller
-                                render={({ field }) => (
-                                    <AnimatedCarousel
-                                        data={WEAPONS}
-                                        itemWidth={200}
-                                        renderItem={(item, isSelected) => (
-                                            <View
-                                                style={[
-                                                    styles.cardContent,
-                                                    {
-                                                        borderColor: isSelected ? '#333' : 'transparent',
-                                                        borderWidth: 2,
-                                                    },
-                                                ]}>
-                                                <View
-                                                    style={{
-                                                        flexDirection: 'row',
-                                                        justifyContent: 'space-between',
-                                                        width: '100%',
-                                                    }}>
-                                                    <ThemedText.Heading headingSize="h3">
-                                                        {item.name}
-                                                    </ThemedText.Heading>
-                                                    <ThemedText.Text>
-                                                        {item.shortRange}" / {item.longRange}"
-                                                    </ThemedText.Text>
-                                                </View>
-                                                {item.maxAmmunition && (
-                                                    <View
-                                                        style={{
-                                                            flexDirection: 'row',
-                                                            alignItems: 'center',
-                                                            flexWrap: 'wrap',
-                                                            gap: 2,
-                                                        }}>
-                                                        {[...Array(item.maxAmmunition)].map((_, index) => (
-                                                            <View
-                                                                key={index}
-                                                                style={{
-                                                                    borderWidth: 1,
-                                                                    borderRadius: borderRadius / 2,
-                                                                    width: 20,
-                                                                    height: 20,
-                                                                }}>
-                                                                <Bullet fill={currentTheme.colors.warning} />
-                                                            </View>
-                                                        ))}
-                                                    </View>
-                                                )}
-                                                {item.specialRules && item.specialRules.length > 0 && (
-                                                    <View>
-                                                        <ThemedText.Text type="bold">Special Rules:</ThemedText.Text>
-                                                        {item.specialRules.map((rule, index) => (
-                                                            <ThemedText.Text key={index}>
-                                                                {rule.description}
-                                                            </ThemedText.Text>
-                                                        ))}
-                                                    </View>
-                                                )}
-                                            </View>
-                                        )}
-                                        onSelect={(_, idx) => {
-                                            field.onChange(idx)
-                                            removeStartingWeapon(0) // Remove the first weapon if it exists
-                                            appendStartingWeapon(WEAPONS[idx])
-                                        }}
-                                        initialIndex={field.value}
-                                    />
-                                )}
-                                control={control}
-                                name={'selectedWeaponIndex1'}
+                                    variant="text"></ThemedButton>
+                            </Animated.View>
+                            <EditorForm
+                                startingWeaponsFields={startingWeaponsFields}
+                                startingWeaponsAppend={appendStartingWeapon}
+                                startingWeaponsRemove={removeStartingWeapon}
+                                specialRulesFields={specialRulesFields}
+                                specialRulesAppend={appendSpecialRule}
+                                specialRulesRemove={removeSpecialRule}
+                                onTraitsPress={handleTraitsModal}
+                                onConfirmCharacter={handleConfirmCharacter}
+                                onError={handleError}
+                                onCancel={handleCancel}
                             />
-                        </View>
-                        <View style={{ paddingVertical: padding * 2, paddingHorizontal: padding * 2 }}>
-                            <ThemedText.Text type="bold">4. (OPTIONAL) Select additional weapon(s)</ThemedText.Text>
-                            {showAdditionalWeaponOption && (
-                                <Controller
-                                    render={({ field }) => (
-                                        <AnimatedCarousel
-                                            data={WEAPONS}
-                                            itemWidth={200}
-                                            renderItem={(item, isSelected) => (
-                                                <View
-                                                    style={[
-                                                        styles.cardContent,
-                                                        {
-                                                            borderColor: isSelected ? '#333' : 'transparent',
-                                                            borderWidth: 2,
-                                                        },
-                                                    ]}>
-                                                    <View
-                                                        style={{
-                                                            flexDirection: 'row',
-                                                            justifyContent: 'space-between',
-                                                            width: '100%',
-                                                        }}>
-                                                        <ThemedText.Heading headingSize="h3">
-                                                            {item.name}
-                                                        </ThemedText.Heading>
-                                                        <ThemedText.Text>
-                                                            {item.shortRange}" / {item.longRange}"
-                                                        </ThemedText.Text>
-                                                    </View>
-                                                    {item.maxAmmunition && (
-                                                        <View
-                                                            style={{
-                                                                flexDirection: 'row',
-                                                                alignItems: 'center',
-                                                                flexWrap: 'wrap',
-                                                                gap: 2,
-                                                            }}>
-                                                            {[...Array(item.maxAmmunition)].map((_, index) => (
-                                                                <View
-                                                                    key={index}
-                                                                    style={{
-                                                                        borderWidth: 1,
-                                                                        borderRadius: borderRadius / 2,
-                                                                        width: 20,
-                                                                        height: 20,
-                                                                    }}>
-                                                                    <Bullet fill={currentTheme.colors.warning} />
-                                                                </View>
-                                                            ))}
-                                                        </View>
-                                                    )}
-                                                    {item.specialRules && item.specialRules.length > 0 && (
-                                                        <View>
-                                                            <ThemedText.Text type="bold">
-                                                                Special Rules:
-                                                            </ThemedText.Text>
-                                                            {item.specialRules.map((rule, index) => (
-                                                                <ThemedText.Text key={index}>
-                                                                    {rule.description}
-                                                                </ThemedText.Text>
-                                                            ))}
-                                                        </View>
-                                                    )}
-                                                </View>
-                                            )}
-                                            onSelect={(_, idx) => {
-                                                field.onChange(idx)
-                                                removeStartingWeapon(1) // Remove the first weapon if it exists
-                                                appendStartingWeapon(WEAPONS[idx])
-                                            }}
-                                            initialIndex={field.value}
-                                        />
-                                    )}
-                                    control={control}
-                                    name={'selectedWeaponIndex2'}
-                                />
-                            )}
-                            <View style={{ padding: padding * 2 }}>
-                                <ThemedButton
-                                    title={
-                                        showAdditionalWeaponOption
-                                            ? 'Remove additional weapon'
-                                            : 'Add additional weapon'
-                                    }
-                                    onPress={handleToggleAdditionalWeapon}
-                                    type="secondary"
-                                    variant="ghost"
-                                    size={'sm'}
-                                />
-                            </View>
-                        </View>
-                        <View></View>
-                        <View>
-                            <View
-                                style={{
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                }}>
-                            </View>
-                        </View>
-                    </ThemedContainer>
-                </ScrollView>
-                <View style={Platform.OS == 'android' ? { marginBottom: bottom * 2 } : {}}>
-                    <ThemedButton
-                        title={'Save Character'}
-                        onPress={handleSubmit(handleConfirmCharacter, handleError)}
-                        size={'lg'}
-                        type="primary"
-                    />
-                </View>
+                        </FormProvider>
+                    )}
+                </>
             </PageContainer>
             <ThemedBottomSheet
                 scrollable
@@ -558,7 +276,7 @@ const characterEdit = () => {
                 headerTitle={'Create New Posse'}>
                 <ThemedContainer style={{ backgroundColor: currentTheme.colors.background }}>
                     {SPEC_RULES.filter((x) => !x.weaponRule).map((rule, index) => {
-                        const ruleFound = specialRuleFields.findIndex((r) => r.name === rule.name)
+                        const ruleFound = specialRulesFields.findIndex((r) => r.name === rule.name)
                         return (
                             <Controller
                                 render={({ field }) => (
@@ -566,7 +284,7 @@ const characterEdit = () => {
                                         key={index}
                                         style={{
                                             padding: padding,
-                                            backgroundColor: specialRuleFields.some((r) => r.name === rule.name)
+                                            backgroundColor: specialRulesFields.some((r) => r.name === rule.name)
                                                 ? currentTheme.colors.primary
                                                 : 'transparent',
                                         }}>
@@ -591,12 +309,89 @@ const characterEdit = () => {
                                     </View>
                                 )}
                                 name={'specialRules'}
-                                control={control}
+                                control={methods.control}
                             />
                         )
                     })}
                 </ThemedContainer>
             </ThemedBottomSheet>
+            <CustomModal
+                visible={loading}
+                onClose={() => {}}
+                children={
+                    <View style={{ justifyContent: 'center', flexDirection: 'column' }}>
+                        <ActivityIndicator size="large"></ActivityIndicator>
+                        <ThemedText.Text>Adding to posse...</ThemedText.Text>
+                    </View>
+                }
+            />
+            <CustomModal
+                visible={characterSubmitted !== null}
+                onClose={() => {}}
+                title={'Character Added'}
+                children={
+                    <View style={{ justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                        <View style={{ paddingVertical: margin, marginBottom: margin * 2, gap: padding }}>
+                            {/* <FontAwesome6 name="handshake" size={48} color={currentTheme.colors.success} /> */}
+                            {characterSubmitted?.gender == 'male' ? (
+                                <Image
+                                    source={require('../../../../assets/images/cowboy-sharper3.png')}
+                                    resizeMode="contain"
+                                    style={{
+                                        height: 160,
+                                        width: 80,
+                                        //   backgroundColor: 'red',
+                                        right: 0,
+                                    }}
+                                    height={160}
+                                    width={80}
+                                />
+                            ) : (
+                                <Image
+                                    //  imageStyle={{ backgroundColor: 'red' }}
+                                    source={require('../../../../assets/images/cowboy-f-rev.png')}
+                                    resizeMode="contain"
+                                    style={{
+                                        height: 180,
+                                        width: 100,
+                                        //   backgroundColor: 'red',
+                                        right: 0,
+                                    }}
+                                    height={180}
+                                    width={100}
+                                />
+                            )}
+                            <View style={{ alignItems: 'center', gap: padding }}>
+                                <ThemedText.Text style={{ textAlign: 'center' }} type="semibold">
+                                    {characterSubmitted?.name}
+                                </ThemedText.Text>
+                                <ThemedText.Text> {characterSubmitted?.title}</ThemedText.Text>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: 'column', gap: padding, alignItems: 'center' }}>
+                            <ThemedButton
+                                title={'Create New Character'}
+                                onPress={() => {
+                                    setCharacterSubmitted(null)
+                                    setShowGeneratorQuestionaire(true)
+                                }}
+                                size={'sm'}
+                            />
+                            <ThemedButton
+                                title={'Return to Posse Screen'}
+                                onPress={() => {
+                                    setCharacterSubmitted(null)
+                                    router.replace(`./${selectedPosse?.posseId}`)
+                                    router.back()
+                                    router.back()
+                                }}
+                                variant="text"
+                                size={'sm'}
+                            />
+                        </View>
+                    </View>
+                }
+            />
         </>
     )
 }

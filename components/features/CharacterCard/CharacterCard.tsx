@@ -133,6 +133,7 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly, editMode }: C
                     name={playerCharacter.name}
                     toughness={playerCharacter.toughness}
 						  gender={playerCharacter.gender}
+						  title={playerCharacter.title}
                 />
                 <View
                     style={{

@@ -12,5 +12,6 @@ export interface CharacterTemplate {
 	bodyParts: BodyPartTemplate[];
 	isCustom: boolean;
 	gender: GenderType;
+	scenario?: string; // Optional field to indicate the scenario this character is associated with
 
 }

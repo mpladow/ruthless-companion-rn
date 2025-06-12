@@ -36,7 +36,7 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
                             setShowWeaponDetails(true)
                         }}
                         style={{ paddingVertical: 8 }}>
-                        <ThemedText.Heading headingSize="h2">{weapon?.name}</ThemedText.Heading>
+                        <ThemedText.Text size="md" type='bold'>{weapon?.name}</ThemedText.Text>
                     </Pressable>
                     <ThemedText.Text>
                         {weapon.shortRange}"/{weapon.longRange}"

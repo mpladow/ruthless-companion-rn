@@ -1,7 +1,9 @@
 import { ThemedText } from '@/components'
+import Bullet from '@/components/Icons/Bullet'
 import { PlayerCharacter } from '@/models/playerCharacter'
 import { useTheme } from '@/theme/ThemeProvider'
-import { padding } from '@/theme/constants'
+import { borderRadius, padding } from '@/theme/constants'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
 import Color from 'color'
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -67,10 +69,48 @@ const CharacterCardDetailsSimplified = ({ playerCharacter, healthStatus }: Chara
             <View style={{ flexDirection: 'column', padding: padding }}>
                 {playerCharacter.currentWeapons?.map((x, index) => {
                     return (
-                        <ThemedText.Text>
-                            <ThemedText.Text type="bold">{x.name}</ThemedText.Text> - {x.currentAmmunition}/
-                            {x.maxAmmunition} - {x.specialRules.map((y) => y.name).join(', ')}
-                        </ThemedText.Text>
+                        <>
+                            <ThemedText.Text>
+                                <ThemedText.Text type="bold">{x.name}</ThemedText.Text>
+                                {x.specialRules.length > 0 && ' - ' + x.specialRules.map((y) => y.name).join(', ')}
+                            </ThemedText.Text>
+                            <ThemedText.Text>
+                                {x.shortRange}" / {x.longRange}"
+                            </ThemedText.Text>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    flexWrap: 'wrap',
+                                    gap: 2,
+                                    paddingVertical: padding,
+                                }}>
+                                {[...Array(x.currentAmmunition)].map((_, index) => (
+                                    <View
+                                        key={index}
+                                        style={{
+                                            borderWidth: 1,
+                                            borderRadius: borderRadius / 2,
+                                            width: 20,
+                                            height: 20,
+                                        }}>
+                                        <Bullet fill={currentTheme.colors.warning} />
+                                    </View>
+                                ))}
+                                {[...Array(x.maxAmmunition - x.currentAmmunition)].map((_, index) => (
+                                    <View
+                                        key={index}
+                                        style={{
+                                            borderWidth: 1,
+                                            borderRadius: borderRadius / 2,
+                                            width: 20,
+                                            height: 20,
+                                        }}>
+                                        <FontAwesome name="times" size={32} color={currentTheme.colors.grey0} />
+                                    </View>
+                                ))}
+                            </View>
+                        </>
                     )
                 })}
             </View>

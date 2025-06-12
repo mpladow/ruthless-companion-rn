@@ -2,6 +2,7 @@ import { ThemedText } from '@/components'
 import FingerPointing from '@/components/Icons/FingerPointing'
 import ThemedContainer from '@/components/ThemedContainer'
 import commonStyles from '@/constants/styles'
+import { getRandomNumber } from '@/helpers/helpers'
 import { useResponsiveWidth } from '@/hooks'
 import { Posse } from '@/models/posse'
 import { borderRadius, borderWidth, margin, padding } from '@/theme/constants'
@@ -235,7 +236,7 @@ const PosseListItemV2 = ({
                                                         //   backgroundColor: 'red',
                                                         position: 'absolute',
                                                         right: 0,
-                                                        bottom: -45,
+                                                        bottom: getRandomNumber(-48, -55),
                                                     }}
                                                     height={160}
                                                     width={50}
@@ -251,7 +252,7 @@ const PosseListItemV2 = ({
                                                         //   backgroundColor: 'red',
                                                         position: 'absolute',
                                                         right: -8,
-                                                        bottom: -65,
+                                                        bottom: getRandomNumber(-65, -72),
                                                     }}
                                                     height={200}
                                                     width={70}
