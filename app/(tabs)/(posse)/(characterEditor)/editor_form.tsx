@@ -171,49 +171,36 @@ const EditorForm = ({
                             />
                         </View>
                         {specialRulesFields.map((rule, index) => (
-                            <Controller
-                                render={({ field }) => (
-                                    <>
-                                        <View
-                                            key={index}
-                                            style={{
-                                                paddingHorizontal: padding * 2,
-                                                paddingVertical: padding,
-                                                borderWidth: 2,
-                                                borderColor: currentTheme.colors.primary,
-                                            }}>
-                                            <Pressable
-                                                style={{
-                                                    flexDirection: 'row',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'center',
-                                                }}
-                                                onPress={() => {
-                                                    const index = specialRulesFields.findIndex(
-                                                        (r) => r.name === rule.name
-                                                    )
-                                                    console.log('🚀 ~ characterEdit ~ index:', index)
-                                                    if (index !== -1) {
-                                                        specialRulesRemove(index)
-                                                    }
-                                                }}>
-                                                <View style={{ flex: 1 }}>
-                                                    <ThemedText.Text type="semibold">{rule.name}</ThemedText.Text>
-                                                    <ThemedText.Text>{rule.description}</ThemedText.Text>
-                                                </View>
-                                                <View>
-                                                    <Entypo name="cross" size={24} color={currentTheme.colors.error} />
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                        {specialRulesFields.length - 1 == index && (
-                                            <View style={{ height: padding * 2 }}></View>
-                                        )}
-                                    </>
-                                )}
-                                name={'specialRules'}
-                                control={control}
-                            />
+                            <View
+                                key={rule.id || rule.name || index}
+                                style={{
+                                    paddingHorizontal: padding * 2,
+                                    paddingVertical: padding,
+                                    borderWidth: 2,
+                                    borderColor: currentTheme.colors.primary,
+                                }}>
+                                <Pressable
+                                    style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                    }}
+                                    onPress={() => {
+                                        const idx = specialRulesFields.findIndex((r) => r.name === rule.name)
+                                        if (idx !== -1) {
+                                            specialRulesRemove(idx)
+                                        }
+                                    }}>
+                                    <View style={{ flex: 1 }}>
+                                        <ThemedText.Text type="semibold">{rule.name}</ThemedText.Text>
+                                        <ThemedText.Text>{rule.description}</ThemedText.Text>
+                                    </View>
+                                    <View>
+                                        <Entypo name="cross" size={24} color={currentTheme.colors.error} />
+                                    </View>
+                                </Pressable>
+                                {specialRulesFields.length - 1 === index && <View style={{ height: padding * 2 }} />}
+                            </View>
                         ))}
                     </View>
                     <View style={{ paddingVertical: padding * 2, paddingHorizontal: padding * 2 }}>
@@ -251,9 +238,9 @@ const EditorForm = ({
                                                         flexWrap: 'wrap',
                                                         gap: 2,
                                                     }}>
-                                                    {[...Array(item.maxAmmunition)].map((_, index) => (
+                                                    {[...Array(item.maxAmmunition)].map((_, idx) => (
                                                         <View
-                                                            key={index}
+                                                            key={item.name + '-ammo-' + idx}
                                                             style={{
                                                                 borderWidth: 1,
                                                                 borderRadius: borderRadius / 2,
@@ -268,10 +255,8 @@ const EditorForm = ({
                                             {item.specialRules && item.specialRules.length > 0 && (
                                                 <View>
                                                     <ThemedText.Text type="bold">Special Rules:</ThemedText.Text>
-                                                    {item.specialRules.map((rule, index) => (
-                                                        <ThemedText.Text key={index}>
-                                                            {rule.description}
-                                                        </ThemedText.Text>
+                                                    {item.specialRules.map((rule, idx) => (
+                                                        <ThemedText.Text key={rule.name + idx}>{rule.description}</ThemedText.Text>
                                                     ))}
                                                 </View>
                                             )}
@@ -327,9 +312,9 @@ const EditorForm = ({
                                                             flexWrap: 'wrap',
                                                             gap: 2,
                                                         }}>
-                                                        {[...Array(item.maxAmmunition)].map((_, index) => (
+                                                        {[...Array(item.maxAmmunition)].map((_, idx) => (
                                                             <View
-                                                                key={index}
+                                                                key={item.name + '-ammo-' + idx}
                                                                 style={{
                                                                     borderWidth: 1,
                                                                     borderRadius: borderRadius / 2,
@@ -344,10 +329,8 @@ const EditorForm = ({
                                                 {item.specialRules && item.specialRules.length > 0 && (
                                                     <View>
                                                         <ThemedText.Text type="bold">Special Rules:</ThemedText.Text>
-                                                        {item.specialRules.map((rule, index) => (
-                                                            <ThemedText.Text key={index}>
-                                                                {rule.description}
-                                                            </ThemedText.Text>
+                                                        {item.specialRules.map((rule, idx) => (
+                                                            <ThemedText.Text key={rule.name + idx}>{rule.description}</ThemedText.Text>
                                                         ))}
                                                     </View>
                                                 )}

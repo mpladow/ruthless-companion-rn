@@ -88,8 +88,10 @@ const PreselectedCharacters = () => {
                 style={{ flex: 1 }}
                 ListFooterComponent={() => <View style={{ height: insets.bottom * 4 }}></View>}
                 ItemSeparatorComponent={() => <View style={{ height: margin }}></View>}
-                renderItem={({ item }) => (
-                    <Pressable key={item.playerCharacterId} onPress={(val) => handleCheckPress(item.playerCharacterId)}>
+                renderItem={({ item, index }) => (
+                    <Pressable
+                        key={item.playerCharacterId}
+                        onPress={(val) => handleCheckPress(item.playerCharacterId)}>
                         <View style={{ flexDirection: 'row', flexGrow: 1, width: '100%', gap: 6 }}>
                             <View style={{ flex: 1 }}>
                                 <CharacterCardReadOnly playerCharacter={item} collapsedView={true} readOnly />
@@ -113,7 +115,7 @@ const PreselectedCharacters = () => {
                         </View>
                     </Pressable>
                 )}
-                keyExtractor={(index) => String(index)}
+                keyExtractor={(item) => String(item.playerCharacterId)}
             />
             {charactersToAdd.length > 0 && (
                 <Animated.View

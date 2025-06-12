@@ -22,7 +22,7 @@ const CharacterCardDetailsSimplified = ({ playerCharacter }: CharacterCardDetail
                 }}>
                 {playerCharacter.specialRules.map((x, index) => {
                     return (
-                        <View style={{ flexDirection: 'row', paddingBottom: padding, gap: 8 }}>
+                        <View key={index + x.name} style={{ flexDirection: 'row', paddingBottom: padding, gap: 8 }}>
                             <View>
                                 <ThemedText.Heading headingSize="h3">
                                     {/* {x.name} {playerCharacter.specialRules.length != index + 1 && ' / '} */}
@@ -39,7 +39,7 @@ const CharacterCardDetailsSimplified = ({ playerCharacter }: CharacterCardDetail
             <View style={{ flexDirection: 'column', marginTop: margin }}>
                 {playerCharacter.startingWeapons?.map((x, index) => {
                     return (
-                        <View style={{ marginTop: margin }}>
+                        <View key={index + x.weaponTemplateId.toString()} style={{ marginTop: margin }}>
                             <ThemedText.Heading headingSize="h2">{x.name}</ThemedText.Heading>
                             {x.specialRules.length > 0 && (
                                 <View style={{ backgroundColor: currentTheme.colors.grey0 }}>
@@ -58,7 +58,7 @@ const CharacterCardDetailsSimplified = ({ playerCharacter }: CharacterCardDetail
                                     alignItems: 'center',
                                     flexWrap: 'wrap',
                                     gap: 2,
-												paddingVertical: padding
+                                    paddingVertical: padding,
                                 }}>
                                 {[...Array(x.maxAmmunition)].map((_, index) => (
                                     <View

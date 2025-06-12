@@ -1,4 +1,3 @@
-import AnimatedAccordion from '@/components/Animated/AnimatedAccordion'
 import ThemedContainer from '@/components/ThemedContainer'
 import commonStyles from '@/constants/styles'
 import { BodyPart } from '@/models/bodyParttemplate'
@@ -14,8 +13,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useSharedValue } from 'react-native-reanimated'
 import { useDispatch } from 'react-redux'
-import SpecialRulesContainer from '../SpecialRulesSection/SpecialRulesContainer'
-import WeaponContainer from '../Weapons/WeaponContainer'
 import CharacterCardDetailsSimplifiedRO from './CharacterCardDetailsSimplifiedRO'
 import CardHeading from './Heading'
 
@@ -88,10 +85,8 @@ const CharacterCardReadOnly = ({ playerCharacter, collapsedView }: CharacterCard
                     alignItems: 'center',
                     justifyContent: 'space-between',
                 }}>
-                <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded} invertExpanded>
-                    <CharacterCardDetailsSimplifiedRO playerCharacter={playerCharacter} />
-                </AnimatedAccordion>
-                <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded}>
+                <CharacterCardDetailsSimplifiedRO playerCharacter={playerCharacter} />
+                {/* <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded}>
                     {playerCharacter.specialRules.length > 0 && (
                         <SpecialRulesContainer
                             key={playerCharacter.playerCharacterId}
@@ -107,7 +102,7 @@ const CharacterCardReadOnly = ({ playerCharacter, collapsedView }: CharacterCard
                             onAmmoChange={handleWeaponAmmoChange}
                         />
                     ))}
-                </AnimatedAccordion>
+                </AnimatedAccordion> */}
             </View>
         </ThemedContainer>
     )

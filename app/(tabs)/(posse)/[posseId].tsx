@@ -237,7 +237,7 @@ const PosseCharacters = () => {
                             </View>
                         )
                     }
-                    keyExtractor={(index) => String(index)}
+                    keyExtractor={(item) => String(item.playerCharacterId)}
                     ListEmptyComponent={
                         <View
                             style={[

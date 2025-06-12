@@ -165,10 +165,10 @@ const Home = () => {
                             />
                         </View>
                     )}
-                    {posses.map((item, index) => (
+                    {posses.map((item) => (
                         <>
                             <PosseListItemV2
-                                key={index}
+                                key={item.posseId}
                                 item={item}
                                 onListItemPress={handleListItemPress}
                                 onDeletePossePress={(posseId: string) => {
@@ -179,7 +179,7 @@ const Home = () => {
                                 onAddMemberPress={handleOnAddMemberPress}
                             />
                             <View style={{ height: margin }}></View>
-                            {index === posses.length - 1 && (
+                            {posses.length > 0 && item.posseId === posses[posses.length - 1].posseId && (
                                 <View style={{ padding: padding * 3, alignItems: 'center' }}>
                                     <ThemedButton
                                         title={'Add New Posse'}
