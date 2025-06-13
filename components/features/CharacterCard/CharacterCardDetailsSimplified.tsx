@@ -43,7 +43,7 @@ const CharacterCardDetailsSimplified = ({ playerCharacter, healthStatus }: Chara
                         flexDirection: 'row',
                         alignItems: 'center',
                         gap: 4,
-                        width: Dimensions.get('window').width - 50,
+                        width: Dimensions.get('window').width - 40,
                     }}>
                     <Foundation name="skull" size={24} color={'red'} />
                     <ThemedText.Text style={{ color: 'red', textTransform: 'uppercase' }} type="semibold">
