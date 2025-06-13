@@ -1,11 +1,11 @@
 import { borderRadius, borderWidth, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
-import Entypo from '@expo/vector-icons/Entypo'
+import AntDesign from '@expo/vector-icons/AntDesign'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import Color from 'color'
-import React, { memo, useEffect } from 'react'
+import React, { memo } from 'react'
 import { Platform, Pressable, StyleSheet, ViewProps } from 'react-native'
-import Animated, { Easing, FadeInDown, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 
 type SpecialRuleCheckboxProps = {
     onPress: (isHealing: boolean) => void
@@ -18,39 +18,6 @@ const SpecialRuleCheckbox = memo(({ onPress, style, isChecked, boxSize, isLastIt
     const DIMENSIONS = boxSize == 'lg' ? 50 : 30
     const { currentTheme } = useTheme()
 
-    const opacity = useSharedValue(1)
-    const translateY = useSharedValue(0)
-    const animatedStyle = useAnimatedStyle(() => {
-        return {
-            opacity: opacity.value,
-            transform: [
-                {
-                    translateY: translateY.value,
-                },
-            ],
-        }
-    })
-    useEffect(() => {
-        if (isChecked) {
-            opacity.value = withTiming(0, {
-                duration: 400,
-                easing: Easing.out(Easing.ease),
-            })
-            translateY.value = withTiming(30, {
-                duration: 400,
-                easing: Easing.out(Easing.ease),
-            })
-        } else {
-            opacity.value = withTiming(1, {
-                duration: 400,
-                easing: Easing.out(Easing.ease),
-            })
-            translateY.value = withTiming(0, {
-                duration: 400,
-                easing: Easing.out(Easing.ease),
-            })
-        }
-    }, [isChecked])
     const handleHealthBoxPress = () => {
         onPress(isChecked)
     }
@@ -63,10 +30,10 @@ const SpecialRuleCheckbox = memo(({ onPress, style, isChecked, boxSize, isLastIt
                         width: DIMENSIONS,
                         height: DIMENSIONS,
                         borderWidth: borderWidth,
-								borderRadius: borderRadius/3,
+                        borderRadius: borderRadius / 3,
                         overflow: 'hidden',
                     },
-                    isChecked && { backgroundColor: Color(currentTheme.colors.error).lighten(0.4).hex() },
+                    isChecked && { backgroundColor: Color(currentTheme.colors.success).lighten(0.4).hex() },
                     style,
                 ]}>
                 {isChecked ? (
@@ -86,7 +53,7 @@ const SpecialRuleCheckbox = memo(({ onPress, style, isChecked, boxSize, isLastIt
                                 //   backgroundColor: Color(currentTheme.colors.error).lighten(0.4).hex(),
                             },
                         ]}>
-                        <Entypo name="drop" size={32} color={currentTheme.colors.error} />
+                        <AntDesign name="check" size={24} color={currentTheme.colors.success} />
                         {/* <ThemedText.Text>X</ThemedText.Text> */}
                     </Animated.View>
                 ) : (

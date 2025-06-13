@@ -50,6 +50,7 @@ const HeadingTextInput: React.FC<CustomTextInputProps> = ({
                 value={value}
                 onChangeText={onChangeText}
                 placeholder={placeholder}
+                placeholderTextColor={invertColor ? currentTheme.colors.grey2 : currentTheme.colors.greyOutline}
                 secureTextEntry={secureTextEntry}
                 keyboardType={keyboardType}
                 autoCapitalize={autoCapitalize}

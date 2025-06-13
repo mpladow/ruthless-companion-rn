@@ -9,7 +9,8 @@ import { DODGE_CITY_SCENARIO } from '@/data/Pregenerated'
 import { PlayerCharacter } from '@/models/playerCharacter'
 import { addCharacterToPosseMembers } from '@/state/posse/posseSlice'
 import { AppDispatch, RootState } from '@/state/store'
-import { margin } from '@/theme/constants'
+import { margin, padding } from '@/theme/constants'
+import { useTheme } from '@/theme/ThemeProvider'
 import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Platform, Pressable, StyleSheet, View } from 'react-native'
@@ -31,6 +32,10 @@ const PreselectedCharacters = () => {
         return state._persist.rehydrated ? state.customCharacters : []
     })
     const [pregeneratedCharacters, setPregeneratedCharacters] = useState(DODGE_CITY_SCENARIO)
+
+    const { currentTheme } = useTheme()
+    const [customPCs, setCustomPCs] = useState<PlayerCharacter[]>([])
+
     useEffect(() => {
         if (customCharacters.length > 0) {
             let customCharacterInstances = customCharacters.map((x) => {
@@ -46,30 +51,58 @@ const PreselectedCharacters = () => {
                     characterTemplateId: x.characterTemplateId,
                     toughness: x.toughness,
                     startingWeapons: x.startingWeapons,
+                    currentWeapons: x.startingWeapons,
                     gender: x.gender,
                     isCustom: true,
+                    order: posse?.members ? posse?.members.length + 1 : 0,
                 }
                 return newPc
             })
-				setPregeneratedCharacters((prev) => [...prev, ...customCharacterInstances])
+            setCustomPCs(customCharacterInstances)
         }
     }, [customCharacters])
 
+    useEffect(() => {
+        // filter out pregenerated characters that are already in the posse
+        if (posse?.members) {
+            const filtered = pregeneratedCharacters.filter(
+                (x) => !posse.members.find((m) => m.playerCharacterId === x.playerCharacterId)
+            )
+            setPregeneratedCharacters(filtered)
+        }
+    }, [posse])
+
+    useEffect(() => {
+        // filter out custom characters that are already in the posse
+        if (posse?.members && customPCs.length > 0) {
+            const filteredCustom = customPCs.filter(
+                (x) => !posse.members.find((m) => m.playerCharacterId === x.playerCharacterId)
+            )
+            setCustomPCs(filteredCustom)
+        }
+    }, [posse])
+
     const handleCheckPress = (characterId: string) => {
         const idFound = charactersToAdd.find((x) => x == characterId)
+        console.log('🚀 ~ handleCheckPress ~ idFound:', idFound)
         if (idFound) {
             setCharactersToAdd(charactersToAdd.filter((x) => x != characterId))
         } else {
             setCharactersToAdd([...charactersToAdd, characterId])
         }
     }
+    console.log(charactersToAdd, 'Characters to add')
     const insets = useSafeAreaInsets()
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const handleAddToPosse = () => {
         setLoading(true)
         const characters = pregeneratedCharacters.filter((x) => charactersToAdd.includes(x.playerCharacterId))
-        dispatch(addCharacterToPosseMembers(characters))
+        console.log('🚀 ~ handleAddToPosse ~ characters:', characters)
+        const customCharacters = customPCs.filter((x) => charactersToAdd.includes(x.playerCharacterId))
+        console.log('🚀 ~ handleAddToPosse ~ customCharacters:', customCharacters)
+        const toAdd = [...characters, ...customCharacters]
+        dispatch(addCharacterToPosseMembers(toAdd))
         setTimeout(() => {
             // this is gross but it works and shouldn't break. not sure why replace is not working for this route.
             router.replace(`./${posse?.posseId.toString()}`)
@@ -78,65 +111,162 @@ const PreselectedCharacters = () => {
             setLoading(false)
         }, 1000)
     }
+    const [index, setIndex] = useState(0)
     return (
         // pregenerated characters
-        <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
-            <AnimatedFlatList
-                data={pregeneratedCharacters}
-                contentContainerStyle={{ paddingBottom: bottom - 150 }}
-                style={{ flex: 1 }}
-                ListFooterComponent={() => <View style={{ height: insets.bottom * 4 }}></View>}
-                ItemSeparatorComponent={() => <View style={{ height: margin }}></View>}
-                renderItem={({ item }) => (
-                    <Pressable onPress={(val) => handleCheckPress(item.playerCharacterId)}>
-                        <View style={{ flexDirection: 'row', flexGrow: 1, width: '100%', gap: 6 }}>
-                            <View style={{ flex: 1 }}>
-                                <CharacterCardReadOnly playerCharacter={item} collapsedView={true} readOnly />
-                            </View>
+        <>
+            {/* <View style={{ backgroundColor: currentTheme.colors.primary, paddingTop: 20, padding: padding * 4 }}>
+                <ThemedText.Heading headingSize="h1" inverted>
+                    Hello
+                </ThemedText.Heading>
+                <ThemedText.Text inverted>
+                    You can select pregenerated characters, or select your existing custom characters.
+                </ThemedText.Text>
+            </View> */}
+            <View
+                style={{
+                    backgroundColor: currentTheme.colors.primary,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}>
+                <View
+                    style={{
+                        backgroundColor: currentTheme.colors.primary,
+                        paddingTop: 20,
+                        paddingHorizontal: padding * 3,
+                        paddingVertical: padding * 4,
+                        flexDirection: 'row',
+                    }}>
+                    <Pressable
+                        style={[
+                            { padding: padding * 2, alignItems: 'center' },
+                            index == 0 && { borderBottomWidth: 2, borderBottomColor: currentTheme.colors.secondary },
+                        ]}
+                        onPress={() => setIndex(0)}>
+                        <ThemedText.Text inverted style={[index !== 0 && { color: currentTheme.colors.greyOutline }]}>
+                            Pregenerated
+                        </ThemedText.Text>
+                    </Pressable>
+                    <Pressable
+                        style={[
+                            { padding: padding * 2, alignItems: 'center' },
+                            index == 1 && { borderBottomWidth: 2, borderBottomColor: currentTheme.colors.secondary },
+                        ]}
+                        onPress={() => setIndex(1)}>
+                        <ThemedText.Text inverted style={[index !== 1 && { color: currentTheme.colors.greyOutline }]}>
+                            Custom
+                        </ThemedText.Text>
+                    </Pressable>
+                </View>
+                <View>
+                    {charactersToAdd.length > 0 && (
+                        <Pressable
+                            style={{ padding: padding * 2, alignItems: 'center' }}
+                            onPress={() => setCharactersToAdd([])}>
+                            <ThemedText.Text inverted>Deselect All</ThemedText.Text>
+                        </Pressable>
+                    )}
+                </View>
+            </View>
+            <PageContainer paddingSize="sm" fullScreenWidth={'50%'}>
+                {index == 0 ? (
+                    <AnimatedFlatList
+                        data={pregeneratedCharacters}
+                        contentContainerStyle={{ paddingBottom: bottom - 150 }}
+                        style={{ flex: 1 }}
+                        ListFooterComponent={() => <View style={{ height: insets.bottom * 4 }}></View>}
+                        ItemSeparatorComponent={() => <View style={{ height: margin }}></View>}
+                        renderItem={({ item, index }) => (
+                            <Pressable
+                                key={item.playerCharacterId}
+                                onPress={(val) => handleCheckPress(item.playerCharacterId)}>
+                                <View style={{ flexDirection: 'row', flexGrow: 1, width: '100%', gap: 6 }}>
+                                    <View style={{ flex: 1 }}>
+                                        <CharacterCardReadOnly playerCharacter={item} collapsedView={true} readOnly />
+                                    </View>
 
-                            <Animated.View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                                <Checkbox
-                                    onPress={(val) => handleCheckPress(item.playerCharacterId)}
-                                    isChecked={charactersToAdd.includes(item.playerCharacterId)}
-                                    boxSize={'sm'}
-                                    isLastItem={false}
-                                />
-                                {/* <View
+                                    <Animated.View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                        <Checkbox
+                                            onPress={(val) => handleCheckPress(item.playerCharacterId)}
+                                            isChecked={charactersToAdd.includes(item.playerCharacterId)}
+                                            boxSize={'sm'}
+                                            isLastItem={false}
+                                        />
+                                        {/* <View
                                 style={{
                                     width: 30,
                                     height: 30,
                                     borderWidth: 3,
                                     borderRadius: borderRadius / 2,
                                 }}></View> */}
-                            </Animated.View>
-                        </View>
-                    </Pressable>
-                )}
-                keyExtractor={(index) => String(index)}
-            />
-            {charactersToAdd.length > 0 && (
-                <Animated.View
-                    entering={Platform.OS !== 'web' ? SlideInDown : undefined}
-                    style={{ position: 'absolute', bottom: insets.bottom * 3, right: margin, width: '100%' }}>
-                    <ThemedButton
-                        title={`Add ${charactersToAdd.length} Character${charactersToAdd.length > 1 ? 's' : ''}`}
-                        onPress={handleAddToPosse}
-                        size={'lg'}
-                        type="secondary"
+                                    </Animated.View>
+                                </View>
+                            </Pressable>
+                        )}
+                        keyExtractor={(item) => String(item.playerCharacterId)}
                     />
-                </Animated.View>
-            )}
-            <CustomModal
-                visible={loading}
-                onClose={() => {}}
-                children={
-                    <View style={{ justifyContent: 'center', flexDirection: 'column' }}>
-                        <ActivityIndicator size="large"></ActivityIndicator>
-                        <ThemedText.Text>Adding to posse...</ThemedText.Text>
-                    </View>
-                }
-            />
-        </PageContainer>
+                ) : (
+                    <AnimatedFlatList
+                        data={customPCs}
+                        contentContainerStyle={{ paddingBottom: bottom - 150 }}
+                        style={{ flex: 1 }}
+                        ListFooterComponent={() => <View style={{ height: insets.bottom * 4 }}></View>}
+                        ItemSeparatorComponent={() => <View style={{ height: margin }}></View>}
+                        renderItem={({ item, index }) => (
+                            <Pressable
+                                key={item.playerCharacterId}
+                                onPress={(val) => handleCheckPress(item.playerCharacterId)}>
+                                <View style={{ flexDirection: 'row', flexGrow: 1, width: '100%', gap: 6 }}>
+                                    <View style={{ flex: 1 }}>
+                                        <CharacterCardReadOnly playerCharacter={item} collapsedView={true} readOnly />
+                                    </View>
+
+                                    <Animated.View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                        <Checkbox
+                                            onPress={(val) => handleCheckPress(item.playerCharacterId)}
+                                            isChecked={charactersToAdd.includes(item.playerCharacterId)}
+                                            boxSize={'sm'}
+                                            isLastItem={false}
+                                        />
+                                        {/* <View
+									 style={{
+										  width: 30,
+										  height: 30,
+										  borderWidth: 3,
+										  borderRadius: borderRadius / 2,
+									 }}></View> */}
+                                    </Animated.View>
+                                </View>
+                            </Pressable>
+                        )}
+                        keyExtractor={(item) => String(item.playerCharacterId)}
+                    />
+                )}
+                {charactersToAdd.length > 0 && (
+                    <Animated.View
+                        entering={Platform.OS !== 'web' ? SlideInDown : undefined}
+                        style={{ position: 'absolute', bottom: insets.bottom * 3, right: margin, width: '100%' }}>
+                        <ThemedButton
+                            title={`Add ${charactersToAdd.length} Character${charactersToAdd.length > 1 ? 's' : ''}`}
+                            onPress={handleAddToPosse}
+                            size={'lg'}
+                            type="secondary"
+                        />
+                    </Animated.View>
+                )}
+                <CustomModal
+                    visible={loading}
+                    onClose={() => {}}
+                    children={
+                        <View style={{ justifyContent: 'center', flexDirection: 'column' }}>
+                            <ActivityIndicator size="large"></ActivityIndicator>
+                            <ThemedText.Text>Adding to posse...</ThemedText.Text>
+                        </View>
+                    }
+                />
+            </PageContainer>
+        </>
     )
 }
 

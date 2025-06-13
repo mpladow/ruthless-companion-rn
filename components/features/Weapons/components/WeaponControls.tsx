@@ -5,6 +5,7 @@ import { Weapon } from '@/models/weapon'
 import { borderRadius, margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import Feather from '@expo/vector-icons/Feather'
+import * as Haptics from 'expo-haptics'
 import React, { useState } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 
@@ -17,6 +18,11 @@ type WeaponControlsProps = {
 const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }: WeaponControlsProps) => {
     const { currentTheme } = useTheme()
     const [showWeaponDetails, setShowWeaponDetails] = useState(false)
+
+    const handleReloadPress = () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+        onReloadPress()
+    }
     return (
         <View
             style={{
@@ -36,7 +42,9 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
                             setShowWeaponDetails(true)
                         }}
                         style={{ paddingVertical: 8 }}>
-                        <ThemedText.Heading headingSize="h2">{weapon?.name}</ThemedText.Heading>
+                        <ThemedText.Text size="md" type="bold">
+                            {weapon?.name}
+                        </ThemedText.Text>
                     </Pressable>
                     <ThemedText.Text>
                         {weapon.shortRange}"/{weapon.longRange}"
@@ -59,7 +67,7 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
             <View style={{ flex: 1 }}>
                 {currentAmmo < weapon?.maxAmmunition ? (
                     <ThemedButton
-                        onLongPress={onReloadAllPress}
+                        onLongPress={handleReloadPress}
                         title={
                             <View
                                 style={{

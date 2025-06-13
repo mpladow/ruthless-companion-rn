@@ -8,9 +8,11 @@ export interface CharacterTemplate {
 	name: string;
 	toughness: number;
 	startingWeapons: Weapon[];
+	currentWeapons?: Weapon[];
 	specialRules: SpecialRule[];
 	bodyParts: BodyPartTemplate[];
 	isCustom: boolean;
 	gender: GenderType;
+	scenario?: string; // Optional field to indicate the scenario this character is associated with
 
 }

@@ -1,4 +1,56 @@
-export const FIRST_NAMES = [
+export const FIRST_NAMES_FEMALE = [
+	'Annie',      // Annie Oakley
+	'Belle',      // Belle Starr
+	'Pearl',      // Pearl Hart
+	'Calamity',   // Calamity Jane
+	'Rose',
+	'Clara',
+	'Jane',       // Calamity Jane
+	'Kitty',
+	'Josie',
+	'Emma',
+	'Grace',
+	'Abigail',
+	'Sarah',
+	'Elizabeth',
+	'Charlotte',
+	'Emily',
+	'Olivia',
+	'Sophia',
+	'Alice',
+	'Mary',
+	'Daisy',
+	'Harriet',
+	'Virginia',
+	'Lucille',
+	'Edith',
+	'Ida',
+	'Louise',
+	'Claudia',
+	'Georgia',
+	'Flora',
+	'Nancy',
+	'Viola',
+	'Bessie',
+	'Ruth',
+	'Gladys',
+	'Beatrice',
+	'Agnes',
+	'Mabel',
+	'Blanche',
+	'Fannie',
+	'Carrie',
+	'Addie',
+	'Julia',
+	'Laura',
+	'Edna',
+	'Jennie',
+	'Pauline',
+	'Leona',
+	'Goldie',
+	'Opal',
+]
+export const FIRST_NAMES_MALE = [
 	'Aiden',
 	'Liam',
 	'Noah',
@@ -52,16 +104,24 @@ export const LAST_NAMES = [
 	'Carson',    // Kit Carson
 	'Bass',      // Bass Reeves
 ]
-export const TITLES = [
-	'The Kid',
-	'The Outlaw',
+export const LAWFUL_TITLES = [
 	'The Lawman',
-	'The Gambler',
-	'The Bandit',
-	'The Gunslinger',
-	'The Scout',
 	'The Tracker',
 	'The Bounty Hunter',
 	'The Sheriff',
+]
+export const NEUTRAL_TITLES = ['The Gunslinger',
+	'The Drifter',
+	'The Wanderer',
+	'The Outcast',
+	'The Maverick',
+	'The Renegade',
+]
 
+export const UNLAWFUL_TITLES = [
+	'The Outlaw',
+	'The Bandit',
+	'The Bounty Hunter',
+	'The Rustler',
+	'The Desperado',
 ]

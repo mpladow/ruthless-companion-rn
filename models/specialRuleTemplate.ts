@@ -1,4 +1,7 @@
-export type GenreType = 'melee' | 'law' | 'bandit' | 'personality'| 'ranged' | 'tough' | 'cowardly' | 'stealthy' | 'heroic' | 'veteran' | 'greenhorn'
+export type AlignmentType = 'lawman' | 'bandit' | 'neutral'
+export type SpecialityType = 'melee' | 'ranged' | 'tough' | 'stealthy' |'cowardly' | 'brave' |'veteran' | 'greenhorn' | 'regular'
+export type TraitType = 'veteran' | 'greenhorn' | 'regular'
+
 export interface SpecialRuleTemplate {
 	specialRuleId: string;
 	name: string;
@@ -6,7 +9,9 @@ export interface SpecialRuleTemplate {
 	points: number;
 	maxUsage?: number; // if not null, then this is a permanent special rule
 	weaponRule?: boolean;
-	genre: GenreType[]
+	alignmentType: AlignmentType[]
+	specialityType: SpecialityType[];
+	version: number
 }
 
 export interface SpecialRule extends SpecialRuleTemplate {

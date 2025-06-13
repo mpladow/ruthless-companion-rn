@@ -22,7 +22,7 @@ const CharacterEditor = () => {
         router.navigate('../editor')
     }
     return (
-        <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
+        <PageContainer paddingSize="sm" fullScreenWidth={'50%'}>
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                 <ButtonLarge
                     onPress={() => handleAddPresetPress()}

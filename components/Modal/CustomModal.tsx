@@ -1,13 +1,15 @@
 import React, { ReactNode, useEffect } from 'react'
 import { Modal, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { ThemedText } from '../ThemedText/ThemedText'
 
 interface CustomModalProps {
     visible: boolean
     onClose: () => void
     children: ReactNode
+    title?: string
 }
-const CustomModal = ({ visible, onClose, children }: CustomModalProps) => {
+const CustomModal = ({ visible, onClose, children, title }: CustomModalProps) => {
     const opacity = useSharedValue(0)
     const scale = useSharedValue(0.95)
 
@@ -33,7 +35,10 @@ const CustomModal = ({ visible, onClose, children }: CustomModalProps) => {
             <TouchableWithoutFeedback onPress={onClose}>
                 <Animated.View style={[styles.backdrop, backdropStyle]}>
                     <TouchableWithoutFeedback>
-                        <Animated.View style={[styles.modalContent, modalStyle]}>{children}</Animated.View>
+                        <Animated.View style={[styles.modalContent, modalStyle]}>
+                            {title && <ThemedText.Heading headingSize="h2">{title}</ThemedText.Heading>}
+                            {children}
+                        </Animated.View>
                     </TouchableWithoutFeedback>
                 </Animated.View>
             </TouchableWithoutFeedback>

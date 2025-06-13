@@ -23,7 +23,7 @@ import CharacterCardDetailsSimplified from './CharacterCardDetailsSimplified'
 import CardHeading from './Heading'
 
 //TODO:  move out of this screen
-export type HealthStatus = { status: string; relevantBodyParts: BodyPart[] }
+export type HealthStatus = { status: string; relevantBodyParts: BodyPart[]; component?: React.ReactNode | null }
 
 type CharacterCardProps = {
     playerCharacter: PlayerCharacter
@@ -132,7 +132,8 @@ const CharacterCard = ({ playerCharacter, collapsedView, readOnly, editMode }: C
                     onPress={handleExpandToggle}
                     name={playerCharacter.name}
                     toughness={playerCharacter.toughness}
-						  gender={playerCharacter.gender}
+                    gender={playerCharacter.gender}
+                    title={playerCharacter.title}
                 />
                 <View
                     style={{
