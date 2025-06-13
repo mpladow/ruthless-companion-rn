@@ -160,7 +160,7 @@ const EditorGenerator = ({
         <>
             <Animated.ScrollView
                 entering={
-                    Platform.OS !== 'web' ? (initialLoad ? SlideInRight.delay(100) : SlideInLeft.delay(100)) : undefined
+                    Platform.OS !== 'web' ? (initialLoad == true ? SlideInRight.delay(100) : SlideInLeft.delay(100)) : undefined
                 }
                 exiting={Platform.OS !== 'web' ? SlideOutRight : undefined}>
                 <ThemedContainer style={{ justifyContent: 'space-evenly', alignItems: 'center' }}>
@@ -307,7 +307,7 @@ const EditorGenerator = ({
                 style={{
                     flexDirection: 'row',
                     gap: 6,
-                    marginBottom: Platform.OS == 'android' ? margin * 4 : margin * 2,
+                    marginBottom: Platform.OS == 'android' ? 90 + 30 : margin * 2,
                     marginTop: margin,
                     alignItems: 'center',
                     backgroundColor: 'transparent',

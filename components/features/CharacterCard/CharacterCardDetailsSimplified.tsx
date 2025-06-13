@@ -4,9 +4,11 @@ import { PlayerCharacter } from '@/models/playerCharacter'
 import { useTheme } from '@/theme/ThemeProvider'
 import { borderRadius, padding } from '@/theme/constants'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
+import Foundation from '@expo/vector-icons/Foundation'
 import Color from 'color'
 import React, { useMemo } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Dimensions, StyleSheet, View } from 'react-native'
 import { HealthStatus } from './CharacterCard'
 
 type CharacterCardDetailsSimplifiedProps = {
@@ -16,29 +18,58 @@ type CharacterCardDetailsSimplifiedProps = {
 const CharacterCardDetailsSimplified = ({ playerCharacter, healthStatus }: CharacterCardDetailsSimplifiedProps) => {
     const { currentTheme } = useTheme()
     const _healthStatus = useMemo(() => {
-        const incapacitated = playerCharacter.bodyParts.filter((x) => x.currentDamage >= x.maxHealth)
         if (healthStatus.status == 'Healthy') {
             return (
-                <ThemedText.Text
-                    style={{ color: currentTheme.colors.success, textTransform: 'uppercase' }}
-                    type="semibold">
-                    Healthy
-                </ThemedText.Text>
+                //  <ThemedText.Text
+                //      style={{ color: currentTheme.colors.success, textTransform: 'uppercase' }}
+                //      type="semibold">
+                //      Healthy
+                //  </ThemedText.Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                    <FontAwesome6 name="heart-pulse" size={20} color={currentTheme.colors.success} />
+
+                    <ThemedText.Text
+                        style={{ color: currentTheme.colors.success, textTransform: 'uppercase' }}
+                        type="semibold">
+                        Healthy
+                    </ThemedText.Text>
+                </View>
             )
         }
         if (healthStatus.status == 'Incapacitated') {
-            return <ThemedText.Text style={{ color: currentTheme.colors.success }}>Healthy</ThemedText.Text>
+            return (
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 4,
+                        width: Dimensions.get('window').width - 50,
+                    }}>
+                    <Foundation name="skull" size={24} color={'red'} />
+                    <ThemedText.Text style={{ color: 'red', textTransform: 'uppercase' }} type="semibold">
+                        Incapacitated
+                    </ThemedText.Text>
+                </View>
+            )
         }
         if (healthStatus.status == 'Wounded') {
             return (
-                <ThemedText.Text style={{ color: currentTheme.colors.error }} type="semibold">
-                    {healthStatus.relevantBodyParts.map((x) => x.name).join(' wounds, ')} wounds
-                    {/* {wounded.map((x) => {
-						  let returnValue = ''
-						  returnValue = returnValue + x.name + ' '
-						  return returnValue
-					 })} */}
-                </ThemedText.Text>
+                //   <ThemedText.Text style={{ color: currentTheme.colors.error }} type="semibold">
+                //       {healthStatus.relevantBodyParts.map((x) => x.name).join(' wounds, ')} wounds
+                //   </ThemedText.Text>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'flex-start',
+                        gap: 4,
+                        width: Dimensions.get('window').width - 50,
+                    }}>
+                    <FontAwesome name="plus" size={20} color={currentTheme.colors.error} />
+
+                    <ThemedText.Text style={{ color: currentTheme.colors.error }} type="semibold">
+                        {healthStatus.relevantBodyParts.map((x) => x.name).join(' wounds, ')} wounds
+                    </ThemedText.Text>
+                </View>
             )
         }
     }, [playerCharacter.bodyParts])
@@ -105,8 +136,10 @@ const CharacterCardDetailsSimplified = ({ playerCharacter, healthStatus }: Chara
                                             borderRadius: borderRadius / 2,
                                             width: 20,
                                             height: 20,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
                                         }}>
-                                        <FontAwesome name="times" size={32} color={currentTheme.colors.grey0} />
+                                        <FontAwesome name="times" size={16} color={currentTheme.colors.greyOutline} />
                                     </View>
                                 ))}
                             </View>

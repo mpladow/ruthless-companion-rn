@@ -3,9 +3,11 @@ import { borderWidth, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import Color from 'color'
+import * as Haptics from 'expo-haptics'
 import React, { memo, useEffect } from 'react'
 import { Platform, Pressable, StyleSheet, ViewProps } from 'react-native'
 import Animated, { Easing, FadeInDown, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+
 type AmmoCheckboxProps = {
     onPress: () => void
     isChecked: boolean
@@ -50,6 +52,7 @@ const AmmoCheckbox = memo(({ onPress, style, isChecked, boxSize }: AmmoCheckboxP
         }
     }, [isChecked])
     const handleAmmoPress = () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
         //   opacity.value = withTiming(0, { duration: 500, easing: Easing.out(Easing.ease) })
         //   translateY.value = withTiming(-50, { duration: 500, easing: Easing.out(Easing.ease) })
         onPress()
@@ -65,6 +68,8 @@ const AmmoCheckbox = memo(({ onPress, style, isChecked, boxSize }: AmmoCheckboxP
                         borderWidth: borderWidth + 1,
                         borderRadius: 6,
                         overflow: 'hidden',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                     },
                     style,
                 ]}>
@@ -72,14 +77,16 @@ const AmmoCheckbox = memo(({ onPress, style, isChecked, boxSize }: AmmoCheckboxP
                     <Animated.View
                         style={{
                             position: 'absolute',
-                            height: DIMENSIONS - padding,
-                            width: DIMENSIONS - padding,
+                            height: DIMENSIONS,
+                            width: DIMENSIONS,
                             alignItems: 'center',
                             justifyContent: 'center',
                             backgroundColor: Color(currentTheme.colors.grey0).lighten(0.3).hex(),
                         }}>
-                        <Animated.View entering={Platform.OS !== 'web' ? FadeInDown : undefined}>
-                            <FontAwesome name="times" size={32} color={currentTheme.colors.grey0} />
+                        <Animated.View
+                            entering={Platform.OS !== 'web' ? FadeInDown : undefined}
+                            style={{ alignItems: 'center', justifyContent: 'center' }}>
+                            <FontAwesome name="times" size={28} color={currentTheme.colors.greyOutline} />
                         </Animated.View>
                     </Animated.View>
                 ) : (

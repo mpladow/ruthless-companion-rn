@@ -25,8 +25,7 @@ import { useTheme } from '@/theme/ThemeProvider'
 import { useRouter } from 'expo-router'
 import React, { useCallback, useState } from 'react'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
-import { ActivityIndicator, Image, Platform, Pressable, StyleSheet, View } from 'react-native'
-import Animated, { SlideInRight, SlideOutRight } from 'react-native-reanimated'
+import { ActivityIndicator, Image, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import uuid from 'react-native-uuid'
 import { useDispatch, useSelector } from 'react-redux'
@@ -244,16 +243,6 @@ const characterEdit = () => {
                         />
                     ) : (
                         <FormProvider {...methods}>
-                            <Animated.View
-                                entering={Platform.OS !== 'web' ? SlideInRight : undefined}
-                                exiting={Platform.OS !== 'web' ? SlideOutRight : undefined}
-                                style={{ justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <ThemedButton
-                                    title={'< Generate from traits'}
-                                    onPress={handleCancel}
-                                    size={'sm'}
-                                    variant="text"></ThemedButton>
-                            </Animated.View>
                             <EditorForm
                                 startingWeaponsFields={startingWeaponsFields}
                                 startingWeaponsAppend={appendStartingWeapon}

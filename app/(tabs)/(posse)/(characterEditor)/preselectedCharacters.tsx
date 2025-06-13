@@ -144,7 +144,9 @@ const PreselectedCharacters = () => {
                             index == 0 && { borderBottomWidth: 2, borderBottomColor: currentTheme.colors.secondary },
                         ]}
                         onPress={() => setIndex(0)}>
-                        <ThemedText.Text inverted={index === 0}>Pregenerated</ThemedText.Text>
+                        <ThemedText.Text inverted style={[index !== 0 && { color: currentTheme.colors.greyOutline }]}>
+                            Pregenerated
+                        </ThemedText.Text>
                     </Pressable>
                     <Pressable
                         style={[
@@ -152,7 +154,9 @@ const PreselectedCharacters = () => {
                             index == 1 && { borderBottomWidth: 2, borderBottomColor: currentTheme.colors.secondary },
                         ]}
                         onPress={() => setIndex(1)}>
-                        <ThemedText.Text inverted={index === 1}>Custom</ThemedText.Text>
+                        <ThemedText.Text inverted style={[index !== 1 && { color: currentTheme.colors.greyOutline }]}>
+                            Custom
+                        </ThemedText.Text>
                     </Pressable>
                 </View>
                 <View>

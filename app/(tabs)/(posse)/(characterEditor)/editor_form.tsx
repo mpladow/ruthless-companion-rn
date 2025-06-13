@@ -375,7 +375,7 @@ const EditorForm = ({
                 style={{
                     flexDirection: 'row',
                     gap: 6,
-                    marginBottom: Platform.OS == 'android' ? margin * 4 : margin * 2,
+						  marginBottom: Platform.OS == 'android' ? 90 + 30 : margin * 2,
                     marginTop: margin,
                     alignItems: 'center',
                     backgroundColor: 'transparent',

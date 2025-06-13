@@ -17,7 +17,7 @@ export const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarPro
     console.log('🚀 ~ CustomTabBar ~ isHome:', isHome)
     const NAVBAR_HEIGHT = 46
     return (
-        <View>
+        <View style={{ backgroundColor: 'transparent' }}>
             {!isHome && (
                 <Animated.View
                     entering={Platform.OS !== 'web' ? FadeInRight.duration(200) : undefined}
@@ -27,8 +27,8 @@ export const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarPro
                         style={{
                             width: NAVBAR_HEIGHT,
                             height: NAVBAR_HEIGHT,
-                            backgroundColor: '#111',
-                            marginBottom: Platform.OS == 'web' ? 50 : insets.bottom,
+                            backgroundColor: currentTheme.colors.grey2,
+                            marginBottom: Platform.OS == 'android' ? 30 : insets.bottom,
                             justifyContent: 'center',
                             alignItems: 'center',
                             position: 'absolute',
@@ -43,7 +43,7 @@ export const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarPro
             <View
                 style={[
                     {
-                        marginBottom: Platform.OS == 'web' ? 50 : insets.bottom,
+                        marginBottom: Platform.OS == 'android' ? 30 : insets.bottom,
                         justifyContent: 'center',
                         alignItems: 'center',
                         backgroundColor: 'transparent',
@@ -91,7 +91,7 @@ export const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarPro
                                 {options.tabBarIcon &&
                                     options.tabBarIcon({
                                         focused: isFocused,
-                                        color: isFocused ? '#fff' : '#aaa',
+                                        color: isFocused ? currentTheme.colors.textInverted : '#aaa',
                                         size: 16,
                                     })}
                             </Pressable>

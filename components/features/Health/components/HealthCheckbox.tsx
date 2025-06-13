@@ -1,8 +1,9 @@
 import { borderWidth, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import Entypo from '@expo/vector-icons/Entypo'
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
+import Foundation from '@expo/vector-icons/Foundation'
 import Color from 'color'
+import * as Haptics from 'expo-haptics'
 import React, { memo, useEffect } from 'react'
 import { Platform, Pressable, StyleSheet, ViewProps } from 'react-native'
 import Animated, { Easing, FadeInDown, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
@@ -52,6 +53,14 @@ const AmmoCheckbox = memo(({ onPress, style, isChecked, boxSize, isLastItem }: A
         }
     }, [isChecked])
     const handleHealthBoxPress = () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+
+        if (isLastItem) {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+        }
         onPress(isChecked)
     }
 
@@ -100,7 +109,12 @@ const AmmoCheckbox = memo(({ onPress, style, isChecked, boxSize, isLastItem }: A
                         }}>
                         <Animated.View entering={Platform.OS !== 'web' ? FadeInDown : undefined}>
                             {isLastItem && (
-                                <FontAwesome5 name="skull-crossbones" size={20} color={currentTheme.colors.grey0} />
+                                <Foundation
+                                    name="skull"
+                                    size={24}
+                                    color={currentTheme.colors.greyOutline}
+                                />
+
                             )}
                         </Animated.View>
                     </Animated.View>
