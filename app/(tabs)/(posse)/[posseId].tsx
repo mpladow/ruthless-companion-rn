@@ -131,7 +131,7 @@ const PosseCharacters = () => {
     }
 
     const handleAddMembersPress = () => {
-        router.navigate(`../(characterEditor)/${posse?.posseId}`)
+        router.navigate(`../../(characterEditor)/${posse?.posseId}`)
     }
     const handleEditModeToggle = () => {
         setEditMode(!editMode)
@@ -255,10 +255,10 @@ const PosseCharacters = () => {
                                 style={{ width: 100, height: 100 }}
                             />
                             <View style={{ marginVertical: margin * 2, alignItems: 'center' }}>
-                                <ThemedText.Heading headingSize="h2">
+                                <ThemedText.Heading headingSize="h2" style={{ textAlign: 'center' }}>
                                     You have no members in your posse
                                 </ThemedText.Heading>
-                                <ThemedText.Text style={{ marginTop: margin }}>
+                                <ThemedText.Text style={{ marginTop: margin, textAlign: 'center' }}>
                                     Recruit some new members now
                                 </ThemedText.Text>
                             </View>

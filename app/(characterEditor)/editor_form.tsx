@@ -84,7 +84,7 @@ const EditorForm = ({
                         <ThemedText.Text type="bold">1. Edit Name, Toughness and Gender</ThemedText.Text>
                     </View>
                     <Image
-                        source={require('../../../../assets/images/card-texture.png')}
+                        source={require('../../assets/images/card-texture.png')}
                         resizeMode="contain"
                         style={{
                             opacity: 0.2,
@@ -256,7 +256,9 @@ const EditorForm = ({
                                                 <View>
                                                     <ThemedText.Text type="bold">Special Rules:</ThemedText.Text>
                                                     {item.specialRules.map((rule, idx) => (
-                                                        <ThemedText.Text key={rule.name + idx}>{rule.description}</ThemedText.Text>
+                                                        <ThemedText.Text key={rule.name + idx}>
+                                                            {rule.description}
+                                                        </ThemedText.Text>
                                                     ))}
                                                 </View>
                                             )}
@@ -330,7 +332,9 @@ const EditorForm = ({
                                                     <View>
                                                         <ThemedText.Text type="bold">Special Rules:</ThemedText.Text>
                                                         {item.specialRules.map((rule, idx) => (
-                                                            <ThemedText.Text key={rule.name + idx}>{rule.description}</ThemedText.Text>
+                                                            <ThemedText.Text key={rule.name + idx}>
+                                                                {rule.description}
+                                                            </ThemedText.Text>
                                                         ))}
                                                     </View>
                                                 )}
@@ -375,7 +379,7 @@ const EditorForm = ({
                 style={{
                     flexDirection: 'row',
                     gap: 6,
-						  marginBottom: Platform.OS == 'android' ? 90 + 30 : margin * 2,
+                    marginBottom: bottom + margin,
                     marginTop: margin,
                     alignItems: 'center',
                     backgroundColor: 'transparent',

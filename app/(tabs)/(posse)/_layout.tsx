@@ -31,14 +31,6 @@ const PosseStackLayout = () => {
                 name="posseEditor"
                 options={{ title: 'Create Posse', presentation: 'modal', headerShown: false }}
             />
-            <Stack.Screen
-                name="(characterEditor)"
-                options={{ presentation: 'modal', headerShown: false, title: 'Select Character' }}
-            />
-            <Stack.Screen
-                name="(editor)"
-                options={{ headerShown: false, title: 'Create a character' }}
-            />
         </Stack>
     )
 }

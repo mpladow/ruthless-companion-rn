@@ -17,6 +17,7 @@ import { margin } from '@/theme/constants'
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import Animated, { SlideInLeft, SlideInRight, SlideOutRight } from 'react-native-reanimated'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { CharacterEditorForm } from './editor'
 
 type EditorGeneratorProps = {
@@ -55,6 +56,7 @@ const EditorGenerator = ({
     const traitsList: TraitType[] = ['greenhorn', 'regular', 'veteran']
     const specialityList: SpecialityType[] = ['brave', 'cowardly', 'melee', 'ranged', 'stealthy', 'tough']
     const specialRules = SPEC_RULES
+    const { bottom } = useSafeAreaInsets()
 
     const handleGenerate = () => {
         const character: CharacterEditorForm = {
@@ -160,7 +162,11 @@ const EditorGenerator = ({
         <>
             <Animated.ScrollView
                 entering={
-                    Platform.OS !== 'web' ? (initialLoad == true ? SlideInRight.delay(100) : SlideInLeft.delay(100)) : undefined
+                    Platform.OS !== 'web'
+                        ? initialLoad == true
+                            ? SlideInRight.delay(100)
+                            : SlideInLeft.delay(100)
+                        : undefined
                 }
                 exiting={Platform.OS !== 'web' ? SlideOutRight : undefined}>
                 <ThemedContainer style={{ justifyContent: 'space-evenly', alignItems: 'center' }}>
@@ -307,7 +313,7 @@ const EditorGenerator = ({
                 style={{
                     flexDirection: 'row',
                     gap: 6,
-                    marginBottom: Platform.OS == 'android' ? 90 + 30 : margin * 2,
+                    marginBottom: bottom + margin,
                     marginTop: margin,
                     alignItems: 'center',
                     backgroundColor: 'transparent',

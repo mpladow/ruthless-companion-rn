@@ -8,7 +8,7 @@ const CharacterEditorStack = () => {
         <Stack
             screenOptions={{
                 headerShown: true,
-                gestureEnabled: false,
+               //  gestureEnabled: false,
                 header: (x) => {
                     const title = x.options.title || x.route.name
                     return (
@@ -28,7 +28,10 @@ const CharacterEditorStack = () => {
             <Stack.Screen name="index" options={{ title: 'Add Posse Member' }} />
             <Stack.Screen name="[id]" options={{ title: 'Add Posse Member' }} />
             <Stack.Screen name="editor" options={{ title: 'Create Custom Character' }} />
-            <Stack.Screen name="preselectedCharacters" options={{ title: 'Select a character' }} />
+            <Stack.Screen
+                name="preselectedCharacters"
+                options={{ title: 'Select a character' }}
+            />
         </Stack>
     )
 }

@@ -31,7 +31,7 @@ const CharacterEditor = () => {
                     invertText
                     subtitle="Select a premade character with preselected weapons and traits"></ButtonLarge>
                 <View style={{ paddingVertical: margin }}>
-                    <ThemedText.Text type="semibold">Or</ThemedText.Text>
+                    <ThemedText.Text type="semibold">OR</ThemedText.Text>
                 </View>
                 <ButtonLarge
                     onPress={() => handleAddCustomPress()}

@@ -327,7 +327,7 @@ const characterEdit = () => {
                             {/* <FontAwesome6 name="handshake" size={48} color={currentTheme.colors.success} /> */}
                             {characterSubmitted?.gender == 'male' ? (
                                 <Image
-                                    source={require('../../../../assets/images/cowboy-sharper3.png')}
+                                    source={require('../../assets/images/cowboy-sharper3.png')}
                                     resizeMode="contain"
                                     style={{
                                         height: 160,
@@ -341,7 +341,7 @@ const characterEdit = () => {
                             ) : (
                                 <Image
                                     //  imageStyle={{ backgroundColor: 'red' }}
-                                    source={require('../../../../assets/images/cowboy-f-rev.png')}
+                                    source={require('../../assets/images/cowboy-f-rev.png')}
                                     resizeMode="contain"
                                     style={{
                                         height: 180,

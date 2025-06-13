@@ -87,7 +87,7 @@ const Home = () => {
     }
 
     const scrollAnimatedStyles = useAnimatedStyle(() => {
-        const translateY = interpolate(scrollY.value, [0, 200], [0, -headerHeight + top], Extrapolation.CLAMP)
+        const translateY = interpolate(scrollY.value, [0, 200], [0, -headerHeight + top + 60], Extrapolation.CLAMP)
         return { transform: [{ translateY }] }
     }, [headerHeight, scrollY.value])
 
@@ -98,35 +98,36 @@ const Home = () => {
                     isHeading
                     scrollPos={scrollY}
                     onHeightChange={handleChildHeightChange}
-                  //   subheadingComponent={
-                  //       posses.length === 0 ? (
-                  //           <View style={{ paddingHorizontal: padding * 2 }}>
-                  //               <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
-                  //                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
-                  //                       <View style={{ height: 24, width: 24 }}>
-                  //                           <FingerPointing fill={currentTheme.colors.textDefault} />
-                  //                       </View>
-                  //                       <ThemedText.Text type="semibold">Create a posse to begin!</ThemedText.Text>
-                  //                   </View>
-                  //               </Messagebox>
-                  //           </View>
-                  //       ) : (
-                  //           <View style={{ paddingHorizontal: padding * 2 }}>
-                  //               <Messagebox
-                  //                   type={'warning'}
-                  //                   viewStyle={{ marginBottom: margin * 2, paddingHorizontal: padding * 2 }}>
-                  //                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
-                  //                       <View style={{ height: 24, width: 24 }}>
-                  //                           <FingerPointing fill={currentTheme.colors.textDefault} />
-                  //                       </View>
-                  //                       <ThemedText.Text type="semibold">Choose your posse to begin!</ThemedText.Text>
-                  //                   </View>
-                  //               </Messagebox>
-                  //           </View>
-                  //       )
-                  //   }
+                    //   subheadingComponent={
+                    //       posses.length === 0 ? (
+                    //           <View style={{ paddingHorizontal: padding * 2 }}>
+                    //               <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
+                    //                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
+                    //                       <View style={{ height: 24, width: 24 }}>
+                    //                           <FingerPointing fill={currentTheme.colors.textDefault} />
+                    //                       </View>
+                    //                       <ThemedText.Text type="semibold">Create a posse to begin!</ThemedText.Text>
+                    //                   </View>
+                    //               </Messagebox>
+                    //           </View>
+                    //       ) : (
+                    //           <View style={{ paddingHorizontal: padding * 2 }}>
+                    //               <Messagebox
+                    //                   type={'warning'}
+                    //                   viewStyle={{ marginBottom: margin * 2, paddingHorizontal: padding * 2 }}>
+                    //                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
+                    //                       <View style={{ height: 24, width: 24 }}>
+                    //                           <FingerPointing fill={currentTheme.colors.textDefault} />
+                    //                       </View>
+                    //                       <ThemedText.Text type="semibold">Choose your posse to begin!</ThemedText.Text>
+                    //                   </View>
+                    //               </Messagebox>
+                    //           </View>
+                    //       )
+                    //   }
                 />
                 <Animated.ScrollView
+                    decelerationRate={0.9}
                     onScroll={handleScroll}
                     style={{
                         flex: 1,
@@ -137,7 +138,7 @@ const Home = () => {
                     contentContainerStyle={{
                         flexGrow: 1,
                         padding: padding * 2,
-                        paddingBottom: bottom * 3 + padding * 2,
+                        paddingBottom: bottom * 3,
                     }}>
                     {posses.length === 0 && (
                         <View
