@@ -67,7 +67,7 @@ const PosseCharacters = () => {
                 return (
                     <CustomHeader
                         title={title}
-                        showBack={title !== 'Home'}
+                        showBack={false}
                         rightComponent={
                             <View style={{ flexDirection: 'row', gap: 24, alignItems: 'center' }}>
                                 <ThemedButton
@@ -131,7 +131,8 @@ const PosseCharacters = () => {
     }
 
     const handleAddMembersPress = () => {
-        router.navigate(`../(characterEditor)/${posse?.posseId}`)
+        console.log('🚀 ~ handleAddMembersPress ~ posseId:', posseId)
+        router.navigate({ pathname: `../../(characterEditor)/[id]`, params: { id: posse?.posseId } })
     }
     const handleEditModeToggle = () => {
         setEditMode(!editMode)
@@ -201,7 +202,12 @@ const PosseCharacters = () => {
                             <Pressable onPress={(val) => handleCheckPress(item.playerCharacterId)}>
                                 <View style={{ flexDirection: 'row', flexGrow: 1, width: '100%', gap: 6 }}>
                                     <View style={{ flex: 1 }}>
-                                        <CharacterCardReadOnly playerCharacter={item} collapsedView={true} readOnly />
+                                        <CharacterCardReadOnly
+                                            playerCharacter={item}
+                                            collapsedView={true}
+                                            readOnly
+                                            showDetails={true}
+                                        />
                                     </View>
 
                                     <Animated.View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -255,10 +261,10 @@ const PosseCharacters = () => {
                                 style={{ width: 100, height: 100 }}
                             />
                             <View style={{ marginVertical: margin * 2, alignItems: 'center' }}>
-                                <ThemedText.Heading headingSize="h2">
+                                <ThemedText.Heading headingSize="h2" style={{ textAlign: 'center' }}>
                                     You have no members in your posse
                                 </ThemedText.Heading>
-                                <ThemedText.Text style={{ marginTop: margin }}>
+                                <ThemedText.Text style={{ marginTop: margin, textAlign: 'center' }}>
                                     Recruit some new members now
                                 </ThemedText.Text>
                             </View>

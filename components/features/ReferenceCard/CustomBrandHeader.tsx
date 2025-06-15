@@ -216,26 +216,6 @@ const CustomBrandHeader = ({
                         </ThemedText.Heading>
                     </Animated.View>
                 )}
-                {/* {isHeading && (
-                    <Animated.View
-                        style={[
-                            {
-                                flex: 1,
-                                alignItems: 'flex-start',
-                                justifyContent: 'flex-end',
-                                position: 'absolute',
-                                right: padding * 2,
-                                top: insets.top * 2,
-                                zIndex: 10,
-                                //   bottom: insets.top / 2,
-                            },
-                            settingsAnimatedStyles,
-                        ]}>
-                        <Pressable onPress={() => router.navigate('/(settings)')}>
-                            <Ionicons name="settings-outline" size={24} color={currentTheme.colors.textInverted} />
-                        </Pressable>
-                    </Animated.View>
-                )} */}
 
                 <Animated.Image
                     source={require('../../../assets/images/cowboy-m-rev.png')}
@@ -243,6 +223,25 @@ const CustomBrandHeader = ({
                 />
                 <Animated.View style={isHeading && titleAnimatedStyles(false)}>{subheadingComponent}</Animated.View>
             </View>
+            {/* {isHeading && (
+                <View
+                    style={[
+                        {
+                            flex: 1,
+                            alignItems: 'flex-start',
+                            justifyContent: 'flex-end',
+                            position: 'absolute',
+                            right: padding * 2,
+                            top: insets.top,
+                            zIndex: 10,
+                            //   bottom: insets.top / 2,
+                        },
+                    ]}>
+                    <Pressable onPress={() => router.navigate('/(settings)')}>
+                        <Ionicons name="settings-outline" size={24} color={currentTheme.colors.textInverted} />
+                    </Pressable>
+                </View>
+            )} */}
         </>
     )
 }

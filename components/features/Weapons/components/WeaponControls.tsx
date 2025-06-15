@@ -29,13 +29,13 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
                 flex: 1,
                 gap: 6,
 
-                flexDirection: 'row',
+                flexDirection: 'column',
                 alignItems: 'flex-start',
                 justifyContent: 'space-between',
                 paddingVertical: padding,
                 paddingHorizontal: padding * 2,
             }}>
-            <View style={{ flex: 2 }}>
+            <View style={{ flex: 2, width: '100%' }}>
                 <View>
                     <Pressable
                         onPress={() => {
@@ -53,10 +53,10 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
                 <View>
                     {weapon.specialRules.length > 0 ? (
                         weapon?.specialRules.map((item, index) => (
-                            <View style={{ paddingVertical: 4 }}>
+                            <View style={{ paddingVertical: 4, width: '100%' }}>
                                 <ThemedText.Text type="semibold">{item.name}</ThemedText.Text>
 
-                                {/* <ThemedText.Text>{item.description}</ThemedText.Text> */}
+                                <ThemedText.Text>{item.description}</ThemedText.Text>
                             </View>
                         ))
                     ) : (

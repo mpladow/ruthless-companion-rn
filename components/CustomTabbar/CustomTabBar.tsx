@@ -58,7 +58,7 @@ export const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarPro
                         {
                             flexDirection: 'row',
                             height: NAVBAR_HEIGHT,
-                            backgroundColor: '#111',
+                            backgroundColor: currentTheme.colors.textDefault,
                             width: dimensions.width / 2.5,
                             borderRadius: 30,
                         },

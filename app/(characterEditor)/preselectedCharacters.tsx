@@ -84,23 +84,19 @@ const PreselectedCharacters = () => {
 
     const handleCheckPress = (characterId: string) => {
         const idFound = charactersToAdd.find((x) => x == characterId)
-        console.log('🚀 ~ handleCheckPress ~ idFound:', idFound)
         if (idFound) {
             setCharactersToAdd(charactersToAdd.filter((x) => x != characterId))
         } else {
             setCharactersToAdd([...charactersToAdd, characterId])
         }
     }
-    console.log(charactersToAdd, 'Characters to add')
     const insets = useSafeAreaInsets()
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const handleAddToPosse = () => {
         setLoading(true)
         const characters = pregeneratedCharacters.filter((x) => charactersToAdd.includes(x.playerCharacterId))
-        console.log('🚀 ~ handleAddToPosse ~ characters:', characters)
         const customCharacters = customPCs.filter((x) => charactersToAdd.includes(x.playerCharacterId))
-        console.log('🚀 ~ handleAddToPosse ~ customCharacters:', customCharacters)
         const toAdd = [...characters, ...customCharacters]
         dispatch(addCharacterToPosseMembers(toAdd))
         setTimeout(() => {
@@ -129,6 +125,7 @@ const PreselectedCharacters = () => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    marginTop: margin * 3,
                 }}>
                 <View
                     style={{
@@ -183,7 +180,7 @@ const PreselectedCharacters = () => {
                                 onPress={(val) => handleCheckPress(item.playerCharacterId)}>
                                 <View style={{ flexDirection: 'row', flexGrow: 1, width: '100%', gap: 6 }}>
                                     <View style={{ flex: 1 }}>
-                                        <CharacterCardReadOnly playerCharacter={item} collapsedView={true} readOnly />
+                                        <CharacterCardReadOnly playerCharacter={item} collapsedView={true} readOnly showDetails={true} />
                                     </View>
 
                                     <Animated.View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -219,7 +216,12 @@ const PreselectedCharacters = () => {
                                 onPress={(val) => handleCheckPress(item.playerCharacterId)}>
                                 <View style={{ flexDirection: 'row', flexGrow: 1, width: '100%', gap: 6 }}>
                                     <View style={{ flex: 1 }}>
-                                        <CharacterCardReadOnly playerCharacter={item} collapsedView={true} readOnly />
+                                        <CharacterCardReadOnly
+                                            playerCharacter={item}
+                                            collapsedView={true}
+                                            readOnly
+                                            showDetails={true}
+                                        />
                                     </View>
 
                                     <Animated.View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -228,6 +230,7 @@ const PreselectedCharacters = () => {
                                             isChecked={charactersToAdd.includes(item.playerCharacterId)}
                                             boxSize={'sm'}
                                             isLastItem={false}
+                                            w
                                         />
                                         {/* <View
 									 style={{
@@ -246,7 +249,12 @@ const PreselectedCharacters = () => {
                 {charactersToAdd.length > 0 && (
                     <Animated.View
                         entering={Platform.OS !== 'web' ? SlideInDown : undefined}
-                        style={{ position: 'absolute', bottom: insets.bottom * 3, right: margin, width: '100%' }}>
+                        style={{
+                            position: 'absolute',
+                            bottom: insets.bottom + margin * 2,
+                            right: margin,
+                            width: '100%',
+                        }}>
                         <ThemedButton
                             title={`Add ${charactersToAdd.length} Character${charactersToAdd.length > 1 ? 's' : ''}`}
                             onPress={handleAddToPosse}

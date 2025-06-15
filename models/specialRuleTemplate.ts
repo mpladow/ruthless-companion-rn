@@ -1,5 +1,5 @@
 export type AlignmentType = 'lawman' | 'bandit' | 'neutral'
-export type SpecialityType = 'melee' | 'ranged' | 'tough' | 'stealthy' |'cowardly' | 'brave' |'veteran' | 'greenhorn' | 'regular'
+export type SpecialityType = 'melee' | 'ranged' | 'tough' | 'stealthy' |'cowardly' | 'brave' |'veteran' | 'greenhorn' | 'regular' | 'personality'
 export type TraitType = 'veteran' | 'greenhorn' | 'regular'
 
 export interface SpecialRuleTemplate {

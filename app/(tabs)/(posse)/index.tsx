@@ -9,9 +9,10 @@ import { deletePosse } from '@/state/posse/userPossesSlice'
 import { AppDispatch, RootState } from '@/state/store'
 import { margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
+import Ionicons from '@expo/vector-icons/Ionicons'
 import { useNavigation, useRouter } from 'expo-router'
-import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import React, { Fragment, useEffect, useLayoutEffect, useState } from 'react'
+import { Image, Platform, Pressable, StyleSheet, View } from 'react-native'
 import Animated, {
 	Extrapolation,
 	interpolate,
@@ -21,6 +22,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+
 const Home = () => {
     const posses = useSelector((state: RootState) => {
         return state._persist.rehydrated ? state.userPosses : [DUMMY_DATA]
@@ -42,9 +44,7 @@ const Home = () => {
         console.log('🚀 ~ Setting current posse to null')
         dispatch(setCurrentPosse(undefined))
     }, [])
-    useEffect(() => {
-        navigation.setOptions({ headerShown: false })
-    }, [])
+
     const handleDeletePosseConfirm = () => {
         if (focusedId) {
             setConfirmModalOpen(false)
@@ -87,10 +87,34 @@ const Home = () => {
     }
 
     const scrollAnimatedStyles = useAnimatedStyle(() => {
-        const translateY = interpolate(scrollY.value, [0, 200], [0, -headerHeight + top], Extrapolation.CLAMP)
+        const translateY = interpolate(scrollY.value, [0, 200], [0, -headerHeight + top + 60], Extrapolation.CLAMP)
         return { transform: [{ translateY }] }
     }, [headerHeight, scrollY.value])
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerShown: true,
+            header: () => {
+                return (
+                    <View
+                        style={{
+                            width: '100%',
+                            height: 80,
+                            paddingTop: Platform.OS === 'ios' ? 24 : 0,
+                            position: 'absolute',
+                            alignItems: 'flex-end',
+                            right: padding * 3,
+                            paddingBottom: Platform.OS === 'android' ? margin : 0,
+                            justifyContent: 'flex-end',
+                        }}>
+                        <Pressable onPress={() => router.navigate('/(settings)')} hitSlop={24}>
+                            <Ionicons name="settings-outline" size={24} color={currentTheme.colors.textInverted} />
+                        </Pressable>
+                    </View>
+                )
+            },
+        })
+    })
     return (
         <View style={{ flexGrow: 1, backgroundColor: currentTheme.colors.background }}>
             <Animated.View style={[scrollAnimatedStyles, { flexGrow: 1 }]}>
@@ -98,35 +122,36 @@ const Home = () => {
                     isHeading
                     scrollPos={scrollY}
                     onHeightChange={handleChildHeightChange}
-                  //   subheadingComponent={
-                  //       posses.length === 0 ? (
-                  //           <View style={{ paddingHorizontal: padding * 2 }}>
-                  //               <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
-                  //                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
-                  //                       <View style={{ height: 24, width: 24 }}>
-                  //                           <FingerPointing fill={currentTheme.colors.textDefault} />
-                  //                       </View>
-                  //                       <ThemedText.Text type="semibold">Create a posse to begin!</ThemedText.Text>
-                  //                   </View>
-                  //               </Messagebox>
-                  //           </View>
-                  //       ) : (
-                  //           <View style={{ paddingHorizontal: padding * 2 }}>
-                  //               <Messagebox
-                  //                   type={'warning'}
-                  //                   viewStyle={{ marginBottom: margin * 2, paddingHorizontal: padding * 2 }}>
-                  //                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
-                  //                       <View style={{ height: 24, width: 24 }}>
-                  //                           <FingerPointing fill={currentTheme.colors.textDefault} />
-                  //                       </View>
-                  //                       <ThemedText.Text type="semibold">Choose your posse to begin!</ThemedText.Text>
-                  //                   </View>
-                  //               </Messagebox>
-                  //           </View>
-                  //       )
-                  //   }
+                    //   subheadingComponent={
+                    //       posses.length === 0 ? (
+                    //           <View style={{ paddingHorizontal: padding * 2 }}>
+                    //               <Messagebox type={'warning'} viewStyle={{ marginBottom: margin * 2 }}>
+                    //                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
+                    //                       <View style={{ height: 24, width: 24 }}>
+                    //                           <FingerPointing fill={currentTheme.colors.textDefault} />
+                    //                       </View>
+                    //                       <ThemedText.Text type="semibold">Create a posse to begin!</ThemedText.Text>
+                    //                   </View>
+                    //               </Messagebox>
+                    //           </View>
+                    //       ) : (
+                    //           <View style={{ paddingHorizontal: padding * 2 }}>
+                    //               <Messagebox
+                    //                   type={'warning'}
+                    //                   viewStyle={{ marginBottom: margin * 2, paddingHorizontal: padding * 2 }}>
+                    //                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: padding }}>
+                    //                       <View style={{ height: 24, width: 24 }}>
+                    //                           <FingerPointing fill={currentTheme.colors.textDefault} />
+                    //                       </View>
+                    //                       <ThemedText.Text type="semibold">Choose your posse to begin!</ThemedText.Text>
+                    //                   </View>
+                    //               </Messagebox>
+                    //           </View>
+                    //       )
+                    //   }
                 />
                 <Animated.ScrollView
+                    decelerationRate={0.9}
                     onScroll={handleScroll}
                     style={{
                         flex: 1,
@@ -137,7 +162,7 @@ const Home = () => {
                     contentContainerStyle={{
                         flexGrow: 1,
                         padding: padding * 2,
-                        paddingBottom: bottom * 3 + padding * 2,
+                        paddingBottom: bottom * 3,
                     }}>
                     {posses.length === 0 && (
                         <View
@@ -166,7 +191,7 @@ const Home = () => {
                         </View>
                     )}
                     {posses.map((item) => (
-                        <>
+                        <Fragment key={item.posseId}>
                             <PosseListItemV2
                                 key={item.posseId}
                                 item={item}
@@ -191,7 +216,7 @@ const Home = () => {
                                     />
                                 </View>
                             )}
-                        </>
+                        </Fragment>
                     ))}
                 </Animated.ScrollView>
             </Animated.View>

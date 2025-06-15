@@ -14,9 +14,11 @@ import { SPEC_RULES } from '@/data/special_rules'
 import { getRandomNumber } from '@/helpers/helpers'
 import { AlignmentType, SpecialityType, TraitType } from '@/models/specialRuleTemplate'
 import { margin } from '@/theme/constants'
+import { useTheme } from '@/theme/ThemeProvider'
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import Animated, { SlideInLeft, SlideInRight, SlideOutRight } from 'react-native-reanimated'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { CharacterEditorForm } from './editor'
 
 type EditorGeneratorProps = {
@@ -54,7 +56,9 @@ const EditorGenerator = ({
     const alignmentList: AlignmentType[] = ['bandit', 'neutral', 'lawman']
     const traitsList: TraitType[] = ['greenhorn', 'regular', 'veteran']
     const specialityList: SpecialityType[] = ['brave', 'cowardly', 'melee', 'ranged', 'stealthy', 'tough']
-    const specialRules = SPEC_RULES
+    const specialRules = SPEC_RULES.filter((x) => !x.weaponRule).sort((a, b) => a.name.localeCompare(b.name) )
+    const { currentTheme } = useTheme()
+    const { bottom } = useSafeAreaInsets()
 
     const handleGenerate = () => {
         const character: CharacterEditorForm = {
@@ -135,32 +139,36 @@ const EditorGenerator = ({
         const validRulesFilteredByQuality = specialRules.filter((rule) =>
             quality !== 'regular' ? rule.specialityType.includes(quality) : true
         )
-        console.log('🚀 ~ getTraits ~ validRulesFilteredByQuality:', validRulesFilteredByQuality)
-        const validRulesFilteredByAlignment = validRulesFilteredByQuality.filter((rule) =>
-            rule.alignmentType.includes(alignment as AlignmentType)
+        const validRulesFilteredByAlignment = validRulesFilteredByQuality.filter(
+            (rule) =>
+                rule.alignmentType.includes(alignment as AlignmentType) ||
+                rule.alignmentType.includes('neutral' as AlignmentType)
         )
-        console.log('🚀 ~ getTraits ~ validRulesFilteredByAlignment:', validRulesFilteredByAlignment)
+        // include personality traits
         const validRulesFilteredBySpeciality =
             speciality !== undefined
-                ? validRulesFilteredByAlignment.filter((rule) =>
-                      rule.specialityType.includes(speciality as SpecialityType)
+                ? validRulesFilteredByAlignment.filter(
+                      (rule) =>
+                          rule.specialityType.includes(speciality as SpecialityType) ||
+                          rule.specialityType.includes('personality' as SpecialityType)
                   )
-                : validRulesFilteredByAlignment
-        console.log('🚀 ~ getTraits ~ validRulesFilteredBySpeciality:', validRulesFilteredBySpeciality)
-        const rulesForCharacter = [
-            ...validRulesFilteredByQuality,
-            ...validRulesFilteredBySpeciality,
-            ...validRulesFilteredByAlignment,
-        ]
+                : validRulesFilteredByAlignment.filter((rule) =>
+                      rule.specialityType.includes('personality' as SpecialityType)
+                  )
+        const rulesForCharacter = [...validRulesFilteredByAlignment]
         const unique = [...new Set(rulesForCharacter)]
-        console.log('🚀 ~ getTraits ~ unique:', unique.length)
         return unique
     }
+	 
     return (
         <>
             <Animated.ScrollView
                 entering={
-                    Platform.OS !== 'web' ? (initialLoad == true ? SlideInRight.delay(100) : SlideInLeft.delay(100)) : undefined
+                    Platform.OS !== 'web'
+                        ? initialLoad == true
+                            ? SlideInRight.delay(100)
+                            : SlideInLeft.delay(100)
+                        : undefined
                 }
                 exiting={Platform.OS !== 'web' ? SlideOutRight : undefined}>
                 <ThemedContainer style={{ justifyContent: 'space-evenly', alignItems: 'center' }}>
@@ -307,7 +315,7 @@ const EditorGenerator = ({
                 style={{
                     flexDirection: 'row',
                     gap: 6,
-                    marginBottom: Platform.OS == 'android' ? 90 + 30 : margin * 2,
+                    marginBottom: bottom,
                     marginTop: margin,
                     alignItems: 'center',
                     backgroundColor: 'transparent',

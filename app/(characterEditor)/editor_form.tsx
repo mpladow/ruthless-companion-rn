@@ -31,6 +31,7 @@ type EditorFormProps = {
     onConfirmCharacter: SubmitHandler<CharacterEditorForm>
     onError: (error: any) => void
     onCancel: () => void
+    /**used only when we want to use the form, and not the generator */
 }
 const EditorForm = ({
     startingWeaponsAppend,
@@ -62,7 +63,7 @@ const EditorForm = ({
                 entering={Platform.OS !== 'web' ? SlideInRight.delay(100) : undefined}
                 exiting={Platform.OS !== 'web' ? SlideOutRight : undefined}
                 style={{ flexGrow: 1 }}
-                contentContainerStyle={{ flexGrow: 1, paddingBottom: margin * 3 }}>
+                contentContainerStyle={{ flexGrow: 1, paddingBottom: margin }}>
                 <ThemedContainer paddingHorizontal="sm" paddingVertical="sm">
                     {!isValid && (
                         <Messagebox type={'error'}>
@@ -84,7 +85,7 @@ const EditorForm = ({
                         <ThemedText.Text type="bold">1. Edit Name, Toughness and Gender</ThemedText.Text>
                     </View>
                     <Image
-                        source={require('../../../../assets/images/card-texture.png')}
+                        source={require('../../assets/images/card-texture.png')}
                         resizeMode="contain"
                         style={{
                             opacity: 0.2,
@@ -256,7 +257,9 @@ const EditorForm = ({
                                                 <View>
                                                     <ThemedText.Text type="bold">Special Rules:</ThemedText.Text>
                                                     {item.specialRules.map((rule, idx) => (
-                                                        <ThemedText.Text key={rule.name + idx}>{rule.description}</ThemedText.Text>
+                                                        <ThemedText.Text key={rule.name + idx}>
+                                                            {rule.description}
+                                                        </ThemedText.Text>
                                                     ))}
                                                 </View>
                                             )}
@@ -330,7 +333,9 @@ const EditorForm = ({
                                                     <View>
                                                         <ThemedText.Text type="bold">Special Rules:</ThemedText.Text>
                                                         {item.specialRules.map((rule, idx) => (
-                                                            <ThemedText.Text key={rule.name + idx}>{rule.description}</ThemedText.Text>
+                                                            <ThemedText.Text key={rule.name + idx}>
+                                                                {rule.description}
+                                                            </ThemedText.Text>
                                                         ))}
                                                     </View>
                                                 )}
@@ -375,7 +380,7 @@ const EditorForm = ({
                 style={{
                     flexDirection: 'row',
                     gap: 6,
-						  marginBottom: Platform.OS == 'android' ? 90 + 30 : margin * 2,
+                    marginBottom: bottom,
                     marginTop: margin,
                     alignItems: 'center',
                     backgroundColor: 'transparent',

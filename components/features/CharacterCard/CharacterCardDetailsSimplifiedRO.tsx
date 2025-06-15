@@ -9,8 +9,12 @@ import { StyleSheet, View } from 'react-native'
 
 type CharacterCardDetailsSimplifiedProps = {
     playerCharacter: PlayerCharacter
+    showWeaponDetails?: boolean
 }
-const CharacterCardDetailsSimplified = ({ playerCharacter }: CharacterCardDetailsSimplifiedProps) => {
+const CharacterCardDetailsSimplified = ({
+    playerCharacter,
+    showWeaponDetails = true,
+}: CharacterCardDetailsSimplifiedProps) => {
     const { currentTheme } = useTheme()
 
     return (
@@ -29,9 +33,11 @@ const CharacterCardDetailsSimplified = ({ playerCharacter }: CharacterCardDetail
                                     {x.name}
                                 </ThemedText.Heading>
                             </View>
-                            <View style={{ flex: 1, paddingTop: 1 }}>
-                                <ThemedText.Text>{x.description}</ThemedText.Text>
-                            </View>
+                            {showWeaponDetails && (
+                                <View style={{ flex: 1, paddingTop: 1 }}>
+                                    <ThemedText.Text>{x.description}</ThemedText.Text>
+                                </View>
+                            )}
                         </View>
                     )
                 })}
@@ -39,7 +45,7 @@ const CharacterCardDetailsSimplified = ({ playerCharacter }: CharacterCardDetail
             <View style={{ flexDirection: 'column', marginTop: margin }}>
                 {playerCharacter.startingWeapons?.map((x, index) => {
                     return (
-                        <View key={index + x.weaponTemplateId.toString()} style={{ marginTop: margin }}>
+                        <View key={index + x.weaponTemplateId.toString()}>
                             <ThemedText.Heading headingSize="h2">{x.name}</ThemedText.Heading>
                             {x.specialRules.length > 0 && (
                                 <View style={{ backgroundColor: currentTheme.colors.grey0 }}>
@@ -47,7 +53,11 @@ const CharacterCardDetailsSimplified = ({ playerCharacter }: CharacterCardDetail
                                         <View style={{ paddingVertical: 4 }}>
                                             <ThemedText.Text type="semibold">{item.name}</ThemedText.Text>
 
-                                            <ThemedText.Text>{item.description}</ThemedText.Text>
+                                            {showWeaponDetails && (
+                                                <ThemedText.Text key={index + item.name} type="regular">
+                                                    <ThemedText.Text>{item.description}</ThemedText.Text>
+                                                </ThemedText.Text>
+                                            )}
                                         </View>
                                     ))}
                                 </View>

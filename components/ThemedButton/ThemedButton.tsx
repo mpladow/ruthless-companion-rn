@@ -115,7 +115,9 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
             disabled={disabled}
             style={({ pressed }) => [
                 styles.button,
+
                 { backgroundColor: pressed ? currentType.pressedColor : currentType.backgroundColor },
+                { opacity: pressed ? 0.8 : 1 },
                 disabled && styles.disabled,
                 size == 'sm' ? styles.buttonSmall : styles.buttonLarge,
                 variant == 'text' && {

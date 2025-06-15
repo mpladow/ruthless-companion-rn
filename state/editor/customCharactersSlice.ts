@@ -19,7 +19,7 @@ const customCharactersSlice = createSlice({
 			if (index !== -1) {
 				state.splice(index, 1);
 			}
-		}
+		},
 	}
 })
 export const { addCustomCharacter, deleteCustomCharacter } = customCharactersSlice.actions;

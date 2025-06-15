@@ -22,10 +22,11 @@ export type HealthStatus = { status: string; relevantBodyParts: BodyPart[] }
 type CharacterCardReadOnlyProps = {
     playerCharacter: PlayerCharacter
     collapsedView: boolean
+    showDetails: boolean
     readOnly?: boolean
 }
 
-const CharacterCardReadOnly = ({ playerCharacter, collapsedView }: CharacterCardReadOnlyProps) => {
+const CharacterCardReadOnly = ({ playerCharacter, collapsedView, showDetails }: CharacterCardReadOnlyProps) => {
     const { currentTheme } = useTheme()
     const [collapsed, setCollapsed] = useState(collapsedView)
 
@@ -85,7 +86,7 @@ const CharacterCardReadOnly = ({ playerCharacter, collapsedView }: CharacterCard
                     alignItems: 'center',
                     justifyContent: 'space-between',
                 }}>
-                <CharacterCardDetailsSimplifiedRO playerCharacter={playerCharacter} />
+                <CharacterCardDetailsSimplifiedRO playerCharacter={playerCharacter} showWeaponDetails={showDetails} />
                 {/* <AnimatedAccordion viewKey="playerCharacter.weapon" isExpanded={isExpanded}>
                     {playerCharacter.specialRules.length > 0 && (
                         <SpecialRulesContainer
