@@ -47,16 +47,16 @@ const ThemeProvider = ({ defaultTheme, additionalThemes: additioinal, children }
         }, [themeSet])
 
         return (
-                <ThemeContext.Provider
-                        value={{
-                                currentTheme,
-                                currentFontFamilies: currentFont,
-                                handleThemeSet,
-                                toggleDarkMode,
-                        }}
-                >
-                        {children}
-                </ThemeContext.Provider>
+            <ThemeContext.Provider
+                value={{
+                    currentTheme,
+                    currentFontFamilies: currentFont,
+                    handleThemeSet,
+                    toggleDarkMode,
+                    isDarkMode,
+                }}>
+                {children}
+            </ThemeContext.Provider>
         )
 }
 

@@ -5,6 +5,7 @@ export type ThemeContextType = {
 	currentFontFamilies: fontConfig[];
 	handleThemeSet: (theme: ThemeName) => void;
 	toggleDarkMode: (dark: boolean) => void;
+	isDarkMode: boolean;
 }
 
 

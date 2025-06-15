@@ -37,18 +37,18 @@ export const SPEC_RULE_BOWIE_KNIFE: SpecialRule = {
 	description: 'When defeating an enemy in Fisticuffs, adjust the wound roll up or down one line on the "Darn, I Been Hit" table as desired.\t',
 	points: 3,
 	alignmentType: ['neutral'],
-	specialityType: ['melee', 'brave'],
+	specialityType: ['melee', 'brave', 'stealthy'],
 	version: 0
 }
 export const SPEC_RULE_COOL_HAND: SpecialRule = {
 	specialRuleId: '9',
 	name: 'Cool Hand',
 	description: 'Ignores first failed Toughness test',
-	points: 1,
+points: 1,
 	maxUsage: 1,
 	currentUsage: 0,
 	alignmentType: ['neutral'],
-	specialityType: ['tough'],
+	specialityType: ['tough', 'melee', 'ranged'],
 	version: 0
 }
 export const SPEC_RULE_DIRTY_CHEAT: SpecialRule = {
@@ -57,7 +57,7 @@ export const SPEC_RULE_DIRTY_CHEAT: SpecialRule = {
 	description: 'Once per turn, pick any card from your hand and swap it with a random card from any other player',
 	points: 2,
 	alignmentType: ['bandit', 'neutral'],
-	specialityType: ['cowardly', 'regular'],
+	specialityType: ['cowardly', 'regular', 'personality'],
 	version: 0
 }
 export const SPEC_RULE_DRUNK: SpecialRule = {
@@ -66,7 +66,7 @@ export const SPEC_RULE_DRUNK: SpecialRule = {
 	description: 'May not use "Aim" or "Got You Covered"',
 	points: -3,
 	alignmentType: ['neutral'],
-	specialityType: ['veteran'],
+	specialityType: ['veteran', 'personality'],
 	version: 0
 }
 export const SPEC_RULE_EXPERT_RIDER: SpecialRule = {
@@ -75,7 +75,7 @@ export const SPEC_RULE_EXPERT_RIDER: SpecialRule = {
 	description: 'Only -1 to Shooting rolls when mounted, instead of the normal -2 modifier',
 	points: 3,
 	alignmentType: ['neutral'],
-	specialityType: ['veteran', 'ranged'],
+	specialityType: ['veteran', 'ranged', 'personality'],
 	version: 0
 }
 export const SPEC_RULE_GREENHORN: SpecialRule = {
@@ -84,7 +84,7 @@ export const SPEC_RULE_GREENHORN: SpecialRule = {
 	description: '-2 to Shooting rolls',
 	points: -3,
 	alignmentType: ['neutral'],
-	specialityType: ['ranged', 'greenhorn'],
+	specialityType: ['greenhorn'],
 	version: 0
 }
 export const SPEC_RULE_GUNFIGHTER: SpecialRule = {
@@ -93,7 +93,7 @@ export const SPEC_RULE_GUNFIGHTER: SpecialRule = {
 	description: '+1 to Shooting rolls',
 	points: 3,
 	alignmentType: ['neutral'],
-	specialityType: ['ranged', 'veteran'],
+	specialityType: ['ranged', 'veteran', 'personality'],
 	version: 0
 }
 export const SPEC_RULE_LAW_DOG: SpecialRule = {
@@ -111,7 +111,7 @@ export const SPEC_RULE_LOUDMOUTH: SpecialRule = {
 	description: '-1 to enemy Toughness tests caused by this character',
 	points: 2,
 	alignmentType: ['neutral'],
-	specialityType: ['veteran', 'greenhorn', 'tough'],
+	specialityType: ['veteran', 'greenhorn', 'tough', 'personality'],
 	version: 0
 }
 export const SPEC_RULE_LUCKY: SpecialRule = {

@@ -1,4 +1,3 @@
-import { padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import Entypo from '@expo/vector-icons/Entypo'
 import { BlurView } from 'expo-blur'
@@ -27,7 +26,8 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({ title, showBack = false, righ
                     flex: 1,
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    height: 80,
+                    height: 90,
+                    paddingTop: 8,
                 }}>
                 {showBack && (
                     <Pressable onPress={() => router.back()} style={styles.backButton}>
@@ -45,7 +45,12 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({ title, showBack = false, righ
         <SafeAreaView edges={['top']} style={styles.safeArea}>
             {Platform.OS === 'ios' && blurBackground ? (
                 <BlurView
-                    style={[styles.container, { backgroundColor: currentTheme.colors.primary }]}
+                    style={[
+                        styles.container,
+                        {
+                            backgroundColor: currentTheme.colors.primary,
+                        },
+                    ]}
                     blurType={currentTheme.isDark ? 'dark' : 'light'}
                     blurAmount={10}
                     reducedTransparencyFallbackColor={currentTheme.isDark ? '#222' : '#fff'}>
@@ -68,10 +73,10 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        height: 100,
-        paddingVertical: padding * 2,
-        marginBottom: 12,
-        //   paddingHorizontal: padding * 2,
+        height: 110,
+        //   paddingVertical: padding * 2,
+        //   marginBottom: 12,
+        //   //   paddingHorizontal: padding * 2,
         paddingTop: Platform.OS === 'ios' ? 24 : 24,
         flexDirection: 'row',
         alignItems: 'center',
@@ -97,6 +102,7 @@ const styles = StyleSheet.create({
     },
     rightContainer: {
         width: 32,
+        height: 32,
         alignItems: 'flex-end',
     },
 })

@@ -53,6 +53,8 @@ const PressableReferenceItem = ({ onSectionPress, sectionId, sectionContent, ind
             marginBottom: 2,
             marginTop: 0,
             fontSize: FONT_SIZE * 3,
+            color: currentTheme.colors.textDefault,
+
             fontFamily:
                 currentFontFamilies[0].family == 'heading'
                     ? currentFontFamilies[0].family
@@ -63,6 +65,8 @@ const PressableReferenceItem = ({ onSectionPress, sectionId, sectionContent, ind
             marginTop: 4,
             fontSize: FONT_SIZE * 1,
             lineHeight: FONT_SIZE * 1.5,
+            color: currentTheme.colors.textDefault,
+
             fontFamily:
                 currentFontFamilies[0].family == 'heading'
                     ? currentFontFamilies[0].family
@@ -74,6 +78,7 @@ const PressableReferenceItem = ({ onSectionPress, sectionId, sectionContent, ind
             fontSize: 8,
             textAlign: 'left' as 'left',
             lineHeight: FONT_SIZE * 1.5,
+            color: currentTheme.colors.textDefault,
         },
         u: { textDecorationLine: 'underline' },
         strong: {
@@ -87,6 +92,7 @@ const PressableReferenceItem = ({ onSectionPress, sectionId, sectionContent, ind
             borderWidth: 1,
             borderColor: 'black',
             padding: padding,
+            color: currentTheme.colors.textDefault,
         },
         td: {
             marginBottom: 0,
@@ -95,6 +101,7 @@ const PressableReferenceItem = ({ onSectionPress, sectionId, sectionContent, ind
             borderWidth: 1,
             borderColor: 'black',
             padding: padding,
+            color: currentTheme.colors.textDefault,
         },
         tr: {
             flexDirection: 'row',
@@ -102,13 +109,14 @@ const PressableReferenceItem = ({ onSectionPress, sectionId, sectionContent, ind
             marginBottom: 0,
             marginTop: 0,
             fontSize: FONT_SIZE,
+            color: currentTheme.colors.textDefault,
         } as Readonly<Record<string, MixedStyleDeclaration>>,
     }
     return (
         <Pressable
             onPress={() => handleSectionPress(sectionId)}
             key={index}
-            style={[commonStyles.boxShadow, { marginVertical: 4, backgroundColor: currentTheme.colors.white }]}>
+            style={[commonStyles.boxShadow, { marginVertical: 4, backgroundColor: currentTheme.colors.textInverted }]}>
             <View
                 style={[
                     {

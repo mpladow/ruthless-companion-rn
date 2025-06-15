@@ -7,7 +7,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
 import Foundation from '@expo/vector-icons/Foundation'
 import Color from 'color'
-import React, { useMemo } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import { Dimensions, StyleSheet, View } from 'react-native'
 import { HealthStatus } from './CharacterCard'
 
@@ -100,7 +100,7 @@ const CharacterCardDetailsSimplified = ({ playerCharacter, healthStatus }: Chara
             <View style={{ flexDirection: 'column', padding: padding }}>
                 {playerCharacter.currentWeapons?.map((x, index) => {
                     return (
-                        <>
+                        <Fragment key={index}>
                             <ThemedText.Text>
                                 <ThemedText.Text type="bold">{x.name}</ThemedText.Text>
                                 {x.specialRules.length > 0 && ' - ' + x.specialRules.map((y) => y.name).join(', ')}
@@ -143,7 +143,7 @@ const CharacterCardDetailsSimplified = ({ playerCharacter, healthStatus }: Chara
                                     </View>
                                 ))}
                             </View>
-                        </>
+                        </Fragment>
                     )
                 })}
             </View>

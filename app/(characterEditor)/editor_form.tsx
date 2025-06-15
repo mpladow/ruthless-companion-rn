@@ -31,6 +31,7 @@ type EditorFormProps = {
     onConfirmCharacter: SubmitHandler<CharacterEditorForm>
     onError: (error: any) => void
     onCancel: () => void
+    /**used only when we want to use the form, and not the generator */
 }
 const EditorForm = ({
     startingWeaponsAppend,
@@ -62,7 +63,7 @@ const EditorForm = ({
                 entering={Platform.OS !== 'web' ? SlideInRight.delay(100) : undefined}
                 exiting={Platform.OS !== 'web' ? SlideOutRight : undefined}
                 style={{ flexGrow: 1 }}
-                contentContainerStyle={{ flexGrow: 1, paddingBottom: margin * 3 }}>
+                contentContainerStyle={{ flexGrow: 1, paddingBottom: margin }}>
                 <ThemedContainer paddingHorizontal="sm" paddingVertical="sm">
                     {!isValid && (
                         <Messagebox type={'error'}>
@@ -379,7 +380,7 @@ const EditorForm = ({
                 style={{
                     flexDirection: 'row',
                     gap: 6,
-                    marginBottom: bottom + margin,
+                    marginBottom: bottom,
                     marginTop: margin,
                     alignItems: 'center',
                     backgroundColor: 'transparent',

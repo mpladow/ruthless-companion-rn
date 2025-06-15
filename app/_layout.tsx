@@ -122,7 +122,7 @@ export default function RootLayout() {
                                                 headerShown: false,
                                             }}
                                         />
-                                        <Stack.Screen name="(settings)"  />
+                                        <Stack.Screen name="(settings)" options={{ headerShown: false }} />
                                         <Stack.Screen
                                             name="(characterEditor)"
                                             options={{
@@ -131,7 +131,7 @@ export default function RootLayout() {
                                                 title: 'Select Character',
                                             }}
                                         />
-         
+
                                         <Stack.Screen name="+not-found" />
                                     </Stack>
 

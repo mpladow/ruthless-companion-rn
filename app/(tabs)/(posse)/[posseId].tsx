@@ -67,7 +67,7 @@ const PosseCharacters = () => {
                 return (
                     <CustomHeader
                         title={title}
-                        showBack={title !== 'Home'}
+                        showBack={false}
                         rightComponent={
                             <View style={{ flexDirection: 'row', gap: 24, alignItems: 'center' }}>
                                 <ThemedButton
@@ -131,7 +131,8 @@ const PosseCharacters = () => {
     }
 
     const handleAddMembersPress = () => {
-        router.navigate(`../../(characterEditor)/${posse?.posseId}`)
+        console.log('🚀 ~ handleAddMembersPress ~ posseId:', posseId)
+        router.navigate({ pathname: `../../(characterEditor)/[id]`, params: { id: posse?.posseId } })
     }
     const handleEditModeToggle = () => {
         setEditMode(!editMode)
@@ -201,7 +202,12 @@ const PosseCharacters = () => {
                             <Pressable onPress={(val) => handleCheckPress(item.playerCharacterId)}>
                                 <View style={{ flexDirection: 'row', flexGrow: 1, width: '100%', gap: 6 }}>
                                     <View style={{ flex: 1 }}>
-                                        <CharacterCardReadOnly playerCharacter={item} collapsedView={true} readOnly />
+                                        <CharacterCardReadOnly
+                                            playerCharacter={item}
+                                            collapsedView={true}
+                                            readOnly
+                                            showDetails={true}
+                                        />
                                     </View>
 
                                     <Animated.View style={{ alignItems: 'center', justifyContent: 'center' }}>

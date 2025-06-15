@@ -26,7 +26,6 @@ import { useRouter } from 'expo-router'
 import React, { useCallback, useState } from 'react'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { ActivityIndicator, Image, Pressable, StyleSheet, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import uuid from 'react-native-uuid'
 import { useDispatch, useSelector } from 'react-redux'
 import EditorForm from './editor_form'
@@ -54,7 +53,6 @@ const characterEdit = () => {
     const [characterSubmitted, setCharacterSubmitted] = useState<PlayerCharacter | null>(null)
     const [showBottomSheet, setShowBottomSheet] = useState(false)
     const { currentTheme } = useTheme()
-    const { bottom } = useSafeAreaInsets()
 
     const router = useRouter()
     // FORM DATA
@@ -104,7 +102,7 @@ const characterEdit = () => {
     const handleConfirmCharacter = (data: CharacterEditorForm) => {
         setLoading(true)
         const newCharacterTemplate: CharacterTemplate = {
-            characterTemplateId: uuid.v4(),
+            characterTemplateId: Math.random().toString(36).substring(2, 15), // Generate a random ID
             name: data.name,
             toughness: data.toughness,
             gender: data.gender,
@@ -112,14 +110,14 @@ const characterEdit = () => {
             bodyParts: [],
             specialRules: data.specialRules,
             isCustom: true,
+            title: data.title,
         }
-        console.log('🚀 ~ handleConfirmCharacter ~ newCharacterTemplate:', newCharacterTemplate)
         newCharacterTemplate.bodyParts = BODY_PARTS.map(
             (part) =>
                 ({
                     ...part,
                     currentDamage: 0,
-                    id: uuid.v4(),
+                    id: Math.random().toString(36).substring(2, 15), // Generate a random ID
                 } as BodyPart)
         )
 
@@ -140,7 +138,6 @@ const characterEdit = () => {
         })
         newCharacterTemplate.startingWeapons = weaponInstance
         newCharacterTemplate.currentWeapons = weaponInstance
-        console.log('🚀 ~ handleAddToPosse handleConfirmCharacter ~ newCharacterTemplate:', newCharacterTemplate)
 
         try {
             dispatch(addCustomCharacter(newCharacterTemplate))
@@ -150,18 +147,17 @@ const characterEdit = () => {
 
         const newCharacter: PlayerCharacter = {
             name: newCharacterTemplate.name,
+				title: newCharacterTemplate.title,
             toughness: newCharacterTemplate.toughness,
             gender: newCharacterTemplate.gender,
             startingWeapons: [],
             bodyParts: [],
             specialRules: newCharacterTemplate.specialRules,
-            playerCharacterId: uuid.v4(),
+            playerCharacterId: Math.random().toString(36).substring(2, 15), // Generate a random ID
             characterTemplateId: newCharacterTemplate.characterTemplateId,
-            title: data.title,
             isCustom: true,
             order: (selectedPosse && selectedPosse?.members.length + 1) || 0, // Set order based on current posse members
         }
-        console.log('🚀 ~ dsfsdfdsf setTimeout ~ newCharacter:', newCharacter)
         // set initial values
         const updatedWeapons = data.startingWeapons.map((x) => {
             const weapon: Weapon = {
@@ -193,9 +189,6 @@ const characterEdit = () => {
             setShowGeneratorQuestionaire(true)
             setInitialLoad(false) // ensures correctly animation direction for first screen
         }, 1000)
-        //   router.replace(`./${selectedPosse?.posseId}`)
-        //   router.back()
-        //   router.back()
     }
 
     const handleError = (error: any) => {
@@ -203,7 +196,6 @@ const characterEdit = () => {
     }
 
     const handleOnGeneratePress = (character: CharacterEditorForm) => {
-        console.log('🚀 ~ handleOnGeneratePress ~ character:', character)
         methods.setValue('name', character.name)
         methods.setValue('gender', character.gender)
         methods.setValue('toughness', character.toughness)
@@ -220,7 +212,7 @@ const characterEdit = () => {
     }
     return (
         <>
-            <PageContainer paddingSize="sm" fullScreenWidth={'50%'} style={{ marginBottom: bottom }}>
+            <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
                 <>
                     {showGeneratorQuestionaire ? (
                         <EditorGenerator

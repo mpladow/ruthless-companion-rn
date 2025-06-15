@@ -1,7 +1,8 @@
+import { ThemedText } from '@/components'
 import CustomHeader from '@/components/ThemedHeader/ThemedHeader'
 import { Stack } from 'expo-router'
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { Pressable, StyleSheet } from 'react-native'
 
 const PosseStackLayout = () => {
     return (
@@ -13,12 +14,12 @@ const PosseStackLayout = () => {
                     return (
                         <CustomHeader
                             title={title}
-                            showBack={title !== 'Home'}
-                            //  rightComponent={
-                            //      <Pressable onPress={() => console.log('Settings')}>
-                            //          <ThemedText.Text>Settings</ThemedText.Text>
-                            //      </Pressable>
-                            //  }
+                            showBack={false}
+                            rightComponent={
+                                <Pressable onPress={() => console.log('Settings')}>
+                                    <ThemedText.Text>Settings</ThemedText.Text>
+                                </Pressable>
+                            }
                         />
                     )
                 },

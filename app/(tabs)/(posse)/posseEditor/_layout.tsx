@@ -10,18 +10,7 @@ const PosseEditorLayout = () => {
                 headerShown: true,
                 header: (x) => {
                     const title = x.options.title || x.route.name
-                    return (
-                        <ModalHeader
-                            showBack
-                            blurBackground
-                            title={title}
-                            //  rightComponent={
-                            //      <Pressable onPress={() => console.log('Settings')}>
-                            //          <ThemedText.Text>Settings</ThemedText.Text>
-                            //      </Pressable>
-                            //  }
-                        />
-                    )
+                    return <ModalHeader showBack blurBackground title={title} />
                 },
             }}>
             <Stack.Screen name="index" options={{ title: 'Create Posse' }} />

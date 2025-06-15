@@ -9,7 +9,7 @@ import { borderRadius, borderWidth, margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import Color from 'color'
-import React from 'react'
+import React, { memo } from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu'
 
@@ -29,6 +29,13 @@ const PosseListItemV2 = ({
 }: PosseListItemV2Type) => {
     const { currentTheme, currentFontFamilies } = useTheme()
     const { viewport, isDesktop } = useResponsiveWidth()
+    const getHeightOfPerson = (male: boolean) => {
+        if (male) {
+            return getRandomNumber(-48, -55)
+        } else {
+            return getRandomNumber(-65, -72)
+        }
+    }
     return (
         <Pressable onPress={() => onListItemPress(item.posseId)} style={[commonStyles.boxShadow]}>
             <ThemedContainer
@@ -236,7 +243,7 @@ const PosseListItemV2 = ({
                                                         //   backgroundColor: 'red',
                                                         position: 'absolute',
                                                         right: 0,
-                                                        bottom: getRandomNumber(-48, -55),
+                                                        bottom: getHeightOfPerson(true),
                                                     }}
                                                     height={160}
                                                     width={50}
@@ -252,7 +259,7 @@ const PosseListItemV2 = ({
                                                         //   backgroundColor: 'red',
                                                         position: 'absolute',
                                                         right: -8,
-                                                        bottom: getRandomNumber(-65, -72),
+                                                        bottom: getHeightOfPerson(false),
                                                     }}
                                                     height={200}
                                                     width={70}
@@ -314,6 +321,6 @@ const PosseListItemV2 = ({
     )
 }
 
-export default PosseListItemV2
+export default memo(PosseListItemV2)
 
 const styles = StyleSheet.create({})

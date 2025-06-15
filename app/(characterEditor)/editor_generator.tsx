@@ -55,7 +55,7 @@ const EditorGenerator = ({
     const alignmentList: AlignmentType[] = ['bandit', 'neutral', 'lawman']
     const traitsList: TraitType[] = ['greenhorn', 'regular', 'veteran']
     const specialityList: SpecialityType[] = ['brave', 'cowardly', 'melee', 'ranged', 'stealthy', 'tough']
-    const specialRules = SPEC_RULES
+    const specialRules = SPEC_RULES.filter((x) => !x.weaponRule)
     const { bottom } = useSafeAreaInsets()
 
     const handleGenerate = () => {
@@ -137,25 +137,27 @@ const EditorGenerator = ({
         const validRulesFilteredByQuality = specialRules.filter((rule) =>
             quality !== 'regular' ? rule.specialityType.includes(quality) : true
         )
-        console.log('🚀 ~ getTraits ~ validRulesFilteredByQuality:', validRulesFilteredByQuality)
-        const validRulesFilteredByAlignment = validRulesFilteredByQuality.filter((rule) =>
-            rule.alignmentType.includes(alignment as AlignmentType)
+        const validRulesFilteredByAlignment = validRulesFilteredByQuality.filter(
+            (rule) =>
+                rule.alignmentType.includes(alignment as AlignmentType) ||
+                rule.alignmentType.includes('neutral' as AlignmentType)
         )
         console.log('🚀 ~ getTraits ~ validRulesFilteredByAlignment:', validRulesFilteredByAlignment)
+        // include personality traits
         const validRulesFilteredBySpeciality =
             speciality !== undefined
-                ? validRulesFilteredByAlignment.filter((rule) =>
-                      rule.specialityType.includes(speciality as SpecialityType)
+                ? validRulesFilteredByAlignment.filter(
+                      (rule) =>
+                          rule.specialityType.includes(speciality as SpecialityType) ||
+                          rule.specialityType.includes('personality' as SpecialityType)
                   )
-                : validRulesFilteredByAlignment
+                : validRulesFilteredByAlignment.filter((rule) =>
+                      rule.specialityType.includes('personality' as SpecialityType)
+                  )
         console.log('🚀 ~ getTraits ~ validRulesFilteredBySpeciality:', validRulesFilteredBySpeciality)
-        const rulesForCharacter = [
-            ...validRulesFilteredByQuality,
-            ...validRulesFilteredBySpeciality,
-            ...validRulesFilteredByAlignment,
-        ]
+        const rulesForCharacter = [...validRulesFilteredByAlignment]
+        console.log('🚀 ~ getTraits ~ rulesForCharacter:', rulesForCharacter)
         const unique = [...new Set(rulesForCharacter)]
-        console.log('🚀 ~ getTraits ~ unique:', unique.length)
         return unique
     }
     return (
@@ -313,7 +315,7 @@ const EditorGenerator = ({
                 style={{
                     flexDirection: 'row',
                     gap: 6,
-                    marginBottom: bottom + margin,
+                    marginBottom: bottom,
                     marginTop: margin,
                     alignItems: 'center',
                     backgroundColor: 'transparent',

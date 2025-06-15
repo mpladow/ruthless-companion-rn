@@ -13,7 +13,7 @@ const SettingsStackLayout = () => {
                     return (
                         <CustomHeader
                             title={title}
-                            showBack={title !== 'Home'}
+                            showBack={true}
                             //  rightComponent={
                             //      <Pressable onPress={() => console.log('Settings')}>
                             //          <ThemedText.Text>Settings</ThemedText.Text>
@@ -23,7 +23,8 @@ const SettingsStackLayout = () => {
                     )
                 },
             }}>
-            <Stack.Screen name="(settings)" options={{ title: 'Settings' }} />
+            <Stack.Screen name="index" options={{ title: 'Settings' }} />
+				<Stack.Screen name="editCustomData" options={{ title: 'Custom Data' }} />
         </Stack>
     )
 }

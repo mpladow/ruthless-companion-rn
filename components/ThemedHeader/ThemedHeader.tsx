@@ -1,9 +1,10 @@
 import { padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
+import Entypo from '@expo/vector-icons/Entypo'
 import { BlurView } from 'expo-blur'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, Pressable, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ThemedText } from '..'
 
@@ -19,7 +20,7 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({ title, showBack = false, ri
     const { currentTheme } = useTheme()
 
     const headerContent = (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: currentTheme.colors.background }]}>
             <View
                 style={{
                     flexDirection: 'row',
@@ -28,12 +29,12 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({ title, showBack = false, ri
                     alignItems: 'center',
                     paddingHorizontal: padding * 5,
                 }}>
-                {/* {showBack && (
+                {showBack && (
                     <Pressable onPress={() => router.back()} style={styles.backButton}>
-                        <Entypo name="chevron-thin-left" size={24} color={currentTheme.colors.textDefault} />
+                        <Entypo name="chevron-thin-left" size={20} color={currentTheme.colors.textDefault} />
                     </Pressable>
-                )} */}
-                <ThemedText.Heading headingSize="h1">{title}</ThemedText.Heading>
+                )}
+                <ThemedText.Heading headingSize="h2">{title}</ThemedText.Heading>
 
                 <View style={styles.rightContainer}>{rightComponent ?? <View style={styles.placeholder} />}</View>
             </View>
@@ -69,7 +70,6 @@ const styles = StyleSheet.create({
         height: 60,
         //   paddingHorizontal: padding * 2,
         paddingTop: 20,
-        backgroundColor: '#fff',
         flexDirection: 'row',
         alignItems: 'center',
         //   borderBottomColor: '#eee',
