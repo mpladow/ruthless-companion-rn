@@ -14,6 +14,7 @@ import { SPEC_RULES } from '@/data/special_rules'
 import { getRandomNumber } from '@/helpers/helpers'
 import { AlignmentType, SpecialityType, TraitType } from '@/models/specialRuleTemplate'
 import { margin } from '@/theme/constants'
+import { useTheme } from '@/theme/ThemeProvider'
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import Animated, { SlideInLeft, SlideInRight, SlideOutRight } from 'react-native-reanimated'
@@ -55,7 +56,8 @@ const EditorGenerator = ({
     const alignmentList: AlignmentType[] = ['bandit', 'neutral', 'lawman']
     const traitsList: TraitType[] = ['greenhorn', 'regular', 'veteran']
     const specialityList: SpecialityType[] = ['brave', 'cowardly', 'melee', 'ranged', 'stealthy', 'tough']
-    const specialRules = SPEC_RULES.filter((x) => !x.weaponRule)
+    const specialRules = SPEC_RULES.filter((x) => !x.weaponRule).sort((a, b) => a.name.localeCompare(b.name) )
+    const { currentTheme } = useTheme()
     const { bottom } = useSafeAreaInsets()
 
     const handleGenerate = () => {
@@ -142,7 +144,6 @@ const EditorGenerator = ({
                 rule.alignmentType.includes(alignment as AlignmentType) ||
                 rule.alignmentType.includes('neutral' as AlignmentType)
         )
-        console.log('🚀 ~ getTraits ~ validRulesFilteredByAlignment:', validRulesFilteredByAlignment)
         // include personality traits
         const validRulesFilteredBySpeciality =
             speciality !== undefined
@@ -154,12 +155,11 @@ const EditorGenerator = ({
                 : validRulesFilteredByAlignment.filter((rule) =>
                       rule.specialityType.includes('personality' as SpecialityType)
                   )
-        console.log('🚀 ~ getTraits ~ validRulesFilteredBySpeciality:', validRulesFilteredBySpeciality)
         const rulesForCharacter = [...validRulesFilteredByAlignment]
-        console.log('🚀 ~ getTraits ~ rulesForCharacter:', rulesForCharacter)
         const unique = [...new Set(rulesForCharacter)]
         return unique
     }
+	 
     return (
         <>
             <Animated.ScrollView

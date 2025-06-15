@@ -1,5 +1,6 @@
 import { AnimatedFlatList, ThemedText } from '@/components'
 import CharacterCardReadOnly from '@/components/features/CharacterCard/CharacterCardReadOnly'
+import Messagebox from '@/components/Messagebox/Messagebox'
 import CustomModal from '@/components/Modal/CustomModal'
 import PageContainer from '@/components/PageContainer/PageContainer'
 import ThemedButton from '@/components/ThemedButton/ThemedButton'
@@ -33,7 +34,6 @@ const editCustomData = () => {
     const router = useRouter()
 
     const dispatch = useDispatch<AppDispatch>()
-
 
     const handleCheckPress = (characterId: string) => {
         console.log('🚀 ~ handleCheckPress ~ characterId:', characterId)
@@ -96,6 +96,11 @@ const editCustomData = () => {
     return (
         <>
             <PageContainer fullScreenWidth={null} paddingVertical="lg" paddingHorizontal="sm">
+                <View style={{ paddingBottom: margin * 2 }}>
+                    <Messagebox type={'warning'}>
+                        <ThemedText.Text>You can delete premade characters from here.</ThemedText.Text>
+                    </Messagebox>
+                </View>
                 <AnimatedFlatList
                     data={customPCs}
                     contentContainerStyle={{ paddingBottom: bottom - 150 }}

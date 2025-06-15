@@ -24,7 +24,7 @@ import { margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import { useRouter } from 'expo-router'
 import React, { useCallback, useState } from 'react'
-import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { ActivityIndicator, Image, Pressable, StyleSheet, View } from 'react-native'
 import uuid from 'react-native-uuid'
 import { useDispatch, useSelector } from 'react-redux'
@@ -147,7 +147,7 @@ const characterEdit = () => {
 
         const newCharacter: PlayerCharacter = {
             name: newCharacterTemplate.name,
-				title: newCharacterTemplate.title,
+            title: newCharacterTemplate.title,
             toughness: newCharacterTemplate.toughness,
             gender: newCharacterTemplate.gender,
             startingWeapons: [],
@@ -210,6 +210,8 @@ const characterEdit = () => {
     const handleCancel = () => {
         setShowGeneratorQuestionaire(true)
     }
+    const specialRules = SPEC_RULES.filter((x) => !x.weaponRule).sort((a, b) => a.name.localeCompare(b.name))
+
     return (
         <>
             <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
@@ -259,44 +261,38 @@ const characterEdit = () => {
                 snapPoints={['40%', '40%']}
                 headerTitle={'Create New Posse'}>
                 <ThemedContainer style={{ backgroundColor: currentTheme.colors.background }}>
-                    {SPEC_RULES.filter((x) => !x.weaponRule).map((rule, index) => {
+                    {specialRules.map((rule) => {
                         const ruleFound = specialRulesFields.findIndex((r) => r.name === rule.name)
                         return (
-                            <Controller
-                                render={({ field }) => (
-                                    <View
-                                        key={index}
-                                        style={{
-                                            padding: padding,
-                                            backgroundColor: specialRulesFields.some((r) => r.name === rule.name)
-                                                ? currentTheme.colors.primary
-                                                : 'transparent',
-                                        }}>
-                                        <Pressable
-                                            onPress={() => {
-                                                //   setTimeout(() => {
-                                                //       setShowBottomSheet(false)
-                                                //   }, 500)
-                                                if (ruleFound == -1) {
-                                                    appendSpecialRule(rule)
-                                                } else {
-                                                    removeSpecialRule(ruleFound)
-                                                }
-                                            }}>
-                                            <ThemedText.Text type="semibold" inverted={ruleFound !== -1}>
-                                                {rule.name}
-                                            </ThemedText.Text>
-                                            <ThemedText.Text inverted={ruleFound !== -1}>
-                                                {rule.description}
-                                            </ThemedText.Text>
-                                        </Pressable>
-                                    </View>
-                                )}
-                                name={'specialRules'}
-                                control={methods.control}
-                            />
+                            <View
+                                key={rule.specialRuleId || rule.name}
+                                style={{
+                                    padding: padding,
+                                    backgroundColor: specialRulesFields.some((r) => r.name === rule.name)
+                                        ? currentTheme.colors.primary
+                                        : 'transparent',
+                                }}>
+                                <Pressable
+                                    onPress={() => {
+                                        if (ruleFound == -1) {
+                                            appendSpecialRule(rule)
+                                        } else {
+                                            removeSpecialRule(ruleFound)
+                                        }
+                                    }}>
+                                    <ThemedText.Text type="semibold" inverted={ruleFound !== -1}>
+                                        {rule.name}
+                                    </ThemedText.Text>
+                                    <ThemedText.Text inverted={ruleFound !== -1}>
+                                        {rule.description}
+                                    </ThemedText.Text>
+                                </Pressable>
+                            </View>
                         )
                     })}
+                    <View style={{ marginTop: 16, alignItems: 'center' }}>
+                        <ThemedButton title="Done" onPress={() => setShowBottomSheet(false)} size="sm" />
+                    </View>
                 </ThemedContainer>
             </ThemedBottomSheet>
             <CustomModal

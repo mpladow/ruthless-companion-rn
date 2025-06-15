@@ -84,7 +84,6 @@ const index = () => {
                 ),
                 onPress: () => router.navigate('./editCustomData'),
             },
-            { heading: 'About', icon: 'info', onPress: () => router.navigate('./editCustomData') },
         ],
         [toggleDarkMode, isDarkMode, currentTheme.colors.textDefault, router]
     )
