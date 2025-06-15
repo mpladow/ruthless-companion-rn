@@ -29,7 +29,7 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
                 flex: 1,
                 gap: 6,
 
-                flexDirection: 'column',
+                flexDirection: 'row',
                 alignItems: 'flex-start',
                 justifyContent: 'space-between',
                 paddingVertical: padding,
@@ -41,10 +41,60 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
                         onPress={() => {
                             setShowWeaponDetails(true)
                         }}
-                        style={{ paddingVertical: 8 }}>
+                        style={{ paddingVertical: 8, flexDirection: 'row', alignItems: 'center' }}>
                         <ThemedText.Text size="md" type="bold">
                             {weapon?.name}
                         </ThemedText.Text>
+                        <View
+                            style={{
+                                flex: 1,
+                                justifyContent: 'flex-end',
+                                alignItems: 'flex-end',
+                                position: 'absolute',
+                                right: 0,
+                            }}>
+                            {currentAmmo < weapon?.maxAmmunition ? (
+                                <ThemedButton
+                                    onLongPress={handleReloadPress}
+                                    title={
+                                        <View
+                                            style={{
+                                                position: 'relative',
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }}>
+                                            <Feather
+                                                name="refresh-cw"
+                                                size={20}
+                                                color={currentTheme.colors.textInverted}
+                                            />
+                                            <View
+                                                style={{
+                                                    paddingHorizontal: 4,
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    paddingTop: 4,
+                                                    marginLeft: 4,
+                                                }}>
+                                                <ThemedText.Text size="default" inverted type="bold">
+                                                    {weapon.maxAmmunition < 3 ? weapon.maxAmmunition : '3'}
+                                                </ThemedText.Text>
+                                            </View>
+                                            <View style={{ height: 20, width: 20 }}>
+                                                <Bullet fill={currentTheme.colors.textInverted} />
+                                            </View>
+                                        </View>
+                                    }
+                                    onPress={onReloadPress}
+                                    variant="primary"
+                                    size={'sm'}
+                                    style={{ paddingVertical: 4, paddingHorizontal: 8 }}
+                                />
+                            ) : (
+                                <View style={{ height: 24 }}></View>
+                            )}
+                        </View>
                     </Pressable>
                     <ThemedText.Text>
                         {weapon.shortRange}"/{weapon.longRange}"
@@ -64,45 +114,7 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
                     )}
                 </View>
             </View>
-            <View style={{ flex: 1 }}>
-                {currentAmmo < weapon?.maxAmmunition ? (
-                    <ThemedButton
-                        onLongPress={handleReloadPress}
-                        title={
-                            <View
-                                style={{
-                                    position: 'relative',
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                }}>
-                                <Feather name="refresh-cw" size={20} color={currentTheme.colors.textInverted} />
-                                <View
-                                    style={{
-                                        paddingHorizontal: 4,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        paddingTop: 4,
-                                        marginLeft: 4,
-                                    }}>
-                                    <ThemedText.Text size="default" inverted type="bold">
-                                        {weapon.maxAmmunition < 3 ? weapon.maxAmmunition : '3'}
-                                    </ThemedText.Text>
-                                </View>
-                                <View style={{ height: 20, width: 20 }}>
-                                    <Bullet fill={currentTheme.colors.textInverted} />
-                                </View>
-                            </View>
-                        }
-                        onPress={onReloadPress}
-                        variant="primary"
-                        size={'sm'}
-                        style={{ paddingVertical: 4, paddingHorizontal: 8 }}
-                    />
-                ) : (
-                    <View style={{ height: 24 }}></View>
-                )}
-            </View>
+
             <ThemedBottomSheet
                 visible={showWeaponDetails}
                 onClose={() => setShowWeaponDetails(false)}
