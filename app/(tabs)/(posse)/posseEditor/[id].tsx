@@ -1,4 +1,5 @@
 import { ThemedText } from '@/components'
+import ButtonContainer from '@/components/ButtonContainer/ButtonContainer'
 import Messagebox from '@/components/Messagebox/Messagebox'
 import PageContainer from '@/components/PageContainer/PageContainer'
 import ThemedButton from '@/components/ThemedButton/ThemedButton'
@@ -147,13 +148,13 @@ const PosseName = () => {
 
                             <CustomTextInput value={name} onChangeText={onChangeText} />
                         </KeyboardAvoidingView>
-                        <View style={{ marginBottom: margin * 5 }}>
+                        <ButtonContainer>
                             <ThemedButton
                                 title={posseId ? 'Save Changes' : 'Create New Posse'}
                                 onPress={handleCreatePosse}
                                 size={'lg'}
                             />
-                        </View>
+                        </ButtonContainer>
                     </View>
                 </ScrollView>
             </PageContainer>
