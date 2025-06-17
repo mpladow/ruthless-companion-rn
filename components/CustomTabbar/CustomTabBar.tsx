@@ -13,9 +13,9 @@ export const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarPro
     const router = useRouter()
     const isHome =
         state.routes.find((x) => x.name == '(posse)')?.state?.index == (0 || undefined) || !router.canGoBack()
-    console.log('🚀 ~ CustomTabBar ~  state.routes:', state.routes.find((x) => x.name == '(posse)')?.state?.index)
-    console.log('🚀 ~ CustomTabBar ~ isHome:', isHome)
+
     const NAVBAR_HEIGHT = 46
+
     return (
         <View style={{ backgroundColor: 'transparent' }}>
             {!isHome && (
@@ -33,7 +33,10 @@ export const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarPro
                             alignItems: 'center',
                             position: 'absolute',
                             left: dimensions.width * 0.1,
-                            bottom: insets.bottom - 20,
+                            bottom:
+                                Platform.OS == 'ios' && dimensions.width > 768
+                                    ? insets.bottom + 20
+                                    : insets.bottom - 20,
                             borderRadius: 40,
                         }}>
                         <Entypo name="chevron-thin-left" size={20} color={currentTheme.colors.textInverted} />
@@ -48,7 +51,8 @@ export const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarPro
                         alignItems: 'center',
                         backgroundColor: 'transparent',
                         position: 'absolute',
-                        bottom: insets.bottom - 20,
+                        bottom:
+                            Platform.OS == 'ios' && dimensions.width > 768 ? insets.bottom + 20 : insets.bottom - 20,
                         marginLeft: dimensions.width * 0.3,
                         flexDirection: 'row',
                     },

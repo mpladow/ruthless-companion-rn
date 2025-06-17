@@ -1,6 +1,6 @@
 import { ThemedText } from '@/components/ThemedText/ThemedText'
 import { BodyPart } from '@/models/bodyParttemplate'
-import { margin, padding } from '@/theme/constants'
+import { padding, TypopgraphySize } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
@@ -15,10 +15,10 @@ type HealthBarContainerProps = {
     onHealthChange: (bodyPart: BodyPart) => void
 }
 const HealthBarContainer = ({ bodyParts, onHealthChange }: HealthBarContainerProps) => {
+    const { currentTheme } = useTheme()
     const handleHeathSectionChange = (bodyPart: BodyPart) => {
         onHealthChange(bodyPart)
     }
-    const { currentTheme } = useTheme()
     const healthStatus = useMemo(() => {
         const healthStatus: HealthStatus = {
             status: 'Healthy',
@@ -69,7 +69,12 @@ const HealthBarContainer = ({ bodyParts, onHealthChange }: HealthBarContainerPro
             if (fullHealth) {
                 healthStatus.status = 'Healthy'
                 healthStatus.component = (
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            gap: 4,
+                            width: Dimensions.get('window').width - 50,
+                        }}>
                         <FontAwesome6 name="heart-pulse" size={20} color={currentTheme.colors.success} />
 
                         <ThemedText.Text
@@ -90,7 +95,6 @@ const HealthBarContainer = ({ bodyParts, onHealthChange }: HealthBarContainerPro
                     <View
                         style={{
                             flexDirection: 'row',
-                            alignItems: 'flex-start',
                             gap: 4,
                             width: Dimensions.get('window').width - 50,
                         }}>
@@ -110,23 +114,11 @@ const HealthBarContainer = ({ bodyParts, onHealthChange }: HealthBarContainerPro
     }, [bodyParts])
 
     return (
-        <View style={{ flex: 1, padding: padding, paddingHorizontal: padding * 2 }}>
-            <View
-                style={{
-                    justifyContent: 'flex-start',
-                    flexDirection: 'row',
-                    marginTop: margin,
-                    flex: 1,
-                    gap: 8,
-                    marginLeft: 4,
-                    paddingBottom: 8,
-                }}>
-                {/* <ThemedText.Heading headingSize="h2" style={{ marginBottom: 4, alignItems: 'center' }}>
-                    Wounds
-                </ThemedText.Heading> */}
+        <View style={styles.HealthBarContainer}>
+            <View style={styles.healthBarStatusContainer}>
                 {healthStatus.component ? healthStatus.component : 'Health Status'}
             </View>
-            <View style={{ flexDirection: 'row', flex: 2, gap: 4, justifyContent: 'space-evenly', flexWrap: 'wrap' }}>
+            <View style={styles.healthBarSectionContainer}>
                 {bodyParts?.map((item, index) => {
                     return <HealthSection key={index} bodyPart={item} onHealthChange={handleHeathSectionChange} />
                 })}
@@ -137,4 +129,21 @@ const HealthBarContainer = ({ bodyParts, onHealthChange }: HealthBarContainerPro
 
 export default HealthBarContainer
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    HealthBarContainer: { flex: 1, padding: padding, paddingHorizontal: padding * 2, alignItems: 'center' },
+    healthBarStatusContainer: {
+        flexDirection: 'row',
+        flex: 1,
+        gap: 8,
+        marginLeft: 4,
+        alignItems: 'center',
+        height: TypopgraphySize.textLarge.lineHeight + padding,
+    },
+    healthBarSectionContainer: {
+        flexDirection: 'row',
+        flex: 2,
+        gap: 4,
+        justifyContent: 'space-evenly',
+        flexWrap: 'wrap',
+    },
+})

@@ -51,7 +51,6 @@ const posseSlice = createSlice({
 		setCurrentHealthToBodyPart: (state, action: PayloadAction<SetHealthForBodyPart>) => {
 			if (state) {
 				const member = state.members.find(x => x.playerCharacterId == action.payload.characterId);
-				console.log("🚀 ~ member:", member)
 				if (member) {
 					const foundBodyPart = member.bodyParts.find(x => x.name == action.payload.bodyPart.name);
 					if (foundBodyPart) {
@@ -67,7 +66,6 @@ const posseSlice = createSlice({
 					const foundSpecialRule = member.specialRules.find(x => x.specialRuleId == action.payload.specialRule.specialRuleId);
 					if (foundSpecialRule && foundSpecialRule.maxUsage !== undefined) {
 						foundSpecialRule.currentUsage = action.payload.specialRule.currentUsage
-						console.log("🚀 ~ foundSpecialRule:", foundSpecialRule)
 					}
 				}
 			}
