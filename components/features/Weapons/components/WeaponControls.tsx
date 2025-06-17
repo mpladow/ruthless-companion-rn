@@ -24,36 +24,34 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
     return (
         <View style={styles.weaponContainer}>
             <View style={{ flex: 2, width: '100%' }}>
-                <View style={{ paddingBottom: padding }}>
+                <View style={{ paddingBottom: padding, justifyContent: 'center' }}>
                     <Pressable
                         onPress={() => {
                             setShowWeaponDetails(true)
                         }}
-                        style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        style={{ flexDirection: 'column' }}>
                         <ThemedText.Text size="md" type="bold">
                             {weapon?.name}
                         </ThemedText.Text>
-                        <View
-                            style={{
-                                flex: 1,
-                                justifyContent: 'flex-end',
-                                alignItems: 'flex-end',
-                                position: 'absolute',
-                                right: 0,
-                            }}>
-                            {currentAmmo < weapon?.maxAmmunition ? (
-                                <ReloadButton
-                                    handleReloadPress={handleReloadPress}
-                                    maxAmmunition={weapon.maxAmmunition}
-                                />
-                            ) : (
-                                <View style={{ height: 24 }}></View>
-                            )}
-                        </View>
+                        <ThemedText.Text>
+                            {weapon.shortRange}"/{weapon.longRange}"
+                        </ThemedText.Text>
                     </Pressable>
-                    <ThemedText.Text>
-                        {weapon.shortRange}"/{weapon.longRange}"
-                    </ThemedText.Text>
+                    <View
+                        style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            position: 'absolute',
+                            right: 0,
+                            backgroundColor: 'blue',
+                        }}>
+                        {currentAmmo < weapon?.maxAmmunition ? (
+                            <ReloadButton handleReloadPress={handleReloadPress} maxAmmunition={weapon.maxAmmunition} />
+                        ) : (
+                            <View style={{ height: 24 }}></View>
+                        )}
+                    </View>
                 </View>
                 <View>
                     {weapon.specialRules.length > 0 ? (

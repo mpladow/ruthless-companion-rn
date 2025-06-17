@@ -385,8 +385,8 @@ const EditorForm = ({
                     alignItems: 'center',
                     backgroundColor: 'transparent',
                 }}>
-                <View style={{ flex: 1 }}>
-                    <ThemedButton title={'< Back'} onPress={onCancel} size={'lg'} type="primary" variant="ghost" />
+                <View>
+                    <ThemedButton title={'<'} onPress={onCancel} size={'lg'} type="primary" variant="ghost" />
                 </View>
                 <View style={{ flex: 2 }}>
                     <ThemedButton

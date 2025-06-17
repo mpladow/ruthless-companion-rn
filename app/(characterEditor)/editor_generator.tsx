@@ -56,7 +56,7 @@ const EditorGenerator = ({
     const alignmentList: AlignmentType[] = ['bandit', 'neutral', 'lawman']
     const traitsList: TraitType[] = ['greenhorn', 'regular', 'veteran']
     const specialityList: SpecialityType[] = ['brave', 'cowardly', 'melee', 'ranged', 'stealthy', 'tough']
-    const specialRules = SPEC_RULES.filter((x) => !x.weaponRule).sort((a, b) => a.name.localeCompare(b.name) )
+    const specialRules = SPEC_RULES.filter((x) => !x.weaponRule).sort((a, b) => a.name.localeCompare(b.name))
     const { currentTheme } = useTheme()
     const { bottom } = useSafeAreaInsets()
 
@@ -159,7 +159,7 @@ const EditorGenerator = ({
         const unique = [...new Set(rulesForCharacter)]
         return unique
     }
-	 
+
     return (
         <>
             <Animated.ScrollView
@@ -320,8 +320,8 @@ const EditorGenerator = ({
                     alignItems: 'center',
                     backgroundColor: 'transparent',
                 }}>
-                <View style={{ flex: 1 }}>
-                    <ThemedButton title={'< Back'} onPress={onCancelPress} size={'lg'} type="primary" variant="ghost" />
+                <View>
+                    <ThemedButton title={'<'} onPress={onCancelPress} size={'lg'} type="primary" variant="ghost" />
                 </View>
                 <View style={{ flex: 2 }}>
                     <ThemedButton onPress={handleGenerate} title={'Generate >'} size={'lg'} variant="ghost">

@@ -161,4 +161,4 @@ export const BONNY: PlayerCharacter = {
 	order: 0
 }
 
-export default [FRED_SINGER, CHALKEY_BEESON, AL_UPDEGRAFF, AJ_PEACOCK, TOM_MIXON, JIM_MASTERSON, BAT_MASTERSON, BONNY] as PlayerCharacter[]
+export default [FRED_SINGER, CHALKEY_BEESON, AL_UPDEGRAFF, AJ_PEACOCK, TOM_MIXON, JIM_MASTERSON, BAT_MASTERSON] as PlayerCharacter[]

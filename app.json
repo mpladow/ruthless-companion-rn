@@ -2,7 +2,7 @@
   "expo": {
     "name": "ruthless-companion-rn",
     "slug": "ruthless-companion-rn",
-    "version": "1.0.0",
+    "version": "3.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "ruthlesscompanionrn",

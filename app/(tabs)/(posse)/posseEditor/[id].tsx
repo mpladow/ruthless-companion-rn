@@ -9,9 +9,10 @@ import { setCurrentPosse } from '@/state/posse/posseSlice'
 import { createPosse, updatePosse } from '@/state/posse/userPossesSlice'
 import { AppDispatch, RootState } from '@/state/store'
 import { margin } from '@/theme/constants'
+import { useTheme } from '@/theme/ThemeProvider'
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router'
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
-import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native'
+import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 type FormErrorType = { field: string; error: string }
@@ -22,6 +23,7 @@ const PosseName = () => {
     const [name, setName] = useState('')
     const [loading, setLoading] = useState(false)
     const [formError, setFormError] = useState<FormErrorType>()
+    const { currentTheme } = useTheme()
 
     const dispatch = useDispatch<AppDispatch>()
     const router = useRouter()
@@ -126,9 +128,31 @@ const PosseName = () => {
     const onChangeText = (val: string) => {
         setName(val)
     }
+    const HEADER_HEIGHT = 200
 
     return (
         <>
+            <View
+                style={{
+                    height: HEADER_HEIGHT,
+                    backgroundColor: currentTheme.colors.textDefault,
+                    position: 'relative',
+                }}>
+                <Image
+                    source={require('../../../../assets/images/cowboy-f-rev.png')}
+                    style={{
+                        filter: 'invert(1)',
+                        height: 400,
+                        width: 500,
+                        position: 'absolute',
+                        bottom: -250,
+                        left: 50,
+                        opacity: 0.2,
+                        tintColor: 'white',
+                    }}
+                />
+            </View>
+
             <PageContainer paddingSize="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
                 <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
                     <View
@@ -158,11 +182,17 @@ const PosseName = () => {
                     </View>
                 </ScrollView>
             </PageContainer>
-            {/* <CustomModal visible={loading} onClose={() => {}} children={<View>Loading...</View>} /> */}
         </>
     )
 }
 
 export default PosseName
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    linearGradient: {
+        flex: 1,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 5,
+    },
+})

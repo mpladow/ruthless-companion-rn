@@ -235,7 +235,6 @@ const PreselectedCharacters = () => {
                                             isChecked={charactersToAdd.includes(item.playerCharacterId)}
                                             boxSize={'sm'}
                                             isLastItem={false}
-                                            w
                                         />
                                         {/* <View
 									 style={{
