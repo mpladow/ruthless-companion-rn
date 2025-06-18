@@ -2,7 +2,6 @@ import { ThemedText } from '@/components'
 import FingerPointing from '@/components/Icons/FingerPointing'
 import ThemedContainer from '@/components/ThemedContainer'
 import commonStyles from '@/constants/styles'
-import { getRandomNumber } from '@/helpers/helpers'
 import { useResponsiveWidth } from '@/hooks'
 import { Posse } from '@/models/posse'
 import { borderRadius, borderWidth, margin, padding } from '@/theme/constants'
@@ -20,22 +19,18 @@ type PosseListItemV2Type = {
     onAddMemberPress: (posseId: string) => void
     onEditPossePress: () => void
 }
-const PosseListItemV2 = ({
-    item,
-    onListItemPress,
-    onDeletePossePress,
-    onAddMemberPress,
-    onEditPossePress,
-}: PosseListItemV2Type) => {
+
+const PosseListItemV2 = ({ item, onListItemPress, onDeletePossePress, onEditPossePress }: PosseListItemV2Type) => {
     const { currentTheme, currentFontFamilies } = useTheme()
     const { viewport, isDesktop } = useResponsiveWidth()
     const getHeightOfPerson = (male: boolean) => {
         if (male) {
-            return getRandomNumber(-48, -55)
+            return -45
         } else {
-            return getRandomNumber(-65, -72)
+            return -65
         }
     }
+
     return (
         <Pressable onPress={() => onListItemPress(item.posseId)} style={[commonStyles.boxShadow]}>
             <ThemedContainer
@@ -71,16 +66,10 @@ const PosseListItemV2 = ({
                             paddingLeft: padding,
                             flexDirection: 'row',
                             overflow: 'hidden',
-                            //  backgroundColor: Color(currentTheme.colors.secondary).lighten(0.5).hex(),
-                            //  borderWidth: borderWidth / 2,
                         },
                     ]}>
                     <View
                         style={{
-                            //  paddingHorizontal: margin,
-                            //  borderTopWidth: 2,
-                            //  paddingTop: 4,
-                            //  borderBottomWidth: 2,
                             borderBottomColor: currentTheme.colors.textDefault,
                         }}>
                         <ThemedText.Heading
@@ -89,7 +78,6 @@ const PosseListItemV2 = ({
                             numberOfLines={2}
                             style={{
                                 textTransform: 'uppercase',
-
                                 fontFamily: currentFontFamilies.find((x) => x.family == 'Smokum')?.regular.fontFamily,
                                 color: currentTheme.colors.primary,
                             }}>
@@ -151,14 +139,6 @@ const PosseListItemV2 = ({
                                             alignItems: 'center',
                                         },
                                     ]}>
-                                    {/* <ThemedButton
-                                        title={'Recruit'}
-                                        onPress={() => {
-                                            onAddMemberPress(item.posseId)
-                                        }}
-                                        size={'sm'}
-                                        type="success"
-                                    /> */}
                                     <View style={{ height: 24, width: 24 }}>
                                         <FingerPointing fill={currentTheme.colors.textDefault} />
                                     </View>
@@ -196,7 +176,7 @@ const PosseListItemV2 = ({
                                                     justifyContent: 'center',
                                                 },
                                             ]}>
-                                            <ThemedText.Text>
+                                            <ThemedText.Text type="bold">
                                                 +{item.members.length > 5 && item.members.length - 5}
                                             </ThemedText.Text>
                                         </View>

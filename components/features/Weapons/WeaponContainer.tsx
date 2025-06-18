@@ -44,7 +44,13 @@ const WeaponContainer = ({ weapon, onAmmoChange, readOnly }: WeaponContainerType
     }, [ammo])
 
     return (
-        <View style={{ flex: 1, width: '100%', padding: padding }}>
+        <View
+            style={{
+                flex: 1,
+                width: '100%',
+                paddingTop: padding,
+                paddingBottom: padding * 3,
+            }}>
             <WeaponControls
                 weapon={weapon}
                 currentAmmo={ammo}

@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
     specialRulesContainer: {
         flex: 1,
         width: '100%',
-        padding: padding * 2,
         paddingHorizontal: padding * 2,
         paddingBottom: padding * 3,
     },

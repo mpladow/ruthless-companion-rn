@@ -6,7 +6,7 @@ import { margin } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 
 const CharacterEditor = () => {
@@ -22,24 +22,46 @@ const CharacterEditor = () => {
         router.navigate('/editor')
     }
     return (
-        <PageContainer paddingSize="sm" fullScreenWidth={'50%'}>
-            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                <ButtonLarge
-                    onPress={() => handleAddPresetPress()}
-                    title={'Preset'}
-                    color={currentTheme.colors.primary}
-                    invertText
-                    subtitle="Select a premade character with preselected weapons and traits"></ButtonLarge>
-                <View style={{ paddingVertical: margin }}>
-                    <ThemedText.Text type="semibold">OR</ThemedText.Text>
-                </View>
-                <ButtonLarge
-                    onPress={() => handleAddCustomPress()}
-                    color={currentTheme.colors.background}
-                    title={'Custom'}
-                    subtitle="Select weapons and traits to create a custom character"></ButtonLarge>
+        <>
+            <View
+                style={{
+                    height: 200,
+                    backgroundColor: currentTheme.colors.textDefault,
+                    position: 'relative',
+                }}>
+                <Image
+                    source={require('../../assets/images/cowboy-m-rev.png')}
+                    style={{
+                        filter: 'invert(1)',
+                        height: 400,
+                        width: 500,
+                        position: 'absolute',
+                        bottom: -250,
+                        left: 0,
+                        opacity: 0.2,
+                        tintColor: 'white',
+                    }}
+                />
             </View>
-        </PageContainer>
+            <PageContainer paddingSize="sm" fullScreenWidth={'50%'}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                    <ButtonLarge
+                        onPress={() => handleAddPresetPress()}
+                        title={'Preset'}
+                        color={currentTheme.colors.primary}
+                        invertText
+                        subtitle="Select a premade character with preselected weapons and traits"></ButtonLarge>
+                    <View style={{ paddingVertical: margin }}>
+                        <ThemedText.Text type="semibold">OR</ThemedText.Text>
+                    </View>
+                    <ButtonLarge
+                        onPress={() => handleAddCustomPress()}
+                        color={currentTheme.colors.background}
+                        title={'Custom'}
+                        subtitle="Select weapons and traits to create a custom character"></ButtonLarge>
+                </View>
+            </PageContainer>
+        </>
     )
 }
 

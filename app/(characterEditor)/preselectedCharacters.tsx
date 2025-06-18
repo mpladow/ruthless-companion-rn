@@ -13,7 +13,7 @@ import { margin, padding } from '@/theme/constants'
 import { useTheme } from '@/theme/ThemeProvider'
 import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, Dimensions, Platform, Pressable, StyleSheet, View } from 'react-native'
 import Animated, { SlideInDown } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import uuid from 'react-native-uuid'
@@ -180,7 +180,12 @@ const PreselectedCharacters = () => {
                                 onPress={(val) => handleCheckPress(item.playerCharacterId)}>
                                 <View style={{ flexDirection: 'row', flexGrow: 1, width: '100%', gap: 6 }}>
                                     <View style={{ flex: 1 }}>
-                                        <CharacterCardReadOnly playerCharacter={item} collapsedView={true} readOnly showDetails={true} />
+                                        <CharacterCardReadOnly
+                                            playerCharacter={item}
+                                            collapsedView={true}
+                                            readOnly
+                                            showDetails={true}
+                                        />
                                     </View>
 
                                     <Animated.View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -230,7 +235,6 @@ const PreselectedCharacters = () => {
                                             isChecked={charactersToAdd.includes(item.playerCharacterId)}
                                             boxSize={'sm'}
                                             isLastItem={false}
-                                            w
                                         />
                                         {/* <View
 									 style={{
@@ -252,15 +256,21 @@ const PreselectedCharacters = () => {
                         style={{
                             position: 'absolute',
                             bottom: insets.bottom + margin * 2,
-                            right: margin,
-                            width: '100%',
+                            left: 0,
+                            right: 0,
+
+                            width: Dimensions.get('window').width,
                         }}>
-                        <ThemedButton
-                            title={`Add ${charactersToAdd.length} Character${charactersToAdd.length > 1 ? 's' : ''}`}
-                            onPress={handleAddToPosse}
-                            size={'lg'}
-                            type="secondary"
-                        />
+                        <View style={{ paddingHorizontal: margin * 2 }}>
+                            <ThemedButton
+                                title={`Add ${charactersToAdd.length} Character${
+                                    charactersToAdd.length > 1 ? 's' : ''
+                                }`}
+                                onPress={handleAddToPosse}
+                                size={'lg'}
+                                type="secondary"
+                            />
+                        </View>
                     </Animated.View>
                 )}
                 <CustomModal

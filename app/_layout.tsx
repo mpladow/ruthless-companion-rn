@@ -13,7 +13,9 @@ import { Smokum_400Regular } from '@expo-google-fonts/smokum'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
+import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
+import { useCallback, useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { MenuProvider } from 'react-native-popup-menu'
@@ -22,7 +24,18 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/es/integration/react'
 
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync()
+
+// Set the animation options. This is optional.
+SplashScreen.setOptions({
+    duration: 1000,
+    fade: true,
+})
+
 export default function RootLayout() {
+    const [isAppReady, setIsAppReady] = useState(false)
+
     const [loaded] = useFonts({
         CourierPrime_400Regular,
         CourierPrime_400Regular_Italic,
@@ -32,7 +45,37 @@ export default function RootLayout() {
         Smokum_400Regular,
     })
 
-    if (!loaded) {
+    useEffect(() => {
+        console.log('🚀 ~ prepare ~ loaded:', loaded)
+        async function prepare() {
+            try {
+                // Pre-load fonts, make any API calls you need to do here
+                // Artificially delay for two seconds to simulate a slow loading
+                // experience. Remove this if you copy and paste the code!
+                await new Promise((resolve) => setTimeout(resolve, 2000))
+            } catch (e) {
+                console.warn(e)
+            } finally {
+                // Tell the application to render
+                if (loaded) setIsAppReady(true)
+            }
+        }
+
+        prepare()
+    }, [loaded])
+
+    const onLayoutRootView = useCallback(() => {
+        if (isAppReady) {
+            // This tells the splash screen to hide immediately! If we call this after
+            // `setAppIsReady`, then we may see a blank screen while the app is
+            // loading its initial state and rendering its first pixels. So instead,
+            // we hide the splash screen once we know the root view has already
+            // performed layout.
+            SplashScreen.hide()
+        }
+    }, [isAppReady])
+
+    if (!isAppReady) {
         // Async font loading only occurs in development.
         return null
     }
@@ -104,7 +147,7 @@ export default function RootLayout() {
     }
 
     return (
-        <GestureHandlerRootView style={styles.container}>
+        <GestureHandlerRootView style={styles.container} onLayout={onLayoutRootView}>
             <Provider store={store}>
                 <PersistGate persistor={persistor} loading={null}>
                     <ThemeProvider

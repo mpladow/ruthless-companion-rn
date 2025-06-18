@@ -43,8 +43,8 @@ const index = () => {
             setOpenBottomSheet(true)
         }
     }
-    const version = Constants ? Constants.buildNumber?.version : '1.0.0'
-
+    const version = Constants ? Constants.expoConfig?.version : '1.0.0'
+    console.log(Constants, 'CONSTANTS')
     return (
         <>
             <PageContainer paddingHorizontal="sm" paddingVertical="lg" fullScreenWidth={'50%'}>
