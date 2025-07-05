@@ -84,7 +84,8 @@ const CharacterCardDetailsSimplified = ({
                                 ))}
                             </View>
                             <ThemedText.Text>
-                                {x.shortRange}" / {x.longRange}"
+                                {x.shortRange && x.shortRange > 0 ? x.shortRange + '"' : '-'} /{' '}
+                                {x.longRange && x.longRange > 0 ? x.longRange + '"' : '-'}
                             </ThemedText.Text>
                         </View>
                     )

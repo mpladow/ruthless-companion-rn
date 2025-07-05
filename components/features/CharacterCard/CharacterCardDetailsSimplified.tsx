@@ -106,7 +106,8 @@ const CharacterCardDetailsSimplified = ({ playerCharacter, healthStatus }: Chara
                                 {x.specialRules.length > 0 && ' - ' + x.specialRules.map((y) => y.name).join(', ')}
                             </ThemedText.Text>
                             <ThemedText.Text>
-                                {x.shortRange}" / {x.longRange}"
+                                {x.shortRange && x.shortRange > 0 ? x.shortRange + '"' : '-'} /{' '}
+                                {x.longRange && x.longRange > 0 ? x.longRange + '"' : '-'}{' '}
                             </ThemedText.Text>
                             <View
                                 style={{

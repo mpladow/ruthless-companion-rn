@@ -34,7 +34,8 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
                             {weapon?.name}
                         </ThemedText.Text>
                         <ThemedText.Text>
-                            {weapon.shortRange}"/{weapon.longRange}"
+                            {weapon.shortRange && weapon.shortRange > 0 ? weapon.shortRange + '"' : '-'} /{' '}
+                            {weapon.longRange && weapon.longRange > 0 ? weapon.longRange + '"' : '-'}{' '}
                         </ThemedText.Text>
                     </Pressable>
                     <View
@@ -78,7 +79,8 @@ const WeaponControls = ({ weapon, currentAmmo, onReloadPress, onReloadAllPress }
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <ThemedText.Heading headingSize="h2">{weapon?.name}</ThemedText.Heading>
                         <ThemedText.Text type="semibold" size="md">
-                            {weapon.shortRange}"/{weapon.longRange}"
+                            {weapon.shortRange && weapon.shortRange > 0 ? weapon.shortRange + '"' : '-'} /{' '}
+                            {weapon.longRange && weapon.longRange > 0 ? weapon.longRange + '"' : '-'}{' '}
                         </ThemedText.Text>
                     </View>
                     <View style={{ marginVertical: padding }}>

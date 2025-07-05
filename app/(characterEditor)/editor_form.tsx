@@ -228,7 +228,8 @@ const EditorForm = ({
                                                 }}>
                                                 <ThemedText.Heading headingSize="h3">{item.name}</ThemedText.Heading>
                                                 <ThemedText.Text>
-                                                    {item.shortRange}" / {item.longRange}"
+                                                    {item.shortRange && item.shortRange > 0 ? item.shortRange + '"' : '-'} /{' '}
+                                                    {item.longRange && item.longRange > 0 ? item.longRange + '"' : '-'}
                                                 </ThemedText.Text>
                                             </View>
                                             {item.maxAmmunition && (
@@ -304,7 +305,13 @@ const EditorForm = ({
                                                         {item.name}
                                                     </ThemedText.Heading>
                                                     <ThemedText.Text>
-                                                        {item.shortRange}" / {item.longRange}"
+                                                        {item.shortRange && item.shortRange > 0
+                                                            ? item.shortRange + '"'
+                                                            : '-'}{' '}
+                                                        /{' '}
+                                                        {item.longRange && item.longRange > 0
+                                                            ? item.longRange + '"'
+                                                            : '-'}
                                                     </ThemedText.Text>
                                                 </View>
                                                 {item.maxAmmunition && (
