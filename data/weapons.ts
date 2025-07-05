@@ -52,8 +52,8 @@ export const WPN_BOW: Weapon = {
 	name: 'Bow',
 	maxAmmunition: 0,
 	specialRules: [SPEC_RULE_FREE_RELOAD],
-	shortRange: 8,
-	longRange: 10,
+	shortRange: 0,
+	longRange: 16,
 	weaponTemplateId: 0,
 	description: "The Bow is a traditional ranged weapon that uses a flexible arc to launch arrows. It is silent and deadly, making it ideal for hunting and stealthy attacks. Bows can vary in size and draw weight, affecting their range and power."
 }
