@@ -39,7 +39,7 @@ export const WPN_BUNTLINE_SPECIAL: Weapon = {
 	weaponId: 6,
 	currentAmmunition: 6,
 	shortRange: 8,
-	longRange: 0,
+	longRange: 16,
 	name: "Buntline Special",
 	maxAmmunition: 6,
 	specialRules: [SPEC_RULE_FANFIRE],
